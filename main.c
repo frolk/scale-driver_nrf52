@@ -142,7 +142,7 @@ void in_pin_handler1(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
 	uint8_t button = 1;
 	pwm_value += 50;
-
+	rgb_set(50, 0, 0, 1);
 	
 	
 		correct(pwm_value, 0, 0);		
@@ -156,6 +156,7 @@ void in_pin_handler2(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
 	uint8_t button = 2;
 	pwm_value+=100;
+	rgb_set(0, 50, 0, 1);
 			correct(pwm_value, 0, 0);
 	
 	SEGGER_RTT_printf(0, "button = %d, pwm_value = %d, %s\n", button, pwm_value, "kak dela?");
@@ -166,6 +167,7 @@ void in_pin_handler3(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
 	uint8_t button = 3;
 	pwm_value+=100;
+	rgb_set(0, 0, 50, 1);
 			correct(0, pwm_value, 0);
 	SEGGER_RTT_printf(0, "button = %d, pwm_value = %d\n", button, pwm_value);
 	//rgb_set(RED, 2);
@@ -176,10 +178,10 @@ void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 		uint8_t button = 4;
 	correct(0, 0, 0);
 	pwm_value = 250;
+	rgb_set(150, 150, 150, 1);
 	SEGGER_RTT_printf(0, "button = %d, pwm_value = %d\n", button, pwm_value);
 	//rgb_set(GREEN, 1);
 }
-
  
 static void nrf_gpiote(void)
 	{
@@ -962,7 +964,7 @@ int main(void)
     advertising_start(erase_bonds);
 		HX711_init();
 	//	gpio_init();
-		rgb_set(0, 50, 0, 0);
+		rgb_set(0, 0, 0, 3);
 		
 //	nrf_gpio_pin_clear(RED_PIN);
 //	nrf_gpio_pin_clear(GREEN_PIN);
