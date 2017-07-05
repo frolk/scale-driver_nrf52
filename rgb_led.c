@@ -65,7 +65,7 @@ void rgb_set(uint16_t red_value, uint16_t green_value, uint16_t blue_value, uint
 	}
 	else
 	{
-		nrf_drv_pwm_simple_playback(&m_pwm_rgb, &seq_rgb, 0, NRF_DRV_PWM_FLAG_LOOP);
+		nrf_drv_pwm_simple_playback(&m_pwm_rgb, &seq_rgb, 2, NRF_DRV_PWM_FLAG_LOOP);
 	}
 	
 		

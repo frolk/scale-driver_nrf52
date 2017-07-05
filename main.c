@@ -962,7 +962,8 @@ int main(void)
     advertising_start(erase_bonds);
 		HX711_init();
 	//	gpio_init();
-		rgb_set(0, 0, 100, 5);
+		rgb_set(0, 50, 0, 0);
+		
 //	nrf_gpio_pin_clear(RED_PIN);
 //	nrf_gpio_pin_clear(GREEN_PIN);
 //	nrf_gpio_pin_set(BLUE_PIN);
@@ -972,7 +973,6 @@ int main(void)
     // Enter main loop.
     for (;;)
     {
-			
 			Weighing();
 			SEGGER_RTT_printf(0, "%d\n", adc_value);
 			//nrf_delay_ms(500);
