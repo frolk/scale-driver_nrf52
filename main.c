@@ -922,11 +922,9 @@ void uart_init()
 
 void gpio_init()
 {
-	nrf_gpio_cfg_output(31);
-	nrf_gpio_pin_clear(31);
-//	nrf_gpio_cfg_output(2);
-//	nrf_gpio_cfg_output(3);
-//	nrf_gpio_cfg_output(4);
+	nrf_gpio_cfg_output(RED_PIN);
+	nrf_gpio_cfg_output(GREEN_PIN);
+	nrf_gpio_cfg_output(BLUE_PIN);
 }
 
 
@@ -963,8 +961,11 @@ int main(void)
     application_timers_start();
     advertising_start(erase_bonds);
 		HX711_init();
-		gpio_init();
-		rgb_set(0, 0, 40);
+	//	gpio_init();
+		rgb_set(0, 0, 100, 5);
+//	nrf_gpio_pin_clear(RED_PIN);
+//	nrf_gpio_pin_clear(GREEN_PIN);
+//	nrf_gpio_pin_set(BLUE_PIN);
 		
 
 

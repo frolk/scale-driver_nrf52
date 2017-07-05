@@ -31,20 +31,21 @@
 #define YELLOW  6
 
 
-#define RED_FIRE 		10
-#define GREEN_FIRE 	11
-#define BLUE_FIRE  	12
+#define RED_FIRE 		2
+#define GREEN_FIRE 	3
+#define BLUE_FIRE  	4
 
 
 #define RGB_TOP 255
-#define RED_PIN 4
-#define GREEN_PIN 2
-#define BLUE_PIN 3
+#define RED_PIN 2
+#define GREEN_PIN 3
+#define BLUE_PIN 4
+
 
 
 
 
 void pwm_init_rgb(void);
-void rgb_set(uint16_t red, uint16_t green, uint16_t blue);
+void rgb_set(uint16_t red_value, uint16_t green_value, uint16_t blue_value, uint8_t times);
 
 #endif //
