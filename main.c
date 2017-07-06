@@ -33,6 +33,8 @@
 #include "hx711.h"
 #include "correct.h"
 #include "remote.h"
+#include "fds.h"
+#include "flash_storage.h"
 
 
 #include "app_pwm.h"
@@ -86,7 +88,7 @@
 
 
 uint32_t life_counter = 0;
-static volatile uint8_t write_flag=0;
+//static volatile uint8_t write_flag=0;
 
 /**< Value used as error code on stack dump, can be used to identify stack location on stack unwind. */
 
@@ -859,18 +861,17 @@ void gpio_init()
 }
 
 
-/**@brief Function for application main entry.
- */
+
+
+
+
 
 int main(void)
 {
-	
-	
-		
 	nrf_gpiote();
 	
 	//rgb_set(GREEN, 2);
-	
+		uint32_t err_code;
 	bool erase_bonds;
 
     // Initialize.
@@ -892,6 +893,15 @@ int main(void)
     application_timers_start();
     advertising_start(erase_bonds);
 		HX711_init();
+		
+		err_code = fds_test_init();
+		APP_ERROR_CHECK(err_code);
+		err_code = fds_test_find_and_delete();
+		APP_ERROR_CHECK(err_code);
+		err_code = fds_test_write();
+		APP_ERROR_CHECK(err_code);
+		while(write_flag == 0);
+		err_code = fds_read();
 	//	gpio_init();
 		//rgb_set(50, 0, 0, 0);
 		
@@ -915,8 +925,3 @@ int main(void)
 //        }
     }
 }
-
-
-/**
- * @}
- */

@@ -2,12 +2,15 @@
 #include "correct.h"
 #include "rgb_led.h"
 #include "SEGGER_RTT.h"
+#include "flash_storage.h"
 
 
 uint16_t pwm_value = 250;
 
 void in_pin_handler1(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
+	
+	fds_read();
 	uint8_t button = 1;
 	pwm_value += 50;
 	rgb_set(50, 0, 0, 2);
@@ -70,3 +73,5 @@ void nrf_gpiote(void)
 		nrf_drv_gpiote_in_event_enable(PIN_IN_4, true);	
 
 	}
+	
+	
