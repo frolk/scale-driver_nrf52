@@ -11,7 +11,7 @@ extern uint16_t rec_key;
 
 
 extern volatile uint8_t write_flag;
-extern uint32_t m_test;
+extern uint32_t my_data;
 
 
 ret_code_t fds_read(void);

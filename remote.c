@@ -9,16 +9,22 @@ uint16_t pwm_value = 250;
 
 void in_pin_handler1(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
-	
+	//SEGGER_RTT_printf(0, "try to search for file_id = %d, record_key = %d\n\r", file_id, rec_key);
 	fds_read();
-	file_id++;
+	//file_id++;
+	
+	
+	
+	
+	
+	
 	uint8_t button = 1;
 	pwm_value += 50;
 	rgb_set(50, 0, 0, 2);
 	correct(pwm_value, 0, 0);		
 	
 	//rgb_set(BLUE, 1);
-	SEGGER_RTT_printf(0, "button = %d, pwm_value = %d\n", button, pwm_value);
+	//SEGGER_RTT_printf(0, "button = %d, pwm_value = %d\n", button, pwm_value);
 	
 }
 
@@ -26,12 +32,18 @@ void in_pin_handler2(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
 	uint8_t button = 2;
 	pwm_value+=100;
-	m_test++;
-	fds_test_write();
-	rgb_set(0, 50, 0, 3);
-			correct(pwm_value, 0, 0);
 	
-	SEGGER_RTT_printf(0, "button = %d, pwm_value = %d, %s\n", button, pwm_value, "kak dela?");
+	
+	
+	my_data++;
+	fds_test_write();
+	
+	
+	
+	rgb_set(0, 50, 0, 3);
+	correct(pwm_value, 0, 0);
+	
+	//SEGGER_RTT_printf(0, "button = %d, pwm_value = %d, %s\n", button, pwm_value, "kak dela?");
 	//rgb_set(RED, 1);
 }
 
@@ -47,8 +59,8 @@ void in_pin_handler3(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 }
 
 void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
-{
-		uint8_t button = 4;
+{ 
+	uint8_t button = 4;
 	correct(0, 0, 0);
 	pwm_value = 250;
 	rgb_set(150, 150, 150, 0);

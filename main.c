@@ -896,8 +896,8 @@ int main(void)
 		
 		err_code = fds_test_init();
 		APP_ERROR_CHECK(err_code);
-		err_code = fds_test_find_and_delete();
-		APP_ERROR_CHECK(err_code);
+//		err_code = fds_test_find_and_delete();
+//		APP_ERROR_CHECK(err_code);
 		err_code = fds_test_write();
 		APP_ERROR_CHECK(err_code);
 		while(write_flag == 0);

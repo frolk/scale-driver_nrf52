@@ -2,8 +2,8 @@
 
 volatile uint8_t write_flag = 0;
 
-uint32_t m_test = 0x11111111;
-uint16_t file_id = 0x0001;
+uint32_t my_data = 0x41424344;
+uint16_t file_id = 0x1111;
 uint16_t rec_key = 0x2222;
 
 void fds_evt_handler(fds_evt_t const * const p_fds_evt)
@@ -36,7 +36,7 @@ ret_code_t fds_test_write(void)
 		fds_record_desc_t   record_desc;
 		fds_record_chunk_t  record_chunk;
 		// Set up data.
-		record_chunk.p_data         = &m_test;
+		record_chunk.p_data         = &my_data;
 		record_chunk.length_words   = 1;
 		// Set up record.
 		record.file_id              = file_id;
@@ -49,7 +49,7 @@ ret_code_t fds_test_write(void)
 		{
 				return ret;
 		}
-		 SEGGER_RTT_printf(0,"Writing Record ID = %d \r\n",record_desc.record_id);
+		 SEGGER_RTT_printf(0,"Writing Record ID = %d\r\n",record_desc.record_id);
 		return NRF_SUCCESS;
 }
 
@@ -72,13 +72,17 @@ ret_code_t fds_read(void)
 					return err_code;		
 				}
 				
+				//SEGGER_RTT_printf(0, "p_header address = %x\r\n",flash_record.p_header); 
+				SEGGER_RTT_printf(0, "p_data address = %x\r\n",flash_record.p_data); 
 				SEGGER_RTT_printf(0,"Found Record ID = %d\r\n",record_desc.record_id);
 				SEGGER_RTT_printf(0,"Data = ");
 				data = (uint32_t *) flash_record.p_data;
+				
 				for (uint8_t i=0;i<flash_record.p_header->tl.length_words;i++)
 				{
 					SEGGER_RTT_printf(0,"0x%8x ",data[i]);
 				}
+				
 				SEGGER_RTT_printf(0,"\r\n");
 				// Access the record through the flash_record structure.
 				// Close the record when done.
