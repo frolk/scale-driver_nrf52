@@ -902,9 +902,11 @@ int main(void)
 	//	err_code = fds_write_value(&pwm_value);
 //		err_code = fds_test_find_and_delete();
 		//APP_ERROR_CHECK(err_code);
-//		err_code = fds_test_write();
-//		APP_ERROR_CHECK(err_code);
-//		while(write_flag == 0);
+   		err_code = fds_write_value(&pwm_value, file_id, fds_rk_cor1, record_desc);
+  		APP_ERROR_CHECK(err_code);
+//    	while(write_flag == 0);
+//			err_code = fds_write_value(&pwm_value2, file_id, fds_rk_cor2, record_desc2);
+//  		APP_ERROR_CHECK(err_code);
 //		err_code = fds_read();
 	//	gpio_init();
 		//rgb_set(50, 0, 0, 0);
