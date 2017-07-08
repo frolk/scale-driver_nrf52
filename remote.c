@@ -36,7 +36,7 @@ void in_pin_handler3(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
 	uint8_t button = 3;
 	//fds_read_value(pwm_point, file_id, fds_rk_cor1);
-	pwm_value = fds_get_data(file_id, fds_rk_cor1);
+	fds_get_data(&pwm_value, file_id, fds_rk_cor1);
 	correct(0, pwm_value, 0);
 	rgb_set(50, 0, 0, 0);
 	SEGGER_RTT_printf(0, "button = %d, the pwm_value from flash = %d\n", button, pwm_value);
@@ -46,7 +46,7 @@ void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 { 
 	uint8_t button = 4;
 	correct(0, 0, 0);
-	pwm_value2 = fds_get_data(file_id, fds_rk_cor2);
+	fds_get_data(&pwm_value2, file_id, fds_rk_cor2);
 	rgb_set(150, 150, 150, 0);
 	SEGGER_RTT_printf(0, "button = %d, pwm_value = %d\n", button, pwm_value2);
 }

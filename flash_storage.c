@@ -46,7 +46,7 @@ void fds_init_flash(uint32_t* value, uint16_t file_id, uint16_t rec_key)
 
 void fds_init_values(void)
 {
-	fds_is_values_init = fds_get_data(file_id, fds_rk_init);
+	fds_get_data(&fds_is_values_init, file_id, fds_rk_init);
 	if(fds_is_values_init != 1)
 	{
 		fds_init_flash(&pwm_value, file_id, fds_rk_cor1);
@@ -133,24 +133,21 @@ ret_code_t fds_read_value (uint32_t* data, uint16_t file_id, uint16_t rec_key)
 		return NRF_SUCCESS;
 }
 
-uint32_t fds_get_data(uint16_t file_id, uint16_t rec_key)
+void fds_get_data(uint32_t* value, uint16_t file_id, uint16_t rec_key)
 {
 	  fds_record_desc_t record_desc;
 		fds_flash_record_t  flash_record;
 		fds_find_token_t    ftok ={0};//Important, make sure you zero init the ftok token
 		uint32_t err_code;
-		uint32_t data;
 		
-		SEGGER_RTT_printf(0,"Start getting data... \r\n");
+		//SEGGER_RTT_printf(0,"Start getting data... \r\n");
 		fds_record_find(file_id, rec_key, &record_desc, &ftok);
 		err_code = fds_record_open(&record_desc, &flash_record);
-		data = *((uint32_t *) flash_record.p_data);
+		*value = *((uint32_t *) flash_record.p_data);
 				
-		SEGGER_RTT_printf(0,"I got Data_ = %d", data);
-		SEGGER_RTT_printf(0,"\r\n");
+		//SEGGER_RTT_printf(0,"I got Data_ = %d", *value);
+		//SEGGER_RTT_printf(0,"\r\n");
 		err_code = fds_record_close(&record_desc);
-		
-		return data;
 }
 
 

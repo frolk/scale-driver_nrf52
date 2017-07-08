@@ -21,7 +21,7 @@ extern volatile uint8_t write_flag;
 extern uint32_t my_data;
 
 void fds_init_flash(uint32_t* value, uint16_t file_id, uint16_t rec_key);
-uint32_t fds_get_data(uint16_t file_id, uint16_t rec_key);
+void fds_get_data(uint32_t* value, uint16_t file_id, uint16_t rec_key);
 
 void fds_init_values(void);
 ret_code_t fds_read(void);
