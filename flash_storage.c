@@ -14,13 +14,6 @@ uint16_t fds_rk_cor2 = 0x0002;
 uint16_t fds_rk_cor3 = 0x0003;
 
 
-
-
-
-fds_record_desc_t   record_desc;
-fds_record_desc_t   record_desc2;
-fds_record_desc_t   record_desc3;
-
 void fds_evt_handler(fds_evt_t const * const p_fds_evt)
 {
     switch (p_fds_evt->id)
@@ -43,9 +36,9 @@ void fds_evt_handler(fds_evt_t const * const p_fds_evt)
 }
 
 
-ret_code_t fds_write_value(uint32_t* value, uint16_t file_id, uint16_t rec_key, fds_record_desc_t* p_record_desc)
+ret_code_t fds_write_value(uint32_t* value, uint16_t file_id, uint16_t rec_key)
 {
-		
+		fds_record_desc_t record_desc;
 		fds_record_t        record;
 		fds_record_chunk_t  record_chunk;
 		// Set up data.
@@ -58,18 +51,19 @@ ret_code_t fds_write_value(uint32_t* value, uint16_t file_id, uint16_t rec_key, 
 		record.data.num_chunks   = 1;
 		write_flag = 0;
 				
-		ret_code_t ret = fds_record_write(p_record_desc, &record);
+	  ret_code_t ret = fds_record_write(&record_desc, &record);
 		if (ret != FDS_SUCCESS)
 		{
 				return ret;
 		}
-		 SEGGER_RTT_printf(0,"Writing Record ID = %d, value = %d\r\n",p_record_desc->record_id, *value);
+		 SEGGER_RTT_printf(0,"Writing Record ID = %d, value = %d\r\n",record_desc.record_id, *value);
 		return NRF_SUCCESS;
 }
 
 
-ret_code_t fds_update_value(uint32_t* value, uint16_t file_id, uint16_t rec_key, fds_record_desc_t* p_record_desc)
+ret_code_t fds_update_value(uint32_t* value, uint16_t file_id, uint16_t rec_key)
 {
+		fds_record_desc_t record_desc;
 		fds_record_t        record;
 		fds_record_chunk_t  record_chunk;
 		// Set up data.
@@ -81,19 +75,22 @@ ret_code_t fds_update_value(uint32_t* value, uint16_t file_id, uint16_t rec_key,
 		record.data.p_chunks     	  = &record_chunk;
 		record.data.num_chunks 		  = 1;
 		fds_find_token_t    ftok ={0};//Important, make sure you zero init the ftok token
-		ret_code_t ret = fds_record_update(p_record_desc, &record);
+		
+		fds_record_find(file_id, rec_key, &record_desc, &ftok);
+		ret_code_t ret = fds_record_update(&record_desc, &record);
 		if (ret != FDS_SUCCESS)
 		{
 				return ret;
 		}
-		SEGGER_RTT_printf(0,"Updating Record ID = %d, value = %d\r\n",p_record_desc->record_id, *value);
+		SEGGER_RTT_printf(0,"Updating Record ID = %d, value = %d\r\n",record_desc.record_id, *value);
 		return NRF_SUCCESS;
 }
 
 
 
-ret_code_t fds_read_value (uint32_t* data, uint16_t file_id, uint16_t rec_key, fds_record_desc_t record_desc)
+ret_code_t fds_read_value (uint32_t* data, uint16_t file_id, uint16_t rec_key)
 {
+	  fds_record_desc_t record_desc;
 		fds_flash_record_t  flash_record;
 		fds_find_token_t    ftok ={0};//Important, make sure you zero init the ftok token
 		uint32_t err_code;
