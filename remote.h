@@ -14,8 +14,6 @@
 extern uint32_t pwm_value; 
 extern uint32_t* pwm_point;
 
-
-
 extern uint32_t pwm_value2; 
 extern uint32_t* pwm_point2;
 

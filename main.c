@@ -898,15 +898,17 @@ int main(void)
 		HX711_init();
 		
 		err_code = fds_test_init();
+		corr_flash_init(&pwm_value, file_id, fds_rk_cor1);
+		corr_flash_init(&pwm_value2, file_id, fds_rk_cor2);
 	//	APP_ERROR_CHECK(err_code);
 	//	err_code = fds_write_value(&pwm_value);
 //		err_code = fds_test_find_and_delete();
 		//APP_ERROR_CHECK(err_code);
-   		err_code = fds_write_value(&pwm_value, file_id, fds_rk_cor1);
-  		APP_ERROR_CHECK(err_code);
-    	while(write_flag == 0);
-			err_code = fds_write_value(&pwm_value2, file_id, fds_rk_cor2);
-  		APP_ERROR_CHECK(err_code);
+//   		err_code = fds_write_value(&pwm_value, file_id, fds_rk_cor1);
+//  		APP_ERROR_CHECK(err_code);
+//    	while(write_flag == 0);
+//			err_code = fds_write_value(&pwm_value2, file_id, fds_rk_cor2);
+//  		APP_ERROR_CHECK(err_code);
 //		err_code = fds_read();
 	//	gpio_init();
 		//rgb_set(50, 0, 0, 0);

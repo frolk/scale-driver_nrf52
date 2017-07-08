@@ -36,6 +36,15 @@ void fds_evt_handler(fds_evt_t const * const p_fds_evt)
 }
 
 
+
+void corr_flash_init(uint32_t* value, uint16_t file_id, uint16_t rec_key)
+{
+	uint32_t err_code;
+	err_code = fds_write_value(value, file_id, rec_key);
+	APP_ERROR_CHECK(err_code);
+	while(write_flag == 0);
+}
+
 ret_code_t fds_write_value(uint32_t* value, uint16_t file_id, uint16_t rec_key)
 {
 		fds_record_desc_t record_desc;
@@ -96,15 +105,14 @@ ret_code_t fds_read_value (uint32_t* data, uint16_t file_id, uint16_t rec_key)
 		uint32_t err_code;
 		
 		SEGGER_RTT_printf(0,"Start new searching... \r\n");
-		while (fds_record_find(file_id, rec_key, &record_desc, &ftok) == FDS_SUCCESS)
-		{
-				err_code = fds_record_open(&record_desc, &flash_record);
-				data = (uint32_t *) flash_record.p_data;
+		fds_record_find(file_id, rec_key, &record_desc, &ftok);
+		err_code = fds_record_open(&record_desc, &flash_record);
+		data = (uint32_t *) flash_record.p_data;
 				
-			  SEGGER_RTT_printf(0,"Data_ = %d", *data);
-				SEGGER_RTT_printf(0,"\r\n");
-				err_code = fds_record_close(&record_desc);
-		}
+		SEGGER_RTT_printf(0,"Data_ = %d", *data);
+		SEGGER_RTT_printf(0,"\r\n");
+		err_code = fds_record_close(&record_desc);
+		
 		return NRF_SUCCESS;
 }
 

@@ -15,7 +15,7 @@ extern uint16_t fds_rk_cor3;
 extern volatile uint8_t write_flag;
 extern uint32_t my_data;
 
-
+void corr_flash_init(uint32_t* value, uint16_t file_id, uint16_t rec_key);
 ret_code_t fds_read(void);
 ret_code_t fds_test_write(void);
 ret_code_t fds_test_init (void);
