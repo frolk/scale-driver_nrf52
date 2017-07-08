@@ -1,10 +1,15 @@
 #include "flash_storage.h"
+#include "remote.h"
+
 
 volatile uint8_t write_flag = 0;
 
 uint32_t my_data = 0x41424344;
-uint16_t file_id = 0x1111;
-uint16_t rec_key = 0x2222;
+uint16_t file_id = 0x0100;
+uint16_t rec_key = 0x0100;
+uint16_t file_id_update = 0x0333;
+uint16_t rec_key_update = 0x0444;
+fds_record_desc_t   record_desc;
 
 void fds_evt_handler(fds_evt_t const * const p_fds_evt)
 {
@@ -27,20 +32,18 @@ void fds_evt_handler(fds_evt_t const * const p_fds_evt)
     }
 }
 
-ret_code_t fds_test_write(void)
+
+ret_code_t fds_write_value(uint32_t* value)
 {
 		
-		//static uint32_t const m_deadbeef[2] = {0xABCDEFAB,0xBAADF00D};
-		//uint32_t m_test = 0xEEEEEEEE;
 		fds_record_t        record;
-		fds_record_desc_t   record_desc;
 		fds_record_chunk_t  record_chunk;
 		// Set up data.
-		record_chunk.p_data         = &my_data;
+		record_chunk.p_data         = value;
 		record_chunk.length_words   = 1;
 		// Set up record.
-		record.file_id              = file_id;
-		record.key              		= rec_key;
+		record.file_id              = file_id_update;
+		record.key              		= rec_key_update;
 		record.data.p_chunks       = &record_chunk;
 		record.data.num_chunks   = 1;
 				
@@ -53,48 +56,54 @@ ret_code_t fds_test_write(void)
 		return NRF_SUCCESS;
 }
 
-ret_code_t fds_read(void)
+
+ret_code_t fds_update_value(uint32_t* value)
 {
-		
+		fds_record_t        record;
+		fds_record_chunk_t  record_chunk;
+		// Set up data.
+		record_chunk.p_data         = value;
+		record_chunk.length_words   = 1;
+		// Set up record.
+		record.file_id              = file_id_update;
+		record.key              		= rec_key_update;
+		record.data.p_chunks     	  = &record_chunk;
+		record.data.num_chunks 		  = 1;
+		fds_find_token_t    ftok ={0};//Important, make sure you zero init the ftok token
+		ret_code_t ret = fds_record_update(&record_desc, &record);
+		if (ret != FDS_SUCCESS)
+		{
+				return ret;
+		}
+		SEGGER_RTT_printf(0,"Updating Record ID = %d, value = %d\r\n",record_desc.record_id, *value);
+	//	SEGGER_RTT_printf(0, "the value = %d\r\n", pwm_value);
+		return NRF_SUCCESS;
+}
+
+
+
+ret_code_t fds_read_value (uint32_t* data, uint16_t file_id_test, uint16_t rec_key_test)
+{
 		fds_flash_record_t  flash_record;
 		fds_record_desc_t   record_desc;
 		fds_find_token_t    ftok ={0};//Important, make sure you zero init the ftok token
-		uint32_t *data;
 		uint32_t err_code;
 		
-		SEGGER_RTT_printf(0,"Start searching... \r\n");
-		// Loop until all records with the given key and file ID have been found.
-		while (fds_record_find(file_id, rec_key, &record_desc, &ftok) == FDS_SUCCESS)
+		SEGGER_RTT_printf(0,"Start new searching... \r\n");
+		while (fds_record_find(file_id_test, rec_key_test, &record_desc, &ftok) == FDS_SUCCESS)
 		{
 				err_code = fds_record_open(&record_desc, &flash_record);
-				if ( err_code != FDS_SUCCESS)
-				{
-					return err_code;		
-				}
-				
-				//SEGGER_RTT_printf(0, "p_header address = %x\r\n",flash_record.p_header); 
-				SEGGER_RTT_printf(0, "p_data address = %x\r\n",flash_record.p_data); 
-				SEGGER_RTT_printf(0,"Found Record ID = %d\r\n",record_desc.record_id);
-				SEGGER_RTT_printf(0,"Data = ");
 				data = (uint32_t *) flash_record.p_data;
 				
-				for (uint8_t i=0;i<flash_record.p_header->tl.length_words;i++)
-				{
-					SEGGER_RTT_printf(0,"0x%8x ",data[i]);
-				}
-				
+			  SEGGER_RTT_printf(0,"Data_ = %d", *data);
 				SEGGER_RTT_printf(0,"\r\n");
-				// Access the record through the flash_record structure.
-				// Close the record when done.
 				err_code = fds_record_close(&record_desc);
-				if (err_code != FDS_SUCCESS)
-				{
-					return err_code;	
-				}
 		}
 		return NRF_SUCCESS;
-		
 }
+
+
+
 
 ret_code_t fds_test_find_and_delete (void)
 {

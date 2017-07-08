@@ -36,7 +36,6 @@
 #include "fds.h"
 #include "flash_storage.h"
 
-
 #include "app_pwm.h"
 
 
@@ -875,6 +874,8 @@ int main(void)
 	bool erase_bonds;
 
     // Initialize.
+		//fds_read_value(pwm_point, file_id_update, rec_key_update);
+		//pwm_value = *pwm_point;
 		uart_init();
     log_init();
     timers_init();
@@ -888,20 +889,23 @@ int main(void)
 		pwm_init_corr();
 		pwm_init_rgb();
 		
-		SEGGER_RTT_printf(0, "%s\n", "start application");
+	//	SEGGER_RTT_printf(0, "%s with pwm_value = %d\n", "start application", pwm_value);
+		
+		//NRF_LOG_INFO("HEllo");
     // Start execution.
     application_timers_start();
     advertising_start(erase_bonds);
 		HX711_init();
 		
 		err_code = fds_test_init();
-		APP_ERROR_CHECK(err_code);
+	//	APP_ERROR_CHECK(err_code);
+	//	err_code = fds_write_value(&pwm_value);
 //		err_code = fds_test_find_and_delete();
+		//APP_ERROR_CHECK(err_code);
+//		err_code = fds_test_write();
 //		APP_ERROR_CHECK(err_code);
-		err_code = fds_test_write();
-		APP_ERROR_CHECK(err_code);
-		while(write_flag == 0);
-		err_code = fds_read();
+//		while(write_flag == 0);
+//		err_code = fds_read();
 	//	gpio_init();
 		//rgb_set(50, 0, 0, 0);
 		

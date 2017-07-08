@@ -118,7 +118,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>(т9</Name>
+          <Name>ёш:</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -162,7 +162,7 @@
       <MemoryWindow2>
         <Mm>
           <WinNumber>2</WinNumber>
-          <SubType>1</SubType>
+          <SubType>257</SubType>
           <ItemText>0x7DF00</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>

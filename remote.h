@@ -11,8 +11,8 @@
 #define PIN_IN_3 14
 #define PIN_IN_4 15
 
-
-
+extern uint32_t pwm_value; 
+extern uint32_t* pwm_point;
 void nrf_gpiote(void);
 
 #endif
