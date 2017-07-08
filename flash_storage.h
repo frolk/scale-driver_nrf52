@@ -12,10 +12,18 @@ extern uint16_t fds_rk_cor1;
 extern uint16_t fds_rk_cor2;
 extern uint16_t fds_rk_cor3;
 
+extern uint16_t fds_rk_is_init;
+
+
+
+
 extern volatile uint8_t write_flag;
 extern uint32_t my_data;
 
-void corr_flash_init(uint32_t* value, uint16_t file_id, uint16_t rec_key);
+void flash_init_values(uint32_t* value, uint16_t file_id, uint16_t rec_key);
+uint32_t fds_get_data(uint16_t file_id, uint16_t rec_key);
+
+
 ret_code_t fds_read(void);
 ret_code_t fds_test_write(void);
 ret_code_t fds_test_init (void);
@@ -23,6 +31,7 @@ ret_code_t fds_test_find_and_delete (void);
 ret_code_t fds_write_value(uint32_t* value, uint16_t file_id, uint16_t rec_key);
 ret_code_t fds_update_value(uint32_t* value, uint16_t file_id, uint16_t rec_key);
 ret_code_t fds_read_value (uint32_t* data, uint16_t file_id, uint16_t rec_key);
+
 
 
 #endif

@@ -874,8 +874,6 @@ int main(void)
 	bool erase_bonds;
 
     // Initialize.
-		//fds_read_value(pwm_point, file_id_update, rec_key_update);
-		//pwm_value = *pwm_point;
 		uart_init();
     log_init();
     timers_init();
@@ -888,35 +886,13 @@ int main(void)
     conn_params_init();
 		pwm_init_corr();
 		pwm_init_rgb();
-		
-	//	SEGGER_RTT_printf(0, "%s with pwm_value = %d\n", "start application", pwm_value);
-		
-		//NRF_LOG_INFO("HEllo");
-    // Start execution.
     application_timers_start();
     advertising_start(erase_bonds);
 		HX711_init();
 		
 		err_code = fds_test_init();
-		corr_flash_init(&pwm_value, file_id, fds_rk_cor1);
-		corr_flash_init(&pwm_value2, file_id, fds_rk_cor2);
-	//	APP_ERROR_CHECK(err_code);
-	//	err_code = fds_write_value(&pwm_value);
-//		err_code = fds_test_find_and_delete();
-		//APP_ERROR_CHECK(err_code);
-//   		err_code = fds_write_value(&pwm_value, file_id, fds_rk_cor1);
-//  		APP_ERROR_CHECK(err_code);
-//    	while(write_flag == 0);
-//			err_code = fds_write_value(&pwm_value2, file_id, fds_rk_cor2);
-//  		APP_ERROR_CHECK(err_code);
-//		err_code = fds_read();
-	//	gpio_init();
-		//rgb_set(50, 0, 0, 0);
-		
-//	nrf_gpio_pin_clear(RED_PIN);
-//	nrf_gpio_pin_clear(GREEN_PIN);
-//	nrf_gpio_pin_set(BLUE_PIN);
-		
+		fds_init_values(&pwm_value, file_id, fds_rk_cor1);
+		fds_init_values(&pwm_value2, file_id, fds_rk_cor2);
 
 
     // Enter main loop.
