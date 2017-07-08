@@ -43,7 +43,7 @@ void fds_evt_handler(fds_evt_t const * const p_fds_evt)
 }
 
 
-ret_code_t fds_write_value(uint32_t* value, uint16_t file_id, uint16_t rec_key, fds_record_desc_t record_desc)
+ret_code_t fds_write_value(uint32_t* value, uint16_t file_id, uint16_t rec_key, fds_record_desc_t* p_record_desc)
 {
 		
 		fds_record_t        record;
@@ -58,17 +58,17 @@ ret_code_t fds_write_value(uint32_t* value, uint16_t file_id, uint16_t rec_key, 
 		record.data.num_chunks   = 1;
 		write_flag = 0;
 				
-		ret_code_t ret = fds_record_write(&record_desc3, &record);
+		ret_code_t ret = fds_record_write(p_record_desc, &record);
 		if (ret != FDS_SUCCESS)
 		{
 				return ret;
 		}
-		 SEGGER_RTT_printf(0,"Writing Record ID = %d, value = %d, p_record = %d\r\n",record_desc3.record_id, *value, record_desc3.p_record);
+		 SEGGER_RTT_printf(0,"Writing Record ID = %d, value = %d\r\n",p_record_desc->record_id, *value);
 		return NRF_SUCCESS;
 }
 
 
-ret_code_t fds_update_value(uint32_t* value, uint16_t file_id, uint16_t rec_key, fds_record_desc_t record_desc)
+ret_code_t fds_update_value(uint32_t* value, uint16_t file_id, uint16_t rec_key, fds_record_desc_t* p_record_desc)
 {
 		fds_record_t        record;
 		fds_record_chunk_t  record_chunk;
@@ -81,13 +81,12 @@ ret_code_t fds_update_value(uint32_t* value, uint16_t file_id, uint16_t rec_key,
 		record.data.p_chunks     	  = &record_chunk;
 		record.data.num_chunks 		  = 1;
 		fds_find_token_t    ftok ={0};//Important, make sure you zero init the ftok token
-		ret_code_t ret = fds_record_update(&record_desc3, &record);
+		ret_code_t ret = fds_record_update(p_record_desc, &record);
 		if (ret != FDS_SUCCESS)
 		{
 				return ret;
 		}
-		SEGGER_RTT_printf(0,"Updating Record ID = %d, value = %d, p_record = %d\r\n",record_desc3.record_id, *value, record_desc3.p_record);
-	//	SEGGER_RTT_printf(0, "the value = %d\r\n", pwm_value);
+		SEGGER_RTT_printf(0,"Updating Record ID = %d, value = %d\r\n",p_record_desc->record_id, *value);
 		return NRF_SUCCESS;
 }
 

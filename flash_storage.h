@@ -24,8 +24,8 @@ ret_code_t fds_read(void);
 ret_code_t fds_test_write(void);
 ret_code_t fds_test_init (void);
 ret_code_t fds_test_find_and_delete (void);
-ret_code_t fds_write_value(uint32_t* value, uint16_t file_id, uint16_t rec_key, fds_record_desc_t record_desc);
-ret_code_t fds_update_value(uint32_t* value, uint16_t file_id, uint16_t rec_key, fds_record_desc_t record_desc);
+ret_code_t fds_write_value(uint32_t* value, uint16_t file_id, uint16_t rec_key, fds_record_desc_t* p_record_desc);
+ret_code_t fds_update_value(uint32_t* value, uint16_t file_id, uint16_t rec_key, fds_record_desc_t* p_record_desc);
 ret_code_t fds_read_value (uint32_t* data, uint16_t file_id_test, uint16_t rec_key_test, fds_record_desc_t record_desc);
 
 

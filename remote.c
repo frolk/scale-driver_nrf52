@@ -15,7 +15,7 @@ uint32_t* pwm_point2;
 void in_pin_handler1(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
 	pwm_value += 10;
-	fds_write_value(&pwm_value, file_id, fds_rk_cor1, record_desc);
+	fds_update_value(&pwm_value, file_id, fds_rk_cor1, &record_desc);
 	uint8_t button = 1;
 	
 	rgb_set(50, 0, 0, 2);
@@ -26,8 +26,8 @@ void in_pin_handler2(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
 	
 	uint8_t button = 2;
-	pwm_value+=15;
-	fds_update_value(&pwm_value, file_id, fds_rk_cor1, record_desc);
+	pwm_value2+=15;
+	fds_update_value(&pwm_value2, file_id, fds_rk_cor2, &record_desc2);
 	rgb_set(0, 50, 0, 3);
 	correct(pwm_value, 0, 0);
 }
