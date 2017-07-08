@@ -889,11 +889,9 @@ int main(void)
     application_timers_start();
     advertising_start(erase_bonds);
 		HX711_init();
-		
 		err_code = fds_test_init();
-		fds_init_values(&pwm_value, file_id, fds_rk_cor1);
-		fds_init_values(&pwm_value2, file_id, fds_rk_cor2);
-
+		APP_ERROR_CHECK(err_code);
+		fds_init_values();
 
     // Enter main loop.
     for (;;)

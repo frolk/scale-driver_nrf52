@@ -46,11 +46,9 @@ void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 { 
 	uint8_t button = 4;
 	correct(0, 0, 0);
-	//fds_read_value(pwm_point2, file_id, fds_rk_cor2);
-	//pwm_value+=11;
-	//fds_update_value(&pwm_value);
+	pwm_value2 = fds_get_data(file_id, fds_rk_cor2);
 	rgb_set(150, 150, 150, 0);
-	SEGGER_RTT_printf(0, "button = %d, pwm_value = %d\n", button, pwm_value);
+	SEGGER_RTT_printf(0, "button = %d, pwm_value = %d\n", button, pwm_value2);
 }
 
 void nrf_gpiote(void)

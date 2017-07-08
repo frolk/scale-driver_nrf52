@@ -6,10 +6,11 @@ volatile uint8_t write_flag = 0;
 
 uint32_t my_data = 0x41424344;
 uint16_t file_id = 0x0000;
-uint16_t fds_rk_cor1 = 0x0001;
-uint16_t fds_rk_cor2 = 0x0002;
-uint16_t fds_rk_cor3 = 0x0003;
-
+uint16_t fds_rk_init = 0x0001;
+uint16_t fds_rk_cor1 = 0x0010;
+uint16_t fds_rk_cor2 = 0x0011;
+uint16_t fds_rk_cor3 = 0x0012;
+uint32_t fds_is_values_init = 0;
 
 
 void fds_evt_handler(fds_evt_t const * const p_fds_evt)
@@ -35,13 +36,31 @@ void fds_evt_handler(fds_evt_t const * const p_fds_evt)
 
 
 
-void fds_init_values(uint32_t* value, uint16_t file_id, uint16_t rec_key)
+void fds_init_flash(uint32_t* value, uint16_t file_id, uint16_t rec_key)
 {
 	uint32_t err_code;
 	err_code = fds_write_value(value, file_id, rec_key);
 	APP_ERROR_CHECK(err_code);
 	while(write_flag == 0);
 }
+
+void fds_init_values(void)
+{
+	fds_is_values_init = fds_get_data(file_id, fds_rk_init);
+	if(fds_is_values_init != 1)
+	{
+		fds_init_flash(&pwm_value, file_id, fds_rk_cor1);
+		fds_init_flash(&pwm_value2, file_id, fds_rk_cor2);
+		fds_is_values_init = 1;
+		fds_init_flash(&fds_is_values_init, file_id, fds_rk_init);
+		
+	}
+	else
+	{
+		SEGGER_RTT_printf(0, "the values already initialized\r\n");
+	}
+}
+
 
 ret_code_t fds_write_value(uint32_t* value, uint16_t file_id, uint16_t rec_key)
 {
