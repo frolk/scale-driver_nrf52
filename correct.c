@@ -4,10 +4,10 @@ nrf_drv_pwm_t m_pwm_cor = NRF_DRV_PWM_INSTANCE(0);
 nrf_pwm_values_individual_t seq_value;
 nrf_pwm_sequence_t seq_corr;
 
-void pwm_init_corr()
+void pwm_init_corr(void)
 
 {
-    uint32_t err_code;
+  
 	nrf_drv_pwm_config_t const config0 =
 	{
 			.output_pins =
@@ -25,7 +25,7 @@ void pwm_init_corr()
 			.step_mode    = NRF_PWM_STEP_AUTO
 	};
 	
-	err_code = nrf_drv_pwm_init(&m_pwm_cor, &config0, NULL);
+	nrf_drv_pwm_init(&m_pwm_cor, &config0, NULL);
 	
 	seq_value.channel_0 = TOP_VALUE;
 	seq_value.channel_1 = TOP_VALUE;
@@ -36,7 +36,6 @@ void pwm_init_corr()
 	seq_corr.repeats             = 0;
   seq_corr.end_delay           = 0;
 	nrf_drv_pwm_simple_playback(&m_pwm_cor, &seq_corr, 0, NRF_DRV_PWM_FLAG_LOOP);
-	
 	
 }
 

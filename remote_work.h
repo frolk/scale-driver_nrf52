@@ -5,7 +5,7 @@
 #include "remote.h"
 
 
-void buttons_handle();
+void buttons_handle(void);
 
 
 #endif //

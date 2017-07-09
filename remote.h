@@ -8,8 +8,6 @@
 #include "flash_storage.h"
 #include "app_timer.h"
 
-
-
 #define PIN_IN_1 12
 #define PIN_IN_2 13
 #define PIN_IN_3 14
@@ -38,6 +36,6 @@ extern uint8_t pin_in4_long_press;
 
 void nrf_gpiote(void);
 void timer_remote_butts_init(void);
-void flag_analize();
+void flag_analize(void);
 
 #endif

@@ -24,7 +24,7 @@
 
 
 void correct(uint16_t value, uint16_t value1, uint16_t value2);
-void pwm_init_corr();
+void pwm_init_corr(void);
 
 
 #endif

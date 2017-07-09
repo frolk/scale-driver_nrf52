@@ -255,40 +255,6 @@ static void pm_evt_handler(pm_evt_t const * p_evt)
 }
 
 
-/**@brief Function for the Timer initialization.
- *
- * @details Initializes the timer module. This creates and starts application timers.
- */
-
-static void timer_timeout_handler(void * p_context)
-{
-	//nothing yet
-}
-
-
-
-
-
-
-static void timers_init(void)
-{
-    // Initialize timer module.
-    //app_timer_init();
-    // app_timer_create(&m_app_timer_id, APP_TIMER_MODE_SINGLE_SHOT, timer_timeout_handler);
-}
-
-/**@brief Function for starting timers.
- */
-static void application_timers_start(void)
-{
-    /* YOUR_JOB: Start your timers. below is an example of how to start a timer.*/
-       //uint32_t err_code;
-			 //err_code = app_timer_start(m_app_timer_id, APP_TIMER_TICKS(3000), NULL);
-       //APP_ERROR_CHECK(err_code); 
-}
-
-
-
 
 /**@brief Function for the GAP initialization.
  *
@@ -894,7 +860,7 @@ int main(void)
     conn_params_init();
 		pwm_init_corr();
 		pwm_init_rgb();
-    application_timers_start();
+   // application_timers_start();
     advertising_start(erase_bonds);
 		HX711_init();
 		err_code = fds_test_init();
@@ -912,10 +878,10 @@ int main(void)
 			//nrf_delay_ms(500);
 		//	SEGGER_RTT_printf(0, "%s\n", "privet");
 			
-//        if (NRF_LOG_PROCESS() == false)
-//        {
-//            power_manage();
-//        }
+        if (NRF_LOG_PROCESS() == false)
+        {
+            power_manage();
+        }
 			buttons_handle();
     }
 }

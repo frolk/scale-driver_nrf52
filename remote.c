@@ -52,7 +52,7 @@ void reset_release_flags()
 }
 
 
-void flag_analize()
+void flag_analize(void)
 {
 	SEGGER_RTT_printf(0, "%d,%d,%d,\r\n", pin_in1_is_set, pin_in1_is_release, pin_in1_long_press);
 	SEGGER_RTT_printf(0, "%d,%d,%d,\r\n", pin_in2_is_set, pin_in2_is_release, pin_in2_long_press);
