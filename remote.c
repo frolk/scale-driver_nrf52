@@ -16,26 +16,70 @@ APP_TIMER_DEF(m_timer_remote);
 uint8_t pin_in1_is_set = 0;
 uint8_t pin_in1_long_press = 0;
 
+uint8_t pin_in2_is_set = 0;
+uint8_t pin_in2_long_press = 1;
 
-void timer_3s_handler(void *p_context)
+uint8_t pin_in3_is_set = 0;
+uint8_t pin_in3_long_press = 0;
+
+uint8_t pin_in4_is_set = 0;
+uint8_t pin_in4_long_press = 0;
+
+
+void timer_2s_handler(void *p_context)
 {
-		SEGGER_RTT_printf(0, "hello from timer\r\n");
+	
+	if(pin_in1_is_set == 1)
+	{
+		rgb_set(50, 0, 0, 1000);
+		pin_in1_long_press = 1;
+	}
+	else if (pin_in2_is_set == 1)
+	{
+		rgb_set(0, 50, 0, 1000);
+		pin_in2_long_press = 1;
+	}
+	else if (pin_in3_is_set == 1)
+	{
+		rgb_set(0, 0, 50, 1000);
+		pin_in3_long_press = 1;
+	}
+	else if (pin_in4_is_set == 1)
+	{
+		rgb_set(50, 50, 50, 1000);
+		pin_in4_long_press = 1;
+	}
 }
 
 void timer_remote_butts_init(void)
 {
 	app_timer_init();
-	app_timer_create(&m_timer_remote, APP_TIMER_MODE_REPEATED, timer_3s_handler); 
+	app_timer_create(&m_timer_remote, APP_TIMER_MODE_SINGLE_SHOT, timer_2s_handler); 
 	
 }
 
 
-
-void start_timer_3s(void)
+void flag_analize()
 {
-	//app_timer_init();
-	app_timer_start(m_timer_remote, APP_TIMER_TICKS(1000), NULL);
-	
+	SEGGER_RTT_printf(0, "%d\r\n", pin_in1_long_press);
+	SEGGER_RTT_printf(0, "%d\r\n", pin_in2_long_press);
+	SEGGER_RTT_printf(0, "%d\r\n", pin_in3_long_press);
+	SEGGER_RTT_printf(0, "%d\r\n", pin_in4_long_press);
+	SEGGER_RTT_printf(0, "--------\r\n");
+}
+
+void start_timer_2s(void)
+{
+	app_timer_start(m_timer_remote, APP_TIMER_TICKS(2000), NULL);
+}
+
+
+void reset_long_press_flags(void)
+{
+	pin_in1_long_press = 0;
+	pin_in2_long_press = 0;
+	pin_in3_long_press = 0;
+	pin_in4_long_press = 0;
 }
 
 void in_pin_handler1(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
@@ -47,15 +91,19 @@ void in_pin_handler1(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 //	correct(pwm_value, 0, 0);		
 		if(nrf_drv_gpiote_in_is_set(PIN_IN_1))
 		{
-				start_timer_3s();
+			 start_timer_2s();
 			 pin_in1_is_set = 1;
+			 reset_long_press_flags();
+			
 		}
 		else
 		{
 			app_timer_stop(m_timer_remote);
 			pin_in1_is_set = 0;
-			pin_in1_long_press = 0;
-			SEGGER_RTT_printf(0, "pin_in_1 low");
+			if(!pin_in1_long_press)
+			{
+				rgb_set(50, 0, 0, 0);
+			}
 		}
 }
 
@@ -65,8 +113,26 @@ void in_pin_handler2(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 //	uint8_t button = 2;
 //	pwm_value2+=15;
 //	fds_update_value(&pwm_value2, file_id, fds_rk_cor2);
-	rgb_set(0, 50, 0, 0);
+//	rgb_set(0, 50, 0, 0);
 //	correct(pwm_value, 0, 0);
+			if(nrf_drv_gpiote_in_is_set(PIN_IN_2))
+		{
+			 start_timer_2s();
+			 pin_in2_is_set = 1;
+			 reset_long_press_flags();
+			
+		}
+		else
+		{
+			app_timer_stop(m_timer_remote);
+			pin_in2_is_set = 0;
+			if(!pin_in2_long_press)
+			{
+				rgb_set(0, 50, 0, 0);
+			}
+		}
+
+	
 }
 
 void in_pin_handler3(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
@@ -74,8 +140,23 @@ void in_pin_handler3(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 //	uint8_t button = 3;
 //	fds_get_data(&pwm_value, file_id, fds_rk_cor1);
 //	correct(0, pwm_value, 0);
-	rgb_set(50, 0, 0, 0);
 //	SEGGER_RTT_printf(0, "button = %d, pwm_value = %d\n", button, pwm_value);
+		if(nrf_drv_gpiote_in_is_set(PIN_IN_3))
+		{
+			 start_timer_2s();
+			 pin_in3_is_set = 1;
+			 reset_long_press_flags();
+			
+		}
+		else
+		{
+			app_timer_stop(m_timer_remote);
+			pin_in3_is_set = 0;
+			if(!pin_in3_long_press)
+			{
+				rgb_set(0, 0, 50, 0);
+			}
+		}
 }
 
 void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
@@ -85,6 +166,22 @@ void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 //	fds_get_data(&pwm_value2, file_id, fds_rk_cor2);
 //	rgb_set(150, 150, 150, 0);
 //	SEGGER_RTT_printf(0, "button = %d, pwm_value = %d\n", button, pwm_value2);
+		if(nrf_drv_gpiote_in_is_set(PIN_IN_4))
+		{
+			 start_timer_2s();
+			 pin_in4_is_set = 1;
+			 reset_long_press_flags();
+			
+		}
+		else
+		{
+			app_timer_stop(m_timer_remote);
+			pin_in4_is_set = 0;
+			if(!pin_in4_long_press)
+			{
+				rgb_set(50, 50, 50, 0);
+			}
+		}
 }
 
 void nrf_gpiote(void)
@@ -105,7 +202,6 @@ void nrf_gpiote(void)
 		nrf_drv_gpiote_in_event_enable(PIN_IN_4, true);	
 		
 		timer_remote_butts_init();
-		//start_timer_3s();
 	}
 	
 	
