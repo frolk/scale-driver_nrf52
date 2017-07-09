@@ -35,6 +35,7 @@
 #include "remote.h"
 #include "fds.h"
 #include "flash_storage.h"
+#include "remote_work.h"
 
 #include "app_pwm.h"
 
@@ -915,5 +916,6 @@ int main(void)
 //        {
 //            power_manage();
 //        }
+			buttons_handle();
     }
 }
