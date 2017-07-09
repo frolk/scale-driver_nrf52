@@ -95,7 +95,8 @@ static uint16_t       m_conn_handle = BLE_CONN_HANDLE_INVALID;                  
 static ble_dfu_t      m_dfus;                                                       /**< Structure used to identify the DFU service. */
 static nrf_ble_gatt_t m_gatt;   
 
-APP_TIMER_DEF(m_app_timer_id);
+//APP_TIMER_DEF(m_app_timer_id);
+//APP_TIMER_DEF(m_timer_remote);
 
 /**< GATT module instance. */
 
@@ -263,14 +264,16 @@ static void timer_timeout_handler(void * p_context)
 	//nothing yet
 }
 
+
+
+
+
+
 static void timers_init(void)
 {
     // Initialize timer module.
-    uint32_t err_code = app_timer_init();
-    APP_ERROR_CHECK(err_code);
- 
-		err_code = app_timer_create(&m_app_timer_id, APP_TIMER_MODE_REPEATED, timer_timeout_handler);
-    APP_ERROR_CHECK(err_code); 
+    //app_timer_init();
+    // app_timer_create(&m_app_timer_id, APP_TIMER_MODE_SINGLE_SHOT, timer_timeout_handler);
 }
 
 /**@brief Function for starting timers.
@@ -278,9 +281,9 @@ static void timers_init(void)
 static void application_timers_start(void)
 {
     /* YOUR_JOB: Start your timers. below is an example of how to start a timer.*/
-       uint32_t err_code;
-			 err_code = app_timer_start(m_app_timer_id, APP_TIMER_TICKS(500), NULL);
-       APP_ERROR_CHECK(err_code); 
+       //uint32_t err_code;
+			 //err_code = app_timer_start(m_app_timer_id, APP_TIMER_TICKS(3000), NULL);
+       //APP_ERROR_CHECK(err_code); 
 }
 
 
@@ -873,10 +876,14 @@ int main(void)
 		uint32_t err_code;
 	bool erase_bonds;
 
+	
+	
     // Initialize.
+	
 		uart_init();
     log_init();
-    timers_init();
+   // timers_init();
+	//	timer_remote_butts_init();
     ble_stack_init();
     peer_manager_init();
     gap_params_init();
@@ -892,6 +899,9 @@ int main(void)
 		err_code = fds_test_init();
 		APP_ERROR_CHECK(err_code);
 		fds_init_values();
+
+
+		
 
     // Enter main loop.
     for (;;)

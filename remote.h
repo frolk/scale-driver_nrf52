@@ -12,13 +12,9 @@
 #define PIN_IN_4 15
 
 extern uint32_t pwm_value; 
-extern uint32_t* pwm_point;
-
 extern uint32_t pwm_value2; 
-extern uint32_t* pwm_point2;
-
-
 
 void nrf_gpiote(void);
+void timer_remote_butts_init(void);
 
 #endif

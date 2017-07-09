@@ -126,7 +126,6 @@ ret_code_t fds_read_value (uint32_t* data, uint16_t file_id, uint16_t rec_key)
 		err_code = fds_record_open(&record_desc, &flash_record);
 		data = (uint32_t *) flash_record.p_data;
 				
-		SEGGER_RTT_printf(0,"Data_ = %d, p_data = %x", *data, pwm_point);
 		SEGGER_RTT_printf(0,"\r\n");
 		err_code = fds_record_close(&record_desc);
 		
