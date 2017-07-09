@@ -21,18 +21,23 @@ extern uint32_t pwm_value2;
 extern uint8_t button_event;
 
 extern uint8_t pin_in1_is_set;
+extern uint8_t pin_in1_is_release;
 extern uint8_t pin_in1_long_press;
 
 extern uint8_t pin_in2_is_set;
+extern uint8_t pin_in2_is_release;
 extern uint8_t pin_in2_long_press;
 
 extern uint8_t pin_in3_is_set;
+extern uint8_t pin_in3_is_release;
 extern uint8_t pin_in3_long_press;
 
 extern uint8_t pin_in4_is_set;
+extern uint8_t pin_in4_is_release;
 extern uint8_t pin_in4_long_press;
 
 void nrf_gpiote(void);
 void timer_remote_butts_init(void);
+void flag_analize();
 
 #endif

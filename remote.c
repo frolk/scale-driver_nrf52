@@ -12,15 +12,19 @@ APP_TIMER_DEF(m_timer_remote);
 uint8_t button_event = 0;
 
 uint8_t pin_in1_is_set = 0;
+uint8_t pin_in1_is_release = 0;
 uint8_t pin_in1_long_press = 0;
 
 uint8_t pin_in2_is_set = 0;
+uint8_t pin_in2_is_release = 0;
 uint8_t pin_in2_long_press = 0;
 
 uint8_t pin_in3_is_set = 0;
+uint8_t pin_in3_is_release = 0;
 uint8_t pin_in3_long_press = 0;
 
 uint8_t pin_in4_is_set = 0;
+uint8_t pin_in4_is_release = 0;
 uint8_t pin_in4_long_press = 0;
 
 void reset_long_press_flags(void)
@@ -39,13 +43,21 @@ void reset_press_flags()
 	pin_in4_is_set = 0;
 }
 
+void reset_release_flags()
+{
+	pin_in1_is_release= 0;
+	pin_in2_is_release= 0;
+	pin_in3_is_release = 0;
+	pin_in4_is_release= 0;
+}
+
 
 void flag_analize()
 {
-	SEGGER_RTT_printf(0, "%d,%d\r\n", pin_in1_is_set, pin_in1_long_press);
-	SEGGER_RTT_printf(0, "%d,%d\r\n", pin_in2_is_set, pin_in2_long_press);
-	SEGGER_RTT_printf(0, "%d,%d\r\n", pin_in3_is_set, pin_in3_long_press);
-	SEGGER_RTT_printf(0, "%d,%d\r\n", pin_in4_is_set, pin_in4_long_press);
+	SEGGER_RTT_printf(0, "%d,%d,%d,\r\n", pin_in1_is_set, pin_in1_is_release, pin_in1_long_press);
+	SEGGER_RTT_printf(0, "%d,%d,%d,\r\n", pin_in2_is_set, pin_in2_is_release, pin_in2_long_press);
+	SEGGER_RTT_printf(0, "%d,%d,%d,\r\n", pin_in3_is_set, pin_in3_is_release, pin_in3_long_press);
+	SEGGER_RTT_printf(0, "%d,%d,%d,\r\n", pin_in4_is_set, pin_in4_is_release, pin_in4_long_press);
 	SEGGER_RTT_printf(0, "--------\r\n");
 }
 
@@ -55,28 +67,19 @@ void timer_2s_handler(void *p_context)
 	button_event = 1;
 	if(pin_in1_is_set == 1)
 	{
-		//rgb_set(50, 0, 0, 1000);
 		pin_in1_long_press = 1;
-					
 	}
 	else if (pin_in2_is_set == 1)
 	{
-		//rgb_set(0, 50, 0, 1000);
 		pin_in2_long_press = 1;
-					
 	}
 	else if (pin_in3_is_set == 1)
 	{
-		//rgb_set(0, 0, 50, 1000);
 		pin_in3_long_press = 1;
-					
 	}
 	else if (pin_in4_is_set == 1)
 	{
-		//rgb_set(50, 50, 50, 1000);
 		pin_in4_long_press = 1;
-					
-
 	}
 }
 
@@ -110,6 +113,7 @@ void in_pin_handler1(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			 start_timer_2s();
 			 pin_in1_is_set = 1;
 			 reset_long_press_flags();
+			 reset_release_flags();
 		}
 		else
 		{
@@ -118,6 +122,7 @@ void in_pin_handler1(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			if(!pin_in1_long_press)
 			{
 				//rgb_set(50, 0, 0, 0);
+				pin_in1_is_release = 1;
 			}
 		}
 }
@@ -136,6 +141,7 @@ void in_pin_handler2(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			 start_timer_2s();
 			 pin_in2_is_set = 1;
 			 reset_long_press_flags();
+				reset_release_flags();
 		}
 		else
 		{
@@ -143,6 +149,7 @@ void in_pin_handler2(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			pin_in2_is_set = 0;
 			if(!pin_in2_long_press)
 			{
+				pin_in2_is_release = 1;
 			//	rgb_set(0, 50, 0, 0);
 			}
 		}
@@ -160,6 +167,7 @@ void in_pin_handler3(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			 start_timer_2s();
 			 pin_in3_is_set = 1;
 			 reset_long_press_flags();
+				reset_release_flags();
 		}
 		else
 		{
@@ -167,6 +175,7 @@ void in_pin_handler3(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			pin_in3_is_set = 0;
 			if(!pin_in3_long_press)
 			{
+				pin_in3_is_release = 1;
 			//	rgb_set(0, 0, 50, 0);
 			}
 		}
@@ -185,6 +194,7 @@ void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			 start_timer_2s();
 			 pin_in4_is_set = 1;
 			 reset_long_press_flags();
+			 reset_release_flags();
 		}
 		else
 		{
@@ -192,6 +202,7 @@ void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			pin_in4_is_set = 0;
 			if(!pin_in4_long_press)
 			{
+				pin_in4_is_release = 1;
 				//rgb_set(50, 50, 50, 0);
 			}
 		}
