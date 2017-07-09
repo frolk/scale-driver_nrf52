@@ -131,8 +131,8 @@ void in_pin_handler2(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
 	
 //	uint8_t button = 2;
-//	pwm_value2+=15;
-//	fds_update_value(&pwm_value2, file_id, fds_rk_cor2);
+	//pwm_value+=15;
+	//fds_update_value(&pwm_value, file_id, fds_rk_cor1);
 //	rgb_set(0, 50, 0, 0);
 //	correct(pwm_value, 0, 0);
 	button_event = 1;
@@ -157,10 +157,11 @@ void in_pin_handler2(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 
 void in_pin_handler3(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
-//	uint8_t button = 3;
-//	fds_get_data(&pwm_value, file_id, fds_rk_cor1);
+//	pwm_value+=50;
+	//uint8_t button = 3;
+	//fds_get_data(&pwm_value, file_id, fds_rk_cor1);
 //	correct(0, pwm_value, 0);
-//	SEGGER_RTT_printf(0, "button = %d, pwm_value = %d\n", button, pwm_value);
+	//SEGGER_RTT_printf(0, "button = %d, pwm_value = %d\n", button, pwm_value);
 	button_event = 1;
 		if(nrf_drv_gpiote_in_is_set(PIN_IN_3))
 		{
@@ -228,4 +229,6 @@ void nrf_gpiote(void)
 		timer_remote_butts_init();
 	}
 	
+
+
 	

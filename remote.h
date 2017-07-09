@@ -13,8 +13,7 @@
 #define PIN_IN_3 14
 #define PIN_IN_4 15
 
-extern uint32_t pwm_value; 
-extern uint32_t pwm_value2; 
+
 
 extern uint8_t button_event;
 

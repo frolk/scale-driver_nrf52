@@ -4,14 +4,19 @@
 
 volatile uint8_t write_flag = 0;
 
-uint32_t my_data = 0x41424344;
 uint16_t file_id = 0x0000;
+uint16_t file_id_clk = 0x0001;
+
 uint16_t fds_rk_init = 0x0001;
+uint16_t fds_rk_clock = 0x1111;
+
+
 uint16_t fds_rk_cor1 = 0x0010;
 uint16_t fds_rk_cor2 = 0x0011;
 uint16_t fds_rk_cor3 = 0x0012;
-uint32_t fds_is_values_init = 0;
 
+uint32_t fds_is_values_init = 0;
+uint32_t life_counter = 1;
 
 void fds_evt_handler(fds_evt_t const * const p_fds_evt)
 {
@@ -51,6 +56,7 @@ void fds_init_values(void)
 	{
 		fds_init_flash(&pwm_value, file_id, fds_rk_cor1);
 		fds_init_flash(&pwm_value2, file_id, fds_rk_cor2);
+		fds_init_flash(&life_counter, file_id, fds_rk_clock);
 		fds_is_values_init = 1;
 		fds_init_flash(&fds_is_values_init, file_id, fds_rk_init);
 		
@@ -108,7 +114,7 @@ ret_code_t fds_update_value(uint32_t* value, uint16_t file_id, uint16_t rec_key)
 		{
 				return ret;
 		}
-		SEGGER_RTT_printf(0,"Updating Record ID = %d, value = %d\r\n",record_desc.record_id, *value);
+		SEGGER_RTT_printf(0,"REC = %d, value = %d\r\n",record_desc.record_id, *value);
 		return NRF_SUCCESS;
 }
 
@@ -126,13 +132,14 @@ ret_code_t fds_read_value (uint32_t* data, uint16_t file_id, uint16_t rec_key)
 		err_code = fds_record_open(&record_desc, &flash_record);
 		data = (uint32_t *) flash_record.p_data;
 				
-		SEGGER_RTT_printf(0,"\r\n");
+		SEGGER_RTT_printf(0,"data = \r\n", *data);
 		err_code = fds_record_close(&record_desc);
+		APP_ERROR_CHECK(err_code);
 		
 		return NRF_SUCCESS;
 }
 
-void fds_get_data(uint32_t* value, uint16_t file_id, uint16_t rec_key)
+ret_code_t fds_get_data(uint32_t* value, uint16_t file_id, uint16_t rec_key)
 {
 	  fds_record_desc_t record_desc;
 		fds_flash_record_t  flash_record;
@@ -142,11 +149,21 @@ void fds_get_data(uint32_t* value, uint16_t file_id, uint16_t rec_key)
 		//SEGGER_RTT_printf(0,"Start getting data... \r\n");
 		fds_record_find(file_id, rec_key, &record_desc, &ftok);
 		err_code = fds_record_open(&record_desc, &flash_record);
+		if (err_code != FDS_SUCCESS)
+		{
+				return err_code;
+		}
 		*value = *((uint32_t *) flash_record.p_data);
 				
 		//SEGGER_RTT_printf(0,"I got Data_ = %d", *value);
 		//SEGGER_RTT_printf(0,"\r\n");
 		err_code = fds_record_close(&record_desc);
+		if (err_code != FDS_SUCCESS)
+		{
+				return err_code;
+		}
+		return NRF_SUCCESS;
+	//	APP_ERROR_CHECK(err_code);
 }
 
 

@@ -41,7 +41,7 @@ void buttons_handle(void)
 			rgb_set(50, 50, 50, 0);
 		}
 
-		flag_analize();
+		//flag_analize();
 		button_event = 0;
 		
 	}

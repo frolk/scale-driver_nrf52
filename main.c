@@ -82,12 +82,15 @@
 #define SCD_RX_PIN_NUMBER 19
 #define SCD_TX_PIN_NUMBER 20
 
+//#define APP_TIMER_MAX_TIMERS 1
 
 
 #define CORRECT_TURN_ON 150000
 
+APP_TIMER_DEF(m_clock_id);
 
-uint32_t life_counter = 0;
+uint8_t clock_counter = 0;
+
 //static volatile uint8_t write_flag=0;
 
 /**< Value used as error code on stack dump, can be used to identify stack location on stack unwind. */
@@ -96,18 +99,47 @@ static uint16_t       m_conn_handle = BLE_CONN_HANDLE_INVALID;                  
 static ble_dfu_t      m_dfus;                                                       /**< Structure used to identify the DFU service. */
 static nrf_ble_gatt_t m_gatt;   
 
-//APP_TIMER_DEF(m_app_timer_id);
-//APP_TIMER_DEF(m_timer_remote);
+
+void clock_value_save(void)
+{
+		uint32_t err_code;
+		life_counter+=1;
+		
+		err_code = fds_update_value(&life_counter, file_id, fds_rk_clock);
+		//APP_ERROR_CHECK(err_code);	
+		clock_counter = 0;
+}
+
+static void m_clock_timer_handler (void *p_context)
+{
+	clock_counter++;
+	SEGGER_RTT_printf(0, "%d, %d\r\n", life_counter, clock_counter);
+	if(clock_counter >= 1)
+	{
+			clock_value_save();
+	}
+	//SEGGER_RTT_printf(0, "clock_counter = %d\r\n", clock_counter);
+}
+
+void fds_get_init_data()
+{
+	uint32_t err_code;
+	err_code = fds_get_data(&life_counter, file_id, fds_rk_clock);
+	//APP_ERROR_CHECK(err_code);
+}
+
+static void m_clock_timer_init(void)
+{
+	app_timer_init();
+	app_timer_create(&m_clock_id, APP_TIMER_MODE_REPEATED, m_clock_timer_handler); 
+	app_timer_start(m_clock_id, APP_TIMER_TICKS(50), NULL);
+}
+
 
 /**< GATT module instance. */
-
 // YOUR_JOB: Use UUIDs for service(s) used in your application.
 static ble_uuid_t m_adv_uuids[] = {{BLE_UUID_DEVICE_INFORMATION_SERVICE, BLE_UUID_TYPE_BLE}};
-
-
 static void advertising_start(bool erase_bonds);
-
-
 static void ble_dfu_evt_handler(ble_dfu_t * p_dfu, ble_dfu_evt_t * p_evt)
 {
     switch (p_evt->type)
@@ -837,18 +869,16 @@ void gpio_init()
 
 int main(void)
 {
+	SEGGER_RTT_printf(0, "%s\n", "privet");
 	nrf_gpiote();
 	
 	//rgb_set(GREEN, 2);
 		uint32_t err_code;
 	bool erase_bonds;
-
-	
-	
     // Initialize.
-	
 		uart_init();
     log_init();
+		m_clock_timer_init();
    // timers_init();
 	//	timer_remote_butts_init();
     ble_stack_init();
@@ -866,8 +896,7 @@ int main(void)
 		err_code = fds_test_init();
 		APP_ERROR_CHECK(err_code);
 		fds_init_values();
-
-
+		fds_get_init_data();
 		
 
     // Enter main loop.
@@ -876,7 +905,7 @@ int main(void)
 			Weighing();
 			//SEGGER_RTT_printf(0, "%d\n", adc_value);
 			//nrf_delay_ms(500);
-		//	SEGGER_RTT_printf(0, "%s\n", "privet");
+		
 			
         if (NRF_LOG_PROCESS() == false)
         {
