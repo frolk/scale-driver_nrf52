@@ -100,6 +100,7 @@ static ble_dfu_t      m_dfus;                                                   
 static nrf_ble_gatt_t m_gatt;   
 
 
+
 void clock_value_save(void)
 {
 		uint32_t err_code;
@@ -118,8 +119,8 @@ static void m_clock_timer_handler (void *p_context)
 {
 	clock_counter++;
 	//SEGGER_RTT_printf(0, "%d, %d\r\n", life_counter, clock_counter);
-	SEGGER_RTT_printf(0, "%d, %d\r\n", adc_value, life_counter);
-	if(clock_counter >= 2)
+	SEGGER_RTT_printf(0, "%d, %d, %d\r\n", adc_value, life_counter, power_down_count);
+	if(clock_counter >= 1)
 	{
 			clock_value_save();
 	}
@@ -128,16 +129,20 @@ static void m_clock_timer_handler (void *p_context)
 
 void fds_get_init_data()
 {
-	uint32_t err_code;
-	err_code = fds_get_data(&life_counter, file_id, fds_rk_clock);
-	//APP_ERROR_CHECK(err_code);
+	fds_get_data(&life_counter, file_id, fds_rk_clock);
+	fds_get_data(&power_down_count, file_id, fds_rk_power_down);
+	power_down_count++;
+	fds_update_value(&power_down_count, file_id, fds_rk_power_down);
+  init_corr_values();
+
+		//APP_ERROR_CHECK(err_code);
 }
 
 static void m_clock_timer_init(void)
 {
 	app_timer_init();
 	app_timer_create(&m_clock_id, APP_TIMER_MODE_REPEATED, m_clock_timer_handler); 
-	app_timer_start(m_clock_id, APP_TIMER_TICKS(200), NULL);
+	app_timer_start(m_clock_id, APP_TIMER_TICKS(500), NULL);
 }
 
 
@@ -876,16 +881,14 @@ int main(void)
 {
 	SEGGER_RTT_printf(0, "%s\n", "privet");
 	nrf_gpiote();
-	
+			
 	//rgb_set(GREEN, 2);
 		uint32_t err_code;
 	bool erase_bonds;
     // Initialize.
 		uart_init();
     log_init();
-		m_clock_timer_init();
-   // timers_init();
-	//	timer_remote_butts_init();
+		//m_clock_timer_init();
     ble_stack_init();
     peer_manager_init();
     gap_params_init();
@@ -903,6 +906,7 @@ int main(void)
 		APP_ERROR_CHECK(err_code);
 		fds_init_values();
 		fds_get_init_data();
+		
 		
 
     // Enter main loop.

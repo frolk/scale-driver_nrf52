@@ -1,11 +1,6 @@
 #include "remote.h"
 
 
-uint32_t pwm_value = 250;
-uint32_t pwm_value2 = 250;
-uint32_t test_value = 333;
-
-
 APP_TIMER_DEF(m_timer_remote);
 
 
@@ -27,6 +22,11 @@ uint8_t pin_in4_is_set = 0;
 uint8_t pin_in4_is_release = 0;
 uint8_t pin_in4_long_press = 0;
 
+uint8_t push_count1 = 0;
+uint8_t push_count2 = 0;
+uint8_t push_count3 = 0;
+uint8_t push_count4 = 0;
+
 void reset_long_press_flags(void)
 {
 	pin_in1_long_press = 0;
@@ -43,12 +43,32 @@ void reset_press_flags()
 	pin_in4_is_set = 0;
 }
 
-void reset_release_flags()
+void reset_release_flags1()
+{
+	pin_in2_is_release= 0;
+	pin_in3_is_release = 0;
+	pin_in4_is_release= 0;
+}
+
+void reset_release_flags2()
+{
+	pin_in1_is_release= 0;
+	pin_in3_is_release = 0;
+	pin_in4_is_release= 0;
+}
+
+void reset_release_flags3()
+{
+	pin_in1_is_release= 0;
+	pin_in2_is_release= 0;
+	pin_in4_is_release= 0;
+}
+
+void reset_release_flags4()
 {
 	pin_in1_is_release= 0;
 	pin_in2_is_release= 0;
 	pin_in3_is_release = 0;
-	pin_in4_is_release= 0;
 }
 
 
@@ -107,13 +127,15 @@ void in_pin_handler1(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 //	uint8_t button = 1;
 //	rgb_set(50, 0, 0, 2);
 //	correct(pwm_value, 0, 0);		
-	button_event = 1;
+	
+		
 		if(nrf_drv_gpiote_in_is_set(PIN_IN_1))
 		{
 			 start_timer_2s();
 			 pin_in1_is_set = 1;
 			 reset_long_press_flags();
-			 reset_release_flags();
+			 reset_release_flags1();
+			 
 		}
 		else
 		{
@@ -122,9 +144,13 @@ void in_pin_handler1(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			if(!pin_in1_long_press)
 			{
 				//rgb_set(50, 0, 0, 0);
-				pin_in1_is_release = 1;
+				pin_in1_is_release++;
+			
 			}
+		//	push_count1++;
+			button_event = 1;	  
 		}
+			
 }
 
 void in_pin_handler2(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
@@ -135,13 +161,13 @@ void in_pin_handler2(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 	//fds_update_value(&pwm_value, file_id, fds_rk_cor1);
 //	rgb_set(0, 50, 0, 0);
 //	correct(pwm_value, 0, 0);
-	button_event = 1;
+	
 			if(nrf_drv_gpiote_in_is_set(PIN_IN_2))
 		{
 			 start_timer_2s();
 			 pin_in2_is_set = 1;
 			 reset_long_press_flags();
-				reset_release_flags();
+				reset_release_flags2();
 		}
 		else
 		{
@@ -149,9 +175,10 @@ void in_pin_handler2(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			pin_in2_is_set = 0;
 			if(!pin_in2_long_press)
 			{
-				pin_in2_is_release = 1;
+				pin_in2_is_release++;
 			//	rgb_set(0, 50, 0, 0);
 			}
+			button_event = 1;	  
 		}
 }
 
@@ -162,13 +189,13 @@ void in_pin_handler3(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 	//fds_get_data(&pwm_value, file_id, fds_rk_cor1);
 //	correct(0, pwm_value, 0);
 	//SEGGER_RTT_printf(0, "button = %d, pwm_value = %d\n", button, pwm_value);
-	button_event = 1;
+	
 		if(nrf_drv_gpiote_in_is_set(PIN_IN_3))
 		{
 			 start_timer_2s();
 			 pin_in3_is_set = 1;
 			 reset_long_press_flags();
-				reset_release_flags();
+				reset_release_flags3();
 		}
 		else
 		{
@@ -176,10 +203,13 @@ void in_pin_handler3(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			pin_in3_is_set = 0;
 			if(!pin_in3_long_press)
 			{
-				pin_in3_is_release = 1;
+				pin_in3_is_release++;
 			//	rgb_set(0, 0, 50, 0);
 			}
+					button_event = 1;
+
 		}
+		
 }
 
 void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
@@ -189,13 +219,13 @@ void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 //	fds_get_data(&pwm_value2, file_id, fds_rk_cor2);
 //	rgb_set(150, 150, 150, 0);
 //	SEGGER_RTT_printf(0, "button = %d, pwm_value = %d\n", button, pwm_value2);
-	button_event = 1;
+	
 		if(nrf_drv_gpiote_in_is_set(PIN_IN_4))
 		{
 			 start_timer_2s();
 			 pin_in4_is_set = 1;
 			 reset_long_press_flags();
-			 reset_release_flags();
+			 reset_release_flags4();
 		}
 		else
 		{
@@ -203,10 +233,12 @@ void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			pin_in4_is_set = 0;
 			if(!pin_in4_long_press)
 			{
-				pin_in4_is_release = 1;
+				pin_in4_is_release++;
 				//rgb_set(50, 50, 50, 0);
 			}
+			button_event = 1;
 		}
+		
 }
 
 void nrf_gpiote(void)

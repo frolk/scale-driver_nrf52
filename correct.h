@@ -23,8 +23,17 @@
 #define TOP_VALUE 1000
 
 
-extern uint32_t pwm_value; 
-extern uint32_t pwm_value2; 
+extern uint32_t corr_1_1; 
+extern uint32_t corr_1_2; 
+extern uint32_t corr_1_3; 
+
+extern uint32_t corr_2_1; 
+extern uint32_t corr_2_2; 
+extern uint32_t corr_2_3; 
+
+extern uint32_t corr_3_1; 
+extern uint32_t corr_3_2; 
+extern uint32_t corr_3_3; 
 
 void correct(uint16_t value, uint16_t value1, uint16_t value2);
 void pwm_init_corr(void);

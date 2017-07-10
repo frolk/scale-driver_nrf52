@@ -9,14 +9,16 @@ uint16_t file_id_clk = 0x0001;
 
 uint16_t fds_rk_init = 0x0001;
 uint16_t fds_rk_clock = 0x1111;
+uint16_t fds_rk_power_down= 0x2222;
 
 
 uint16_t fds_rk_cor1 = 0x0010;
-uint16_t fds_rk_cor2 = 0x0011;
-uint16_t fds_rk_cor3 = 0x0012;
+//uint16_t fds_rk_cor2 = 0x0011;
+//uint16_t fds_rk_cor3 = 0x0012;
 
 uint32_t fds_is_values_init = 0;
 uint32_t life_counter = 1;
+uint32_t power_down_count = 1;
 
 void fds_evt_handler(fds_evt_t const * const p_fds_evt)
 {
@@ -40,7 +42,6 @@ void fds_evt_handler(fds_evt_t const * const p_fds_evt)
 }
 
 
-
 void fds_init_flash(uint32_t* value, uint16_t file_id, uint16_t rec_key)
 {
 	uint32_t err_code;
@@ -54,9 +55,19 @@ void fds_init_values(void)
 	fds_get_data(&fds_is_values_init, file_id, fds_rk_init);
 	if(fds_is_values_init != 1)
 	{
-		fds_init_flash(&pwm_value, file_id, fds_rk_cor1);
-		fds_init_flash(&pwm_value2, file_id, fds_rk_cor2);
+		fds_init_flash(&corr_1_1, file_id, fds_rk_cor1);
+		fds_init_flash(&corr_1_2, file_id, fds_rk_cor1+1);
+		fds_init_flash(&corr_1_3, file_id, fds_rk_cor1+2);
+		fds_init_flash(&corr_2_1, file_id, fds_rk_cor1+3);
+		fds_init_flash(&corr_2_2, file_id, fds_rk_cor1+4);
+		fds_init_flash(&corr_2_3, file_id, fds_rk_cor1+5);
+		fds_init_flash(&corr_3_1, file_id, fds_rk_cor1+6);
+		fds_init_flash(&corr_3_2, file_id, fds_rk_cor1+7);
+		fds_init_flash(&corr_3_3, file_id, fds_rk_cor1+8);
+		
+
 		fds_init_flash(&life_counter, file_id, fds_rk_clock);
+		fds_init_flash(&power_down_count, file_id, fds_rk_power_down);
 		fds_is_values_init = 1;
 		fds_init_flash(&fds_is_values_init, file_id, fds_rk_init);
 		

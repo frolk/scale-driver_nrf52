@@ -4,6 +4,18 @@ nrf_drv_pwm_t m_pwm_cor = NRF_DRV_PWM_INSTANCE(0);
 nrf_pwm_values_individual_t seq_value;
 nrf_pwm_sequence_t seq_corr;
 
+
+uint32_t corr_1_1 = 300; 
+uint32_t corr_1_2 = 350; 
+uint32_t corr_1_3 = 400; 
+uint32_t corr_2_1 = 310; 
+uint32_t corr_2_2 = 360; 
+uint32_t corr_2_3 = 410; 
+uint32_t corr_3_1 = 420; 
+uint32_t corr_3_2 = 700; 
+uint32_t corr_3_3 = 900; 
+
+
 void pwm_init_corr(void)
 
 {

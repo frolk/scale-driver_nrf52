@@ -7,5 +7,6 @@
 
 void buttons_handle(void);
 
+void init_corr_values(void);
 
 #endif //

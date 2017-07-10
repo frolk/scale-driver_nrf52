@@ -7,6 +7,7 @@
 #include "SEGGER_RTT.h"
 #include "flash_storage.h"
 #include "app_timer.h"
+#include "remote_work.h"
 
 #define PIN_IN_1 12
 #define PIN_IN_2 13
@@ -32,6 +33,12 @@ extern uint8_t pin_in3_long_press;
 extern uint8_t pin_in4_is_set;
 extern uint8_t pin_in4_is_release;
 extern uint8_t pin_in4_long_press;
+
+extern uint8_t push_count1;
+extern uint8_t push_count2;
+extern uint8_t push_count3;
+extern uint8_t push_count4;
+
 
 void nrf_gpiote(void);
 void timer_remote_butts_init(void);

@@ -14,6 +14,7 @@ extern uint16_t fds_rk_cor2;
 extern uint16_t fds_rk_cor3;
 extern uint16_t fds_rk_is_init;
 extern uint16_t fds_rk_clock;
+extern uint16_t fds_rk_power_down;
 
 extern uint32_t fds_is_values_init;
 extern uint32_t life_counter;
@@ -22,6 +23,7 @@ extern uint32_t life_counter;
 
 extern volatile uint8_t write_flag;
 extern uint32_t my_data;
+extern uint32_t power_down_count;
 
 void fds_init_flash(uint32_t* value, uint16_t file_id, uint16_t rec_key);
 ret_code_t fds_get_data(uint32_t* value, uint16_t file_id, uint16_t rec_key);
