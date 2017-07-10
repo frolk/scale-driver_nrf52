@@ -108,13 +108,18 @@ void clock_value_save(void)
 		err_code = fds_update_value(&life_counter, file_id, fds_rk_clock);
 		//APP_ERROR_CHECK(err_code);	
 		clock_counter = 0;
+		if(life_counter%50 == 0)
+		{
+			fds_clear();
+		}
 }
 
 static void m_clock_timer_handler (void *p_context)
 {
 	clock_counter++;
-	SEGGER_RTT_printf(0, "%d, %d\r\n", life_counter, clock_counter);
-	if(clock_counter >= 1)
+	//SEGGER_RTT_printf(0, "%d, %d\r\n", life_counter, clock_counter);
+	SEGGER_RTT_printf(0, "%d, %d\r\n", adc_value, life_counter);
+	if(clock_counter >= 2)
 	{
 			clock_value_save();
 	}
@@ -132,7 +137,7 @@ static void m_clock_timer_init(void)
 {
 	app_timer_init();
 	app_timer_create(&m_clock_id, APP_TIMER_MODE_REPEATED, m_clock_timer_handler); 
-	app_timer_start(m_clock_id, APP_TIMER_TICKS(50), NULL);
+	app_timer_start(m_clock_id, APP_TIMER_TICKS(200), NULL);
 }
 
 
@@ -894,6 +899,7 @@ int main(void)
     advertising_start(erase_bonds);
 		HX711_init();
 		err_code = fds_test_init();
+		
 		APP_ERROR_CHECK(err_code);
 		fds_init_values();
 		fds_get_init_data();
@@ -903,7 +909,7 @@ int main(void)
     for (;;)
     {
 			Weighing();
-			//SEGGER_RTT_printf(0, "%d\n", adc_value);
+		//	SEGGER_RTT_printf(0, "%d\n", adc_value);
 			//nrf_delay_ms(500);
 		
 			

@@ -114,7 +114,7 @@ ret_code_t fds_update_value(uint32_t* value, uint16_t file_id, uint16_t rec_key)
 		{
 				return ret;
 		}
-		SEGGER_RTT_printf(0,"REC = %d, value = %d\r\n",record_desc.record_id, *value);
+	//	SEGGER_RTT_printf(0,"REC = %d, value = %d\r\n",record_desc.record_id, *value);
 		return NRF_SUCCESS;
 }
 
@@ -191,6 +191,17 @@ ret_code_t fds_get_data(uint32_t* value, uint16_t file_id, uint16_t rec_key)
 //		}
 //		return NRF_SUCCESS;
 //}
+
+ret_code_t fds_clear(void)
+{
+	ret_code_t ret = fds_gc();
+	if (ret != FDS_SUCCESS)
+		{
+				return ret;
+		}
+		return NRF_SUCCESS;
+}
+
 
 ret_code_t fds_test_init (void)
 {
