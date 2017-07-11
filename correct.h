@@ -18,7 +18,7 @@
 
 #define CORR_KG_PLUS 27 
 #define CORR_KG_MINUS 26
-#define CORR_PERCENT 30
+#define CORR_PERCENT 17
 
 #define TOP_VALUE 1000
 
@@ -35,8 +35,13 @@ extern uint32_t corr_3_1;
 extern uint32_t corr_3_2; 
 extern uint32_t corr_3_3; 
 
-void correct(uint16_t value, uint16_t value1, uint16_t value2);
+void correct(uint32_t value, uint32_t value1, uint32_t value2);
 void pwm_init_corr(void);
 
+void corr_plus(uint32_t value);
+void corr_minus(uint32_t value);
+void corr_perc(uint32_t value);
+
+void correct_value(uint32_t value);
 
 #endif

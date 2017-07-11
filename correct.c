@@ -6,14 +6,14 @@ nrf_pwm_sequence_t seq_corr;
 
 
 uint32_t corr_1_1 = 300; 
-uint32_t corr_1_2 = 350; 
-uint32_t corr_1_3 = 400; 
-uint32_t corr_2_1 = 310; 
-uint32_t corr_2_2 = 360; 
-uint32_t corr_2_3 = 410; 
-uint32_t corr_3_1 = 420; 
-uint32_t corr_3_2 = 700; 
-uint32_t corr_3_3 = 900; 
+uint32_t corr_1_2 = 400; 
+uint32_t corr_1_3 = 500; 
+uint32_t corr_2_1 = 1300; 
+uint32_t corr_2_2 = 1400; 
+uint32_t corr_2_3 = 1500; 
+uint32_t corr_3_1 = 2300; 
+uint32_t corr_3_2 = 2600; 
+uint32_t corr_3_3 = 2990; 
 
 
 void pwm_init_corr(void)
@@ -51,7 +51,14 @@ void pwm_init_corr(void)
 	
 }
 
-void correct(uint16_t value, uint16_t value1, uint16_t value2)
+void update_seq(void)
+{
+	seq_corr.values.p_individual = &seq_value;
+	seq_corr.length = NRF_PWM_VALUES_LENGTH(seq_value);
+	nrf_drv_pwm_simple_playback(&m_pwm_cor, &seq_corr, 0, NRF_DRV_PWM_FLAG_LOOP);
+}
+
+void correct(uint32_t value, uint32_t value1, uint32_t value2)
 	{
 	
 	seq_value.channel_0 = TOP_VALUE - value;
@@ -60,5 +67,54 @@ void correct(uint16_t value, uint16_t value1, uint16_t value2)
 	seq_corr.values.p_individual = &seq_value;
 	seq_corr.length = NRF_PWM_VALUES_LENGTH(seq_value);
 	nrf_drv_pwm_simple_playback(&m_pwm_cor, &seq_corr, 0, NRF_DRV_PWM_FLAG_LOOP);
+		
+}
+	
+
+
+	
+void corr_plus(uint32_t value)
+{
+	//SEGGER_RTT_printf(0, "value = %d\r\n", value);
+	seq_value.channel_0 = TOP_VALUE - value;
+	update_seq();
+}
+
+void corr_minus(uint32_t value)
+{
+	SEGGER_RTT_printf(0, "value in corr_minus = %d\r\n", value);
+	seq_value.channel_1 = TOP_VALUE - value;
+	update_seq();
+}
+
+void corr_perc(uint32_t value)
+{
+	SEGGER_RTT_printf(0, "value = %d\r\n", value);
+	seq_value.channel_2 = TOP_VALUE - value;
+	update_seq();
+}
+
+	
+
+void correct_value(uint32_t value)
+{
+	if(0 < value && value <= 1000) // plus correct
+	{
+		//correct(0, value, 0); 
+		corr_minus(value);
+		corr_plus(0);
+	}
+	else if (1000 < value && value <= 2000) // minus correct
+	{
+		value = value - 1000;
+		//SEGGER_RTT_printf(0, "value in correct_value = %d\r\n", value);
+	  corr_plus(value); 
+		corr_minus(0);
+	}
+	else if (2000 < value && value <= 3000)  // percent correct
+	{
+		value = value - 2000;
+		corr_perc(value);
+	}
 		
 }

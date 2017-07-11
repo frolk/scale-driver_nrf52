@@ -29,48 +29,74 @@ void buttons_handle(void)
 			{
 				case 1:
 					rgb_set(50, 0, 0, 1);
-					correct(corr_1_1, 0, 0);
+					correct_value(corr_1_1);
 					SEGGER_RTT_printf(0, "pin_in1_is_release = %d,corr_1_1 = %d\r\n", pin_in1_is_release, corr_1_1);
 				break;
 
 				case 2:
 					rgb_set(50, 0, 0, 2);
-					correct(corr_1_2, 0, 0);
+					correct_value(corr_1_2);
 					SEGGER_RTT_printf(0, "pin_in1_is_release = %d,corr_1_2 = %d\r\n", pin_in1_is_release, corr_1_2);
 				break;
 				
 				case 3:
 					rgb_set(50, 0, 0, 3);
-					correct(corr_1_3, 0, 0);
+					correct_value(corr_1_3);
 					SEGGER_RTT_printf(0, "pin_in1_is_release = %d,corr_1_3 = %d\r\n", pin_in1_is_release, corr_1_3);
 				break;
 			}
 		}
 		if (pin_in2_is_release)
 		{
-			rgb_set(0, 50, 0, 1);
-			correct(0, 0, corr_3_2);
-			SEGGER_RTT_printf(0, "corr_3_2 = %d\r\n", corr_3_2);
+			switch(pin_in2_is_release)
+			{
+				case 1:
+					rgb_set(50, 0, 0, 1);
+					correct_value(corr_2_1);
+					//SEGGER_RTT_printf(0, "corr_2_1 = %d\r\n", corr_2_1);
+				break;
+
+				case 2:
+					rgb_set(50, 0, 0, 2);
+					correct_value(corr_2_2);
+					SEGGER_RTT_printf(0, "pin_in2_is_release = %d,corr_2_2 = %d\r\n", pin_in2_is_release, corr_2_2);
+				break;
+				
+				case 3:
+					rgb_set(50, 0, 0, 3);
+					correct_value(corr_2_3);
+					SEGGER_RTT_printf(0, "pin_in2_is_release = %d,corr_2_3 = %d\r\n", pin_in2_is_release, corr_2_3);
+				break;
+			}
 		}
-		if (pin_in3_is_release)
+	if (pin_in3_is_release)
 		{
-			rgb_set(0, 0, 50, 1);
-			correct(0, 0, corr_3_3);
-			SEGGER_RTT_printf(0, "corr_3_3 = %d\r\n", corr_3_3);
-			
+			switch(pin_in3_is_release)
+			{
+				case 1:
+					rgb_set(50, 0, 0, 1);
+					correct_value(corr_3_1);
+					SEGGER_RTT_printf(0, "pin_in3_is_release = %d,corr_3_1 = %d\r\n", pin_in3_is_release, corr_3_1);
+				break;
+
+				case 2:
+					rgb_set(50, 0, 0, 2);
+					correct_value(corr_3_2);
+					SEGGER_RTT_printf(0, "pin_in3_is_release = %d,corr_3_2 = %d\r\n", pin_in3_is_release, corr_3_2);
+				break;
+				
+				case 3:
+					rgb_set(50, 0, 0, 3);
+					correct_value(corr_3_3);
+					SEGGER_RTT_printf(0, "pin_in3_is_release = %d,corr_3_3 = %d\r\n", pin_in3_is_release, corr_3_3);
+				break;
+			}
 		}
 		if (pin_in4_is_release)
 		{
 			rgb_set(50, 50, 50, 1);
 			correct(0, 0, 0);
 		}
-		
-		
-		
-		
-		
-		
-		
 		if(pin_in1_long_press)
 		{
 			rgb_set(50, 0, 0, 0);
