@@ -13,8 +13,6 @@ uint16_t fds_rk_power_down= 0x2222;
 
 
 uint16_t fds_rk_cor1 = 0x0010;
-//uint16_t fds_rk_cor2 = 0x0011;
-//uint16_t fds_rk_cor3 = 0x0012;
 
 uint32_t fds_is_values_init = 0;
 uint32_t life_counter = 1;

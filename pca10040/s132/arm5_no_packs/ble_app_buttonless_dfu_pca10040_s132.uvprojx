@@ -419,6 +419,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\remote_work.c</FilePath>
             </File>
+            <File>
+              <FileName>remote_setup.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\remote_setup.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3330,6 +3335,11 @@
               <FileName>remote_work.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\remote_work.c</FilePath>
+            </File>
+            <File>
+              <FileName>remote_setup.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\remote_setup.c</FilePath>
             </File>
           </Files>
         </Group>

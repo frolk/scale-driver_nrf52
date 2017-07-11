@@ -17,7 +17,7 @@
 #define CORR_MODE_3_3			9
 
 void buttons_handle_setup(void);
-
+extern uint8_t fast_correct1;
 
 
 #endif //

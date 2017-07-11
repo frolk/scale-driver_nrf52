@@ -46,7 +46,7 @@ void pwm_init_rgb()
 	
 }
 
-void rgb_set(uint16_t red_value, uint16_t green_value, uint16_t blue_value, uint8_t times)
+void rgb_set(uint16_t red_value, uint16_t green_value, uint16_t blue_value, uint8_t times, uint16_t delay_time)
 	{
 	
 		seq_value_rgb[0].channel_0 = RGB_TOP - red_value;
@@ -60,7 +60,7 @@ void rgb_set(uint16_t red_value, uint16_t green_value, uint16_t blue_value, uint
 	
 	if(times > 0)
 	{
-	seq_rgb.repeats = 500;
+	seq_rgb.repeats = delay_time;
 	nrf_drv_pwm_simple_playback(&m_pwm_rgb, &seq_rgb, (uint16_t)times, NRF_DRV_PWM_FLAG_STOP);
 	}
 	else

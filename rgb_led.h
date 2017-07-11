@@ -46,6 +46,6 @@
 
 
 void pwm_init_rgb(void);
-void rgb_set(uint16_t red_value, uint16_t green_value, uint16_t blue_value, uint8_t times);
+void rgb_set(uint16_t red_value, uint16_t green_value, uint16_t blue_value, uint8_t times, uint16_t delay_time);
 
 #endif //
