@@ -1,6 +1,8 @@
 #include "remote_work.h"
 
 
+
+
 void init_corr_values(void)
 {
 	fds_get_data(&corr_1_1, file_id, fds_rk_cor1);
@@ -20,7 +22,7 @@ void buttons_handle(void)
 {
 	
 	
-	if(button_event)
+	if(remote_mode == WORK_MODE)
 	{
 			
 		if (pin_in1_is_release)
@@ -120,6 +122,7 @@ void buttons_handle(void)
 
 
 		//flag_analize();
+		
 		button_event = 0;
 		
 	}

@@ -912,7 +912,7 @@ int main(void)
     // Enter main loop.
     for (;;)
     {
-			Weighing();
+		//	Weighing();
 		//	SEGGER_RTT_printf(0, "%d\n", adc_value);
 			//nrf_delay_ms(500);
 		
@@ -921,6 +921,6 @@ int main(void)
         {
             power_manage();
         }
-			buttons_handle();
+			
     }
 }

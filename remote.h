@@ -8,13 +8,16 @@
 #include "flash_storage.h"
 #include "app_timer.h"
 #include "remote_work.h"
+#include "remote_setup.h"
 
 #define PIN_IN_1 12
 #define PIN_IN_2 13
 #define PIN_IN_3 14
 #define PIN_IN_4 15
 
-
+#define WORK_MODE 			0
+#define CORR_SETUP_MODE 1
+#define CALL_MODE 			2
 
 extern uint8_t button_event;
 
@@ -38,6 +41,8 @@ extern uint8_t push_count1;
 extern uint8_t push_count2;
 extern uint8_t push_count3;
 extern uint8_t push_count4;
+
+extern uint8_t remote_mode;
 
 
 void nrf_gpiote(void);
