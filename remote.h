@@ -48,5 +48,6 @@ extern uint8_t remote_mode;
 void nrf_gpiote(void);
 void timer_remote_butts_init(void);
 void flag_analize(void);
+void reset_long_press_flags(void);
 
 #endif

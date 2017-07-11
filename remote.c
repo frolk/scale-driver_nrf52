@@ -107,11 +107,9 @@ void timer_2s_handler(void *p_context)
 	}
 
 
-  	if(remote_mode == WORK_MODE)
-			{
 				remote_mode = CORR_SETUP_MODE;
 				buttons_handle_setup();
-			}
+			
 	
 	
 }
@@ -160,9 +158,11 @@ void in_pin_handler1(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 				pin_in1_is_release++;
 			
 			}
+			reset_long_press_flags();
 		//	push_count1++;
 			button_event = 1;	  
 			buttons_handle();
+			buttons_handle_setup();
 		}
 			
 }
@@ -192,8 +192,10 @@ void in_pin_handler2(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 				pin_in2_is_release++;
 			//	rgb_set(0, 50, 0, 0);
 			}
+			reset_long_press_flags();
 			button_event = 1;
 			buttons_handle();
+			buttons_handle_setup();
 		}
 }
 
@@ -221,8 +223,10 @@ void in_pin_handler3(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 				pin_in3_is_release++;
 			//	rgb_set(0, 0, 50, 0);
 			}
+			reset_long_press_flags();
 					button_event = 1;
 			buttons_handle();
+			buttons_handle_setup();
 
 		}
 		
@@ -254,6 +258,7 @@ void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			}
 			button_event = 1;
 			buttons_handle();
+			buttons_handle_setup();
 		}
 		
 }
