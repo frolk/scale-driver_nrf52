@@ -2,6 +2,20 @@
 
 uint8_t corr_mode_button = 0;
 
+void save_corr_values(void)
+{
+		fds_update_value(&corr_1_1, file_id, fds_rk_cor1);
+		fds_update_value(&corr_1_2, file_id, fds_rk_cor1+1);
+		fds_update_value(&corr_1_3, file_id, fds_rk_cor1+2);
+		fds_update_value(&corr_2_1, file_id, fds_rk_cor1+3);
+		fds_update_value(&corr_2_2, file_id, fds_rk_cor1+4);
+		fds_update_value(&corr_2_3, file_id, fds_rk_cor1+5);
+		fds_update_value(&corr_3_1, file_id, fds_rk_cor1+6);
+		fds_update_value(&corr_3_2, file_id, fds_rk_cor1+7);
+		fds_update_value(&corr_3_3, file_id, fds_rk_cor1+8);
+}
+
+
 void buttons_handle_setup(void)
 {
 	if(remote_mode == CORR_SETUP_MODE)
@@ -16,7 +30,6 @@ void buttons_handle_setup(void)
 							corr_mode_button = CORR_MODE_1_1;
 							rgb_set(50, 0, 0, 0);
 							SEGGER_RTT_printf(0,"set corr_1_1\r\n");
-							
 						}
 					if (pin_in2_long_press)
 						{
@@ -30,7 +43,11 @@ void buttons_handle_setup(void)
 						}
 					if (pin_in4_long_press)
 						{
+							SEGGER_RTT_printf(0,"save values\r\n");
 							rgb_set(50, 50, 50, 0);
+							save_corr_values();
+							remote_mode = WORK_MODE;
+							corr_mode_button = 0;
 						}
 						
 					//	reset_long_press_flags();
@@ -85,6 +102,24 @@ void buttons_handle_setup(void)
 						
 						
 				}
+				
+				if(pin_in4_is_release)
+				{
+					rgb_set(50, 50, 50, 1);
+					correct(0, 0, 0);
+					remote_mode = WORK_MODE;
+					corr_mode_button = 0;
+				}
+				
+				if (pin_in4_long_press)
+						{
+							SEGGER_RTT_printf(0,"save values\r\n");
+							rgb_set(50, 50, 50, 0);
+							save_corr_values();
+							remote_mode = WORK_MODE;
+							corr_mode_button = 0;
+						}
+				
 				
 			}
 		button_event = 0;

@@ -37,6 +37,8 @@ extern uint8_t pin_in4_is_set;
 extern uint8_t pin_in4_is_release;
 extern uint8_t pin_in4_long_press;
 
+
+
 extern uint8_t push_count1;
 extern uint8_t push_count2;
 extern uint8_t push_count3;
@@ -49,5 +51,6 @@ void nrf_gpiote(void);
 void timer_remote_butts_init(void);
 void flag_analize(void);
 void reset_long_press_flags(void);
+void reset_release_flags(void);
 
 #endif

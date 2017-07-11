@@ -74,6 +74,13 @@ void reset_release_flags4()
 	pin_in3_is_release = 0;
 }
 
+void reset_release_flags()
+{
+	pin_in1_is_release= 0;
+	pin_in2_is_release= 0;
+	pin_in3_is_release = 0;
+	pin_in4_is_release = 0;
+}
 
 void flag_analize(void)
 {
@@ -108,7 +115,9 @@ void timer_2s_handler(void *p_context)
 
 
 				remote_mode = CORR_SETUP_MODE;
+				reset_release_flags();
 				buttons_handle_setup();
+				
 			
 	
 	
@@ -192,7 +201,7 @@ void in_pin_handler2(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 				pin_in2_is_release++;
 			//	rgb_set(0, 50, 0, 0);
 			}
-			reset_long_press_flags();
+			//reset_long_press_flags();
 			button_event = 1;
 			buttons_handle();
 			buttons_handle_setup();
@@ -223,7 +232,7 @@ void in_pin_handler3(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 				pin_in3_is_release++;
 			//	rgb_set(0, 0, 50, 0);
 			}
-			reset_long_press_flags();
+			//reset_long_press_flags();
 					button_event = 1;
 			buttons_handle();
 			buttons_handle_setup();
