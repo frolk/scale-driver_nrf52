@@ -36,7 +36,7 @@
 #include "fds.h"
 #include "flash_storage.h"
 #include "remote_work.h"
-
+#include "scale_setup.h"
 #include "app_pwm.h"
 
 
@@ -118,7 +118,7 @@ static void m_clock_timer_handler (void *p_context)
 {
 	clock_counter++;
 	//SEGGER_RTT_printf(0, "%d, %d\r\n", life_counter, clock_counter);
-	SEGGER_RTT_printf(0, "%d, %d, %d\r\n", adc_value, life_counter, power_down_count);
+	SEGGER_RTT_printf(0, "%d\r\n", adc_value);
 	if(clock_counter >= 1)
 	{
 			clock_value_save();
@@ -876,6 +876,9 @@ void gpio_init()
 
 
 
+
+
+
 int main(void)
 {
 	SEGGER_RTT_printf(0, "%s\n", "privet");
@@ -914,8 +917,8 @@ int main(void)
 			Weighing();
 			//SEGGER_RTT_printf(0, "%d\n", adc_value);
 			//nrf_delay_ms(500);
-		
 			
+				cor_auto_handle();
         if (NRF_LOG_PROCESS() == false)
         {
             power_manage();

@@ -172,9 +172,9 @@ void timer_05s_handler(void *p_context)
 	}
 	else
 	{
-		//SEGGER_RTT_printf(0, "delay = %d\r\n", short_delay);
-		remote_mode = CALL_MODE;
 		
+		remote_mode = CALL_MODE;
+		SEGGER_RTT_printf(0, "call mode\r\n");
 	}
 }
 
