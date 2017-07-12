@@ -130,11 +130,28 @@ void timer_2s_handler(void *p_context)
 void timer_02s_handler(void *p_context)
 {
 	SEGGER_RTT_printf(0, "02 handler\r\n");
-	if(fast_correct1)
+	if(pin_in1_long_press)
 	{
-		corr_1_1++;
-		correct_value(corr_1_1);
+		switch(corr_mode_button)
+			{
+				case CORR_MODE_1_1:
+					corr_1_1++;
+					correct_value(corr_1_1);
+				break;
+					
+				case CORR_MODE_1_2:
+					corr_1_2++;
+					correct_value(corr_1_2);
+				break;
+				
+			}
+		
 	}
+	else if (pin_in2_long_press)
+		{
+			
+		}
+	
 }
 
 
@@ -148,8 +165,6 @@ void timer_05s_handler(void *p_context)
 	else
 	{
 		SEGGER_RTT_printf(0, "short_delay = %d\r\n", short_delay);
-		fast_correct1 = 1;
-		
 	}
 }
 
@@ -195,7 +210,7 @@ void in_pin_handler1(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			if(!pin_in1_long_press)
 			{
 				pin_in1_is_release++;
-				SEGGER_RTT_printf(0, "pin 1 is release, corr_1_1 = %d\r\n", corr_1_1);
+				SEGGER_RTT_printf(0, "pin 1 is release, corr_mode_button = %d\r\n", corr_mode_button);
 			}
 			reset_long_press_flags();
 			button_event = 1;	  

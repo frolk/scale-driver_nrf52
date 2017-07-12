@@ -18,6 +18,6 @@
 
 void buttons_handle_setup(void);
 extern uint8_t fast_correct1;
-
+extern uint8_t corr_mode_button;
 
 #endif //
