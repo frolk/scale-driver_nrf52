@@ -13,7 +13,6 @@ void change_but_level(uint32_t* value)
 						correct(0,0,0);
 						correct_value(*value);
 						rgb_set(50, 0, 0, 1, 1000);
-						SEGGER_RTT_printf(0, "1 - %d plus kg mode\r\n", *value);
 					}
 					else if (1000 < *value && *value <= 2000) // minus correct
 					{
@@ -21,7 +20,10 @@ void change_but_level(uint32_t* value)
 						correct(0,0,0);
 						correct_value(*value);
 						rgb_set(0, 50, 0, 1, 1000);
-						SEGGER_RTT_printf(0, "2 - %d, percent mode\r\n", *value);
+//						SEGGER_RTT_printf(0, "2 - %d, percent mode\r\n", *value);
+//						SEGGER_RTT_printf(0, "corr_1_1 - %d \r\n", corr_1_1);
+//						SEGGER_RTT_printf(0, "corr_1_2 - %d \r\n", corr_1_2);
+//						SEGGER_RTT_printf(0, "corr_1_3 - %d \r\n", corr_1_3);
 					}
 					else if (2000 < *value && *value <= 3000)  // percent correct
 					{
@@ -29,7 +31,7 @@ void change_but_level(uint32_t* value)
 						correct(0,0,0);
 						correct_value(*value);
 						rgb_set(0, 0, 50, 1, 1000);
-						SEGGER_RTT_printf(0, "3 - %d, minus kg mode\r\n", *value);					}
+					}
 }
 
 
@@ -91,26 +93,27 @@ void buttons_handle_setup(void)
 					
 					 case CORR_MODE_1_1:
 					
-							if(pin_in1_is_release)
+							if(pin_in1_is_release) // change correct value by one
 							{
 								corr_1_1++;
 								correct_value(corr_1_1);
 								rgb_set(50, 0, 0, 1, 500);
 							}
-							else if (pin_in1_long_press)
+							else if (pin_in1_long_press) // fast correct mode
 							{
 								start_timer_02s(); // fast correct way
 							}
 							
-							if(pin_in2_is_release)
+							if(pin_in2_is_release)  //switch correct mode (minus, plus or percent)
 							{
 									change_but_level(&corr_1_1);
 							}
 							
-							if(pin_in3_is_release)
+							if(pin_in3_is_release)  //switch button
 							{
+								  correct(0,0,0);
 									corr_mode_button = CORR_MODE_1_2;
-									rgb_set(50, 0, 0, 2, 2000);
+									rgb_set(0, 50, 0, 2, 2000);
 									correct_value(corr_1_2);
 							}
 												
@@ -123,8 +126,8 @@ void buttons_handle_setup(void)
 							{
 								corr_1_2++;
 								correct_value(corr_1_2);
-								SEGGER_RTT_printf(0, "correct 1_2 \r\n");
-								rgb_set(50, 0, 0, 1, 500);
+								SEGGER_RTT_printf(0, "corr_1_2 - %d \r\n", corr_1_2);
+								rgb_set(0, 50, 0, 1, 500);
 							}
 							else if (pin_in1_long_press)
 							{
@@ -139,16 +142,41 @@ void buttons_handle_setup(void)
 							if(pin_in3_is_release)
 							{
 									corr_mode_button = CORR_MODE_1_3;
-									rgb_set(50, 0, 0, 3, 2000);
-									correct_value(corr_1_2);
+									rgb_set(0, 0, 50, 3, 2000);
+									correct_value(corr_1_3);
 							}
 												
 							break;
 							
 							
+						case CORR_MODE_1_3:
+					 
+						
+							if(pin_in1_is_release)
+							{
+								corr_1_3++;
+								correct_value(corr_1_3);
+								SEGGER_RTT_printf(0, "correct 1_3 \r\n");
+								rgb_set(0, 0, 50, 1, 500);
+							}
+							else if (pin_in1_long_press)
+							{
+								start_timer_02s(); // fast correct way
+							}
 							
+							if(pin_in2_is_release)
+							{
+									change_but_level(&corr_1_3);
+							}
 							
-							
+							if(pin_in3_is_release)
+							{
+									corr_mode_button = CORR_MODE_1_1;
+									rgb_set(50, 0, 0, 3, 2000);
+									correct_value(corr_1_1);
+							}
+											
+						break;
 							
 				}
 				
@@ -156,6 +184,7 @@ void buttons_handle_setup(void)
 				{
 					rgb_set(50, 50, 50, 0, 0);
 					correct(0, 0, 0);
+					init_corr_values();
 					remote_mode = WORK_MODE;
 					corr_mode_button = 0;
 				}

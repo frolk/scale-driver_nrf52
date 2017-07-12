@@ -30,21 +30,27 @@ void buttons_handle(void)
 			switch(pin_in1_is_release)
 			{
 				case 1:
-					rgb_set(50, 0, 0, 1, 500);
+					rgb_set(50, 0, 0, 1, 5000);
 					correct_value(corr_1_1);
-					SEGGER_RTT_printf(0, "pin_in1_is_release = %d,corr_1_1 = %d\r\n", pin_in1_is_release, corr_1_1);
+					SEGGER_RTT_printf(0, "pin_in1_is_release = %d\r\n", pin_in1_is_release);
+				
+					SEGGER_RTT_printf(0, "corr_1_1 = %d\r\n", corr_1_1);
 				break;
 
 				case 2:
-					rgb_set(50, 0, 0, 2, 500);
+					correct(0,0,0);
+					rgb_set(50, 0, 0, 2, 5000);
 					correct_value(corr_1_2);
-					SEGGER_RTT_printf(0, "pin_in1_is_release = %d,corr_1_2 = %d\r\n", pin_in1_is_release, corr_1_2);
+					SEGGER_RTT_printf(0, "pin_in1_is_release = %d\r\n", pin_in1_is_release);
+					SEGGER_RTT_printf(0, "corr_1_2 = %d\r\n", corr_1_2);
 				break;
 				
 				case 3:
-					rgb_set(50, 0, 0, 3, 500);
+					correct(0,0,0);
+					rgb_set(50, 0, 0, 3, 5000);
 					correct_value(corr_1_3);
-					SEGGER_RTT_printf(0, "pin_in1_is_release = %d,corr_1_3 = %d\r\n", pin_in1_is_release, corr_1_3);
+					SEGGER_RTT_printf(0, "pin_in1_is_release = %d\r\n", pin_in1_is_release);
+					SEGGER_RTT_printf(0, "corr_1_3 = %d\r\n", corr_1_2);
 				break;
 			}
 		}

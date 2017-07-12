@@ -75,21 +75,21 @@ void correct(uint32_t value, uint32_t value1, uint32_t value2)
 	
 void corr_plus(uint32_t value)
 {
-	SEGGER_RTT_printf(0, "value in corr_plus = %d\r\n", value);
+	SEGGER_RTT_printf(0, "plus %d\r\n", value);
 	seq_value.channel_0 = TOP_VALUE - value;
 	update_seq();
 }
 
 void corr_minus(uint32_t value)
 {
-	SEGGER_RTT_printf(0, "value in corr_minus = %d\r\n", value);
+	SEGGER_RTT_printf(0, "min %d\r\n", value);
 	seq_value.channel_1 = TOP_VALUE - value;
 	update_seq();
 }
 
 void corr_perc(uint32_t value)
 {
-	SEGGER_RTT_printf(0, "value in percent = %d\r\n", value);
+	SEGGER_RTT_printf(0, "perc %d\r\n", value);
 	seq_value.channel_2 = TOP_VALUE - value;
 	update_seq();
 }
@@ -103,6 +103,7 @@ void correct_value(uint32_t value)
 		//correct(0, value, 0); 
 		corr_minus(value);
 		corr_plus(0);
+		corr_perc(0);
 	}
 	else if (1000 < value && value <= 2000) // minus correct
 	{
@@ -110,6 +111,8 @@ void correct_value(uint32_t value)
 		//SEGGER_RTT_printf(0, "value in correct_value = %d\r\n", value);
 	  corr_plus(value); 
 		corr_minus(0);
+		corr_perc(0);
+		
 	}
 	else if (2000 < value && value <= 3000)  // percent correct
 	{
