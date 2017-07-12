@@ -195,6 +195,7 @@ void in_pin_handler1(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			if(!pin_in1_long_press)
 			{
 				pin_in1_is_release++;
+				SEGGER_RTT_printf(0, "pin 1 is release, corr_1_1 = %d\r\n", corr_1_1);
 			}
 			reset_long_press_flags();
 			button_event = 1;	  

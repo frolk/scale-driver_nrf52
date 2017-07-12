@@ -75,7 +75,7 @@ void correct(uint32_t value, uint32_t value1, uint32_t value2)
 	
 void corr_plus(uint32_t value)
 {
-	//SEGGER_RTT_printf(0, "value = %d\r\n", value);
+	SEGGER_RTT_printf(0, "value in corr_plus = %d\r\n", value);
 	seq_value.channel_0 = TOP_VALUE - value;
 	update_seq();
 }
@@ -89,7 +89,7 @@ void corr_minus(uint32_t value)
 
 void corr_perc(uint32_t value)
 {
-	SEGGER_RTT_printf(0, "value = %d\r\n", value);
+	SEGGER_RTT_printf(0, "value in percent = %d\r\n", value);
 	seq_value.channel_2 = TOP_VALUE - value;
 	update_seq();
 }

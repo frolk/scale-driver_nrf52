@@ -4,6 +4,37 @@ uint8_t corr_mode_button = 0;
 uint8_t fast_correct1 = 0;
 
 
+void change_but_level(uint32_t* value)
+
+{
+				//uint32_t corr = *value;
+				if(0 < *value && *value <= 1000) // plus correct
+					{
+						*value = 1200;
+						correct(0,0,0);
+						correct_value(*value);
+						rgb_set(50, 0, 0, 1, 1000);
+						SEGGER_RTT_printf(0, "1 - %d plus kg mode\r\n", corr_1_1);
+					}
+					else if (1000 < *value && *value <= 2000) // minus correct
+					{
+						*value = 2200;
+						correct(0,0,0);
+						correct_value(*value);
+						rgb_set(0, 50, 0, 1, 1000);
+						SEGGER_RTT_printf(0, "2 - %d, percent mode\r\n", corr_1_1);
+					}
+					else if (2000 < *value && *value <= 3000)  // percent correct
+					{
+						*value = 200;
+						correct(0,0,0);
+						correct_value(*value);
+						rgb_set(0, 0, 50, 1, 1000);
+						SEGGER_RTT_printf(0, "3 - %d, minus kg mode\r\n", corr_1_1);
+					}
+}
+
+
 void save_corr_values(void)
 {
 		fds_update_value(&corr_1_1, file_id, fds_rk_cor1);
@@ -77,21 +108,21 @@ void buttons_handle_setup(void)
 								
 									if(short_delay)
 									{
-										start_timer_02s(); // быстрая корректировка
+												start_timer_02s(); // fast correct way
 									}
 									else
-									{
-										corr_mode_button = CORR_MODE_1_2;
-										rgb_set(50, 0, 0, 2, 3000);
-										correct_value(corr_1_2);
-									}
-							}
+												{
+													corr_mode_button = CORR_MODE_1_2;
+													rgb_set(50, 0, 0, 2, 3000);
+													correct_value(corr_1_2);
+												}
+								}
 							
 							if(pin_in2_is_release)
 							{
-								corr_1_1 = 1200;
+									change_but_level(&corr_1_1);
+								
 							}
-							
 							
 							
 							break;
@@ -147,3 +178,4 @@ void buttons_handle_setup(void)
 			}
 		button_event = 0;
 }
+	
