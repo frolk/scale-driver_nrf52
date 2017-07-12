@@ -32,6 +32,7 @@ uint8_t push_count4 = 0;
 uint8_t short_delay = 0;
 
 
+
 uint8_t remote_mode = WORK_MODE;
 
 void reset_long_press_flags(void)
@@ -102,23 +103,26 @@ void timer_2s_handler(void *p_context)
 	if(pin_in1_is_set == 1)
 	{
 		pin_in1_long_press = 1;
+		remote_mode = CORR_SETUP_MODE;
 		
 	}
 	else if (pin_in2_is_set == 1)
 	{
 		pin_in2_long_press = 1;
+		remote_mode = CORR_SETUP_MODE;
 	}
 	else if (pin_in3_is_set == 1)
 	{
 		pin_in3_long_press = 1;
+		remote_mode = CORR_SETUP_MODE;
 	}
 	else if (pin_in4_is_set == 1)
 	{
 		pin_in4_long_press = 1;
 	}
 
-
-				remote_mode = CORR_SETUP_MODE;
+        
+				
 				reset_release_flags();
 				buttons_handle_setup();
 				
@@ -161,14 +165,16 @@ void timer_02s_handler(void *p_context)
 
 void timer_05s_handler(void *p_context)
 {
-	if(!pin_in1_is_set)
+	if(!pin_in4_is_set)
 	{
 		short_delay = 0;
-		SEGGER_RTT_printf(0, "short_delay = %d\r\n", short_delay);
+		//SEGGER_RTT_printf(0, "delay = %d\r\n", short_delay);
 	}
 	else
 	{
-		SEGGER_RTT_printf(0, "short_delay = %d\r\n", short_delay);
+		//SEGGER_RTT_printf(0, "delay = %d\r\n", short_delay);
+		remote_mode = CALL_MODE;
+		
 	}
 }
 
@@ -220,6 +226,7 @@ void in_pin_handler1(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			buttons_handle();
 			buttons_handle_setup();
 			app_timer_stop(m_timer_remote02);
+			scale_setup();
 		}
 			
 }
@@ -244,6 +251,7 @@ void in_pin_handler2(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			button_event = 1;
 			buttons_handle();
 			buttons_handle_setup();
+			scale_setup();
 		}
 }
 
@@ -268,6 +276,7 @@ void in_pin_handler3(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			buttons_handle();
 			buttons_handle_setup();
 		}
+		scale_setup();
 }
 
 void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
@@ -286,10 +295,13 @@ void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			if(!pin_in4_long_press)
 			{
 				pin_in4_is_release++;
+				short_delay = 1;
+				start_timer_05s();
 			}
 			button_event = 1;
 			buttons_handle();
 			buttons_handle_setup();
+			scale_setup();
 		}
 		
 }

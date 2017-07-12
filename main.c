@@ -141,7 +141,7 @@ static void m_clock_timer_init(void)
 {
 	app_timer_init();
 	app_timer_create(&m_clock_id, APP_TIMER_MODE_REPEATED, m_clock_timer_handler); 
-	app_timer_start(m_clock_id, APP_TIMER_TICKS(500), NULL);
+	app_timer_start(m_clock_id, APP_TIMER_TICKS(200), NULL);
 }
 
 
@@ -911,8 +911,8 @@ int main(void)
     // Enter main loop.
     for (;;)
     {
-		//	Weighing();
-		//	SEGGER_RTT_printf(0, "%d\n", adc_value);
+			Weighing();
+			//SEGGER_RTT_printf(0, "%d\n", adc_value);
 			//nrf_delay_ms(500);
 		
 			

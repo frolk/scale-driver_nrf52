@@ -79,9 +79,9 @@ void buttons_handle_setup(void)
 								}
 							if (pin_in4_long_press)
 								{
-									SEGGER_RTT_printf(0,"save values\r\n");
+									//SEGGER_RTT_printf(0,"save values\r\n");
 									rgb_set(50, 50, 50, 0, 0);
-									save_corr_values();
+									//save_corr_values();
 									remote_mode = WORK_MODE;
 									corr_mode_button = 0;
 								}
@@ -191,7 +191,8 @@ void buttons_handle_setup(void)
 				
 				if (pin_in4_long_press)
 						{
-							SEGGER_RTT_printf(0,"save values\r\n");
+							SEGGER_RTT_printf(0,"save\r\n");
+							SEGGER_RTT_printf(0,"rem_mode %d\r\n", remote_mode);
 							rgb_set(50, 50, 50, 0, 0);
 							save_corr_values();
 							remote_mode = WORK_MODE;
@@ -200,7 +201,7 @@ void buttons_handle_setup(void)
 						}
 				
 				
-			}
+	}
 		button_event = 0;
 }
 	

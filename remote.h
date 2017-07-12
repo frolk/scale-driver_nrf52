@@ -9,6 +9,7 @@
 #include "app_timer.h"
 #include "remote_work.h"
 #include "remote_setup.h"
+#include "scale_setup.h"
 
 #define PIN_IN_1 12
 #define PIN_IN_2 13

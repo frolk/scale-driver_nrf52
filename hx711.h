@@ -18,7 +18,7 @@
 extern uint32_t adc_value;
 extern char buffer[24];
 static uint8_t adc_ready;
-
+extern uint8_t adc_value_ready;
 
 void HX711_init(void);
 uint32_t Weighing(void);
