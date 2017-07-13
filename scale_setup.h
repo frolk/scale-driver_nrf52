@@ -6,9 +6,13 @@
 #include "remote.h"
 
 
+#define AVERAGE_ADC_TIMES 20
+
+
 extern uint32_t cal_zero_value;
 extern uint32_t cal_load_value;
 extern uint32_t cal_turn_on;
+extern uint8_t start_average_adc;
 
 void init_cal_values(void);
 
@@ -17,6 +21,7 @@ void cal_load(void);
 void scale_setup(void);
 void define_corr_on(void);
 void save_call_data(void);
+void find_average_adc(void);
 
 
 

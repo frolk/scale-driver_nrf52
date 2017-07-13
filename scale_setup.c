@@ -5,10 +5,61 @@ uint32_t cal_load_value = 0;
 uint32_t cal_turn_on = 0;
 uint8_t first_entry = 1;
 uint8_t entry_to_cal = 0;
+uint8_t start_average_adc = 0;
+uint8_t count_average_adc = 0;
+uint32_t average_adc = 0;
+
+
+void find_average_adc(void)
+{
+			  rgb_set(50,0,0,0,1000);
+				average_adc = average_adc + adc_value;
+				count_average_adc++;
+				SEGGER_RTT_printf(0, "%d\n\r", adc_value);
+				
+				
+				if(count_average_adc == AVERAGE_ADC_TIMES)
+						{
+							average_adc = average_adc/AVERAGE_ADC_TIMES;
+							
+							switch(start_average_adc)
+							{
+								case 1:
+									cal_zero_value = average_adc;
+								break;
+								
+								case 2:
+									cal_load_value = average_adc;
+								break;
+								
+								case 3:
+									cal_turn_on = average_adc;
+								break;
+								
+								}
+								count_average_adc = 0;
+								start_average_adc = 0;
+								average_adc = 0;
+								stop_timer_02s();
+								rgb_set(0,0,0,0,0);
+								SEGGER_RTT_printf(0, "============\n\r");
+								SEGGER_RTT_printf(0, "%d\n\r", cal_zero_value);
+								
+						}
+					
+				
+
+}
+
+
 
 void cal_unload(void)
 {
-	cal_zero_value = adc_value;
+	
+	start_average_adc = 1;
+	start_timer_02s();
+	
+	
 	SEGGER_RTT_printf(0, "zero - %d\n\r", cal_zero_value);
 }
 
@@ -36,6 +87,9 @@ void save_cal_data(void)
 }
 
 
+
+
+
 void scale_setup(void)
 	
 {
@@ -48,13 +102,15 @@ void scale_setup(void)
 				
 				if(pin_in1_is_release)
 					{
-						cal_unload();					
+						cal_unload();		
+						rgb_set(50, 0, 0, 1, 1000);
 						first_entry = 0;
 					}
 					
 				else if (pin_in2_is_release)	
 					{
 						cal_load();
+						rgb_set(0, 50, 0, 1, 1000);
 						first_entry = 0;
 						
 					}
@@ -62,6 +118,7 @@ void scale_setup(void)
 				else if (pin_in3_is_release)
 					{
 						define_corr_on();
+						rgb_set(0, 0, 50, 1, 1000);
 						first_entry = 0;
 					}
 					

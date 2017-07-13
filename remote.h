@@ -58,4 +58,5 @@ void reset_long_press_flags(void);
 void reset_release_flags(void);
 void start_timer_05s(void);
 void start_timer_02s(void);
+void stop_timer_02s(void);
 #endif

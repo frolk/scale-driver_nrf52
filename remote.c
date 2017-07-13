@@ -163,6 +163,11 @@ void timer_02s_handler(void *p_context)
 			
 		}
 		
+		else if (start_average_adc)
+		{
+			find_average_adc();
+		}
+		
 	 
 		
 		
@@ -203,10 +208,18 @@ void start_timer_02s(void)
 	app_timer_start(m_timer_remote02, APP_TIMER_TICKS(100), NULL);
 }
 
+void stop_timer_02s(void)
+{
+	app_timer_stop(m_timer_remote02);
+}
+
+
 void start_timer_05s(void)
 {
 	app_timer_start(m_timer_remote05, APP_TIMER_TICKS(500), NULL);
 }
+
+
 
 void in_pin_handler1(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
