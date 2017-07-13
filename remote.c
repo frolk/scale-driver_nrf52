@@ -104,25 +104,28 @@ void timer_2s_handler(void *p_context)
 	{
 		pin_in1_long_press = 1;
 		remote_mode = CORR_SETUP_MODE;
+		SEGGER_RTT_printf(0, "long 1\n\r");
 		
 	}
 	else if (pin_in2_is_set == 1)
 	{
 		pin_in2_long_press = 1;
 		remote_mode = CORR_SETUP_MODE;
+		SEGGER_RTT_printf(0, "long 2\n\r");
 	}
 	else if (pin_in3_is_set == 1)
 	{
 		pin_in3_long_press = 1;
 		remote_mode = CORR_SETUP_MODE;
+		SEGGER_RTT_printf(0, "long 3\n\r");
 	}
 	else if (pin_in4_is_set == 1)
 	{
 		pin_in4_long_press = 1;
+		SEGGER_RTT_printf(0, "long 4\n\r");
+		scale_setup();
 	}
 
-        
-				
 				reset_release_flags();
 				buttons_handle_setup();
 				
@@ -159,6 +162,10 @@ void timer_02s_handler(void *p_context)
 		{
 			
 		}
+		
+	 
+		
+		
 	
 }
 
@@ -167,14 +174,13 @@ void timer_05s_handler(void *p_context)
 {
 	if(!pin_in4_is_set)
 	{
-		short_delay = 0;
-		//SEGGER_RTT_printf(0, "delay = %d\r\n", short_delay);
+		//short_delay = 0;
+		SEGGER_RTT_printf(0, "delay = %d\r\n", short_delay);
 	}
 	else
 	{
-		
-		remote_mode = CALL_MODE;
-		SEGGER_RTT_printf(0, "call mode\r\n");
+		short_delay = 1;
+		SEGGER_RTT_printf(0, "delay = %d\r\n", short_delay);
 	}
 }
 
@@ -294,14 +300,15 @@ void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			pin_in4_is_set = 0;
 			if(!pin_in4_long_press)
 			{
+				
 				pin_in4_is_release++;
-				short_delay = 1;
 				start_timer_05s();
+				scale_setup();
 			}
 			button_event = 1;
 			buttons_handle();
 			buttons_handle_setup();
-			scale_setup();
+			
 		}
 		
 }

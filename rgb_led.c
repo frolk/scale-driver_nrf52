@@ -60,8 +60,8 @@ void rgb_set(uint16_t red_value, uint16_t green_value, uint16_t blue_value, uint
 	
 	if(times > 0)
 	{
-	seq_rgb.repeats = delay_time;
-	nrf_drv_pwm_simple_playback(&m_pwm_rgb, &seq_rgb, (uint16_t)times, NRF_DRV_PWM_FLAG_STOP);
+		seq_rgb.repeats = delay_time;
+		nrf_drv_pwm_simple_playback(&m_pwm_rgb, &seq_rgb, (uint16_t)times, NRF_DRV_PWM_FLAG_STOP);	
 	}
 	else
 	{

@@ -4,6 +4,7 @@ uint32_t cal_zero_value = 0;
 uint32_t cal_load_value = 0;
 uint32_t cal_turn_on = 0;
 uint8_t first_entry = 1;
+uint8_t entry_to_cal = 0;
 
 void cal_unload(void)
 {
@@ -38,7 +39,11 @@ void save_cal_data(void)
 void scale_setup(void)
 	
 {
-	  if(remote_mode == CALL_MODE)
+		
+
+	
+	
+	  if((remote_mode == CALL_MODE) && !short_delay)
 		{
 				
 				if(pin_in1_is_release)
@@ -68,6 +73,7 @@ void scale_setup(void)
 								remote_mode = WORK_MODE;
 								init_cal_value();
 								rgb_set(50, 50, 50, 2, 1000);
+								first_entry = 0;
 							}
 							
 						}
@@ -76,6 +82,7 @@ void scale_setup(void)
 						{
 								if(!first_entry)
 							{
+								first_entry = 0;
 								remote_mode = WORK_MODE;
 								init_cal_value();
 								rgb_set(50, 50, 50, 5, 1000);
@@ -84,8 +91,31 @@ void scale_setup(void)
 							
 							// save data to flash
 						}
+						
+			
+			
 				
 		}
+		
+		
+		if(remote_mode == WORK_MODE)
+				{
+					 //SEGGER_RTT_printf(0, "I entry\r\n");
+					if(short_delay && pin_in4_long_press)
+					
+						{
+							rgb_set(50,0,0,1,1000);
+							nrf_delay_ms(200);
+							rgb_set(0,50,0,1,1000);
+							nrf_delay_ms(200);
+							rgb_set(0,0,50,1,1000);
+							remote_mode = CALL_MODE;
+							SEGGER_RTT_printf(0, "call mode\r\n");
+							short_delay = 0;
+							
+
+						}
+				}						
 		
 		
 		

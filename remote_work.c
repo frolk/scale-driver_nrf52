@@ -5,6 +5,7 @@ uint32_t cor_value_auto = 0;
 uint8_t correct_mode = COR_AUTO;
 uint8_t cor_set = 0;
 
+
 void init_corr_values(void)
 {
 	fds_get_data(&corr_1_1, file_id, fds_rk_cor1);
@@ -21,7 +22,7 @@ void init_corr_values(void)
 void cor_auto_handle(void)
 
 {
-	if((remote_mode == WORK_MODE)&&(cal_turn_on > 0))
+	if((remote_mode == WORK_MODE)&&(cal_turn_on > 0)&&(cor_value_auto))
 	{
 		if((adc_value > cal_turn_on) && (!cor_set))
 		{
@@ -113,10 +114,13 @@ void buttons_handle(void)
 				break;
 			}
 		}
-		if (pin_in4_is_release)
+		if (pin_in4_is_release )
 		{
 			rgb_set(50, 50, 50, 1, 500);
 			correct(0, 0, 0);
+			cor_value_auto = 0;
+			
+			
 		}
 		if(pin_in1_long_press)
 		{
@@ -130,9 +134,10 @@ void buttons_handle(void)
 		{
 			rgb_set(0, 0, 50, 0, 500);
 		}
-		if (pin_in4_long_press)
+		if (pin_in4_long_press && !short_delay)
 		{
 			rgb_set(50, 50, 50, 0, 500);
+			SEGGER_RTT_printf(0, "Im here\n\r");
 		}
 	
 
