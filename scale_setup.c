@@ -8,32 +8,87 @@ uint8_t entry_to_cal = 0;
 uint8_t start_average_adc = 0;
 uint8_t count_average_adc = 0;
 uint32_t average_adc = 0;
+uint32_t adc_array[AVERAGE_ADC_TIMES];
+
+
+void sort_array(uint32_t* array, uint8_t size)
+{
+	for(int i = size-1; i>=0; i--)
+		{
+			for (int j=0; j<i; j++)
+				{
+					if(array[j] > array[j+1])
+						{
+							uint32_t tmp = array[j];
+							array[j] = array[j+1];
+							array[j+1] = tmp;
+							//nrf_delay_ms(100);
+						}
+				}
+		}
+}
+
+
+void find_average_in_array(uint32_t* array, uint8_t size)
+		{
+				uint8_t start_id = NUM_EXCEED_MEMBERS/2;
+				uint8_t end_id = size - start_id;
+				uint32_t average_adc_arr = 0;
+			
+				for(uint8_t i = start_id; i < end_id; i++)
+					{
+						
+						average_adc = average_adc + adc_value;
+					//	SEGGER_RTT_printf(0, "arr[%d] %d\n\r",i, array[i]);
+					//	nrf_delay_ms(100);
+						
+					}
+					
+					average_adc = average_adc/(size - NUM_EXCEED_MEMBERS);
+					
+		}
+
+
+void print_array(uint32_t* array, uint8_t size)
+	{
+		for(int i = 0; i<size; i++)
+			{
+					SEGGER_RTT_printf(0, "arr[%d] %d\n\r",i, array[i]);
+					nrf_delay_ms(100);
+			}
+	}
 
 
 void find_average_adc(void)
 {
 			  rgb_set(50,0,0,0,1000);
-				average_adc = average_adc + adc_value;
+				adc_array[count_average_adc] = adc_value;
 				count_average_adc++;
-				SEGGER_RTT_printf(0, "%d\n\r", adc_value);
 				
 				
+	
+	
 				if(count_average_adc == AVERAGE_ADC_TIMES)
 						{
-							average_adc = average_adc/AVERAGE_ADC_TIMES;
+							
+							sort_array(adc_array, AVERAGE_ADC_TIMES);
+							find_average_in_array(adc_array, AVERAGE_ADC_TIMES);
 							
 							switch(start_average_adc)
 							{
 								case 1:
 									cal_zero_value = average_adc;
+									SEGGER_RTT_printf(0, "zero - %d\n\r", cal_zero_value);
 								break;
 								
 								case 2:
 									cal_load_value = average_adc;
+									SEGGER_RTT_printf(0, "load - %d\n\r", cal_load_value);
 								break;
 								
 								case 3:
 									cal_turn_on = average_adc;
+									SEGGER_RTT_printf(0, "turn_on - %d\n\r", cal_turn_on);
 								break;
 								
 								}
@@ -41,9 +96,20 @@ void find_average_adc(void)
 								start_average_adc = 0;
 								average_adc = 0;
 								stop_timer_02s();
+								
+								
 								rgb_set(0,0,0,0,0);
-								SEGGER_RTT_printf(0, "============\n\r");
-								SEGGER_RTT_printf(0, "%d\n\r", cal_zero_value);
+								
+								//SEGGER_RTT_printf(0, "============\n\r");
+								//SEGGER_RTT_printf(0, "%d\n\r", cal_zero_value);
+								
+							//	print_array(adc_array, AVERAGE_ADC_TIMES);
+								//SEGGER_RTT_printf(0, "============\n\r");
+								
+								//print_array(adc_array, AVERAGE_ADC_TIMES);
+								//SEGGER_RTT_printf(0, "============\n\r");
+								
+								
 								
 						}
 					
@@ -59,20 +125,20 @@ void cal_unload(void)
 	start_average_adc = 1;
 	start_timer_02s();
 	
-	
-	SEGGER_RTT_printf(0, "zero - %d\n\r", cal_zero_value);
 }
 
 void cal_load(void)
 {
-	cal_load_value = adc_value;
-	SEGGER_RTT_printf(0, "load - %d\n\r", cal_load_value);
+	start_average_adc = 2;
+	start_timer_02s();
+	
 }
 
 void define_corr_on(void)
 {
-	cal_turn_on = adc_value;
-	SEGGER_RTT_printf(0, "turn_on - %d\n\r", cal_turn_on);
+	start_average_adc = 3;
+	start_timer_02s();
+	
 }
 
 

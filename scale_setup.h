@@ -6,7 +6,8 @@
 #include "remote.h"
 
 
-#define AVERAGE_ADC_TIMES 20
+#define AVERAGE_ADC_TIMES 30
+#define NUM_EXCEED_MEMBERS 6
 
 
 extern uint32_t cal_zero_value;

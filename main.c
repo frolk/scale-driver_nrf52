@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "nordic_common.h"
 #include "nrf.h"
@@ -125,6 +126,9 @@ static void m_clock_timer_handler (void *p_context)
 	}
 	//SEGGER_RTT_printf(0, "clock_counter = %d\r\n", clock_counter);
 }
+
+
+
 
 void fds_get_init_data()
 {
