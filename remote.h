@@ -17,9 +17,10 @@
 #define PIN_IN_4 15
 
 #define WORK_MODE 					0
-#define CORR_SETUP_MODE 		1
+#define CORR_BUT_MODE 		1
 #define CALL_MODE 					2
 #define FEEDBACK_SET_MODE 	3
+#define CORR_SETUP_MODE	  	4  // auto correct setup
 
 extern uint8_t button_event;
 

@@ -103,20 +103,20 @@ void timer_2s_handler(void *p_context)
 	if(pin_in1_is_set == 1)
 	{
 		pin_in1_long_press = 1;
-		remote_mode = CORR_SETUP_MODE;
+		remote_mode = CORR_BUT_MODE;
 		SEGGER_RTT_printf(0, "long 1\n\r");
 		
 	}
 	else if (pin_in2_is_set == 1)
 	{
 		pin_in2_long_press = 1;
-		remote_mode = CORR_SETUP_MODE;
+		remote_mode = CORR_BUT_MODE;
 		SEGGER_RTT_printf(0, "long 2\n\r");
 	}
 	else if (pin_in3_is_set == 1)
 	{
 		pin_in3_long_press = 1;
-		remote_mode = CORR_SETUP_MODE;
+		remote_mode = CORR_BUT_MODE;
 		SEGGER_RTT_printf(0, "long 3\n\r");
 	}
 	else if (pin_in4_is_set == 1)

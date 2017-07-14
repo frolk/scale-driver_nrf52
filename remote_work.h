@@ -3,6 +3,9 @@
 
 #define COR_AUTO	 1
 #define COR_MANUAL 2
+#define COR_MODE
+
+
 
 #include "remote.h"
 

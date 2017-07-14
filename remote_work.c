@@ -2,8 +2,9 @@
 
 
 uint32_t cor_value_auto = 0;
-uint8_t correct_mode = COR_AUTO;
+uint8_t correct_mode = COR_MANUAL;
 uint8_t cor_set = 0;
+uint32_t current_correct = 0;
 
 
 void init_corr_values(void)
@@ -42,113 +43,92 @@ void cor_auto_handle(void)
 
 void buttons_handle(void)
 {
-	
-	
 	if(remote_mode == WORK_MODE)
 	{
-			
 		if (pin_in1_is_release)
 		{
 			switch(pin_in1_is_release)
 			{
 				case 1:
-					if(correct_mode == COR_AUTO)
-					{
 						rgb_set(50, 0, 0, 1, 500);
-						cor_value_auto = corr_1_1;
-						//correct_value(corr_1_1);
-					}
+						current_correct = corr_1_1;
 					
 				break;
 
 				case 2:
-					correct(0,0,0);
-					rgb_set(50, 0, 0, 2, 5000);
-					correct_value(corr_1_2);
+						rgb_set(50, 0, 0, 2, 500);
+						current_correct = corr_1_2;
 				break;
 				
 				case 3:
-					correct(0,0,0);
-					rgb_set(50, 0, 0, 3, 5000);
-					correct_value(corr_1_3);
+					rgb_set(50, 0, 0, 3, 500);
+					current_correct = corr_1_2;
+					pin_in1_is_release = 0;
 				break;
 			}
 		}
-		if (pin_in2_is_release)
+		
+		else if (pin_in2_is_release)
 		{
 			switch(pin_in2_is_release)
 			{
 				case 1:
-					rgb_set(50, 0, 0, 1, 500);
-					correct_value(corr_2_1);
+					rgb_set(0, 50, 0, 1, 500);
+					current_correct = corr_2_1;
 				break;
 
 				case 2:
-					rgb_set(50, 0, 0, 2, 500);
-					correct_value(corr_2_2);
+					rgb_set(0, 50, 0, 2, 500);
+					current_correct = corr_2_2;
 				break;
 				
 				case 3:
-					rgb_set(50, 0, 0, 3, 500);
-					correct_value(corr_2_3);
+					rgb_set(0, 50, 0, 3, 500);
+					current_correct = corr_2_3;
+					pin_in2_is_release = 0;
 				break;
 			}
 		}
-	if (pin_in3_is_release)
+	  else if (pin_in3_is_release)
 		{
 			switch(pin_in3_is_release)
 			{
 				case 1:
-					rgb_set(50, 0, 0, 1, 500);
-					correct_value(corr_3_1);
+					rgb_set(0, 0, 50, 1, 500);
+					current_correct = corr_3_1;
 				break;
 
 				case 2:
-					rgb_set(50, 0, 0, 2, 500);
-					correct_value(corr_3_2);
+					rgb_set(0, 0, 50, 2, 500);
+					current_correct = corr_3_2;
 				break;
 				
 				case 3:
-					rgb_set(50, 0, 0, 3, 500);
-					correct_value(corr_3_3);
+					rgb_set(0, 0, 50, 3, 500);
+					current_correct = corr_3_3;
+					pin_in3_is_release = 0;
 				break;
 			}
 		}
-		if (pin_in4_is_release )
+		else if (pin_in4_is_release )
 		{
 			rgb_set(50, 50, 50, 1, 500);
-			correct(0, 0, 0);
+			correct(0,0,0);
 			cor_value_auto = 0;
-			
-			
+			current_correct = 0;
 		}
-		if(pin_in1_long_press)
-		{
-			rgb_set(50, 0, 0, 0, 500);
-		}
-		if (pin_in2_long_press)
-		{
-			rgb_set(0, 50, 0, 0, 500);
-		}
-		if (pin_in3_long_press)
-		{
-			rgb_set(0, 0, 50, 0, 500);
-		}
-		if (pin_in4_long_press && !short_delay)
-		{
-			rgb_set(50, 50, 50, 0, 500);
-			SEGGER_RTT_printf(0, "Im here\n\r");
-		}
-	
-
-
-
-
-
-		//flag_analize();
 		
-		button_event = 0;
-		
+					
+		if(correct_mode == COR_MANUAL)
+			{
+					correct_value(current_correct);
+					SEGGER_RTT_printf(0, "manual %d\n\r", current_correct);
+			}
+			
+		else if (correct_mode == COR_AUTO)	
+			{
+					cor_value_auto = current_correct;
+					SEGGER_RTT_printf(0, "auto %d\n\r", cor_value_auto);	
+			}
 	}
-		
 }

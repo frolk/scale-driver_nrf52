@@ -32,7 +32,7 @@ void find_average_in_array(uint32_t* array, uint8_t size)
 {
 				uint8_t start_id = NUM_EXCEED_MEMBERS/2;
 				uint8_t end_id = size - start_id;
-				uint32_t average_adc_arr = 0;
+				//uint32_t average_adc_arr = 0;
 			
 				for(uint8_t i = start_id; i < end_id; i++)
 					{
@@ -140,11 +140,6 @@ void define_corr_on(void)
 }
 
 
-//void init_cal_value(void)
-//{
-//	// get cal data from flash
-//}
-
 void init_cal_values(void)
 {
 		fds_get_data(&cal_zero_value, file_id, fds_rk_cal_zero);
@@ -198,13 +193,26 @@ void scale_setup(void)
 							
 							// save data to flash
 						}
-						
-			
-			
-				
 		}
 		
 		
+	
+		else if (remote_mode == CORR_SETUP_MODE)
+		{
+					if(pin_in1_is_release)
+					{
+						
+					}
+					
+					else if (pin_in2_is_release)
+					{
+						
+					}
+					
+					
+					
+		}
+
 		if(remote_mode == WORK_MODE)
 				{
 					 //SEGGER_RTT_printf(0, "I entry\r\n");
@@ -222,6 +230,24 @@ void scale_setup(void)
 							
 
 						}
+						
+					else if (pin_in4_long_press)
+					{
+						//remote_mode = CORR_SETUP_MODE;
+						
+						SEGGER_RTT_printf(0, "COR_AUTO_MODE\r\n");
+						if(correct_mode == COR_MANUAL)
+							{
+								correct_mode = COR_AUTO;
+								rgb_set(0,50,0,1,5000);
+							}
+						else if (correct_mode == COR_AUTO)
+							{
+								rgb_set(50,0,0,1,5000);
+								correct_mode = COR_MANUAL;
+							}
+					}
+						
 				}						
 		
 		
