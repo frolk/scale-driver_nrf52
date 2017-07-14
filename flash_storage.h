@@ -15,6 +15,7 @@ extern uint16_t fds_rk_cor3;
 extern uint16_t fds_rk_is_init;
 extern uint16_t fds_rk_clock;
 extern uint16_t fds_rk_power_down;
+extern uint16_t fds_rk_cal_zero;
 
 extern uint32_t fds_is_values_init;
 extern uint32_t life_counter;

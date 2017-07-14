@@ -11,6 +11,7 @@ uint16_t fds_rk_init = 0x0001;
 uint16_t fds_rk_clock = 0x1111;
 uint16_t fds_rk_power_down= 0x2222;
 
+uint16_t fds_rk_cal_zero = 0x0050;
 
 uint16_t fds_rk_cor1 = 0x0010;
 
@@ -63,7 +64,10 @@ void fds_init_values(void)
 		fds_init_flash(&corr_3_2, file_id, fds_rk_cor1+7);
 		fds_init_flash(&corr_3_3, file_id, fds_rk_cor1+8);
 		
-
+		fds_init_flash(&cal_zero_value, file_id, fds_rk_cal_zero);
+		fds_init_flash(&cal_load_value, file_id, fds_rk_cal_zero+1);
+		fds_init_flash(&cal_turn_on, file_id, fds_rk_cal_zero+2);
+		
 		fds_init_flash(&life_counter, file_id, fds_rk_clock);
 		fds_init_flash(&power_down_count, file_id, fds_rk_power_down);
 		fds_is_values_init = 1;
@@ -178,28 +182,6 @@ ret_code_t fds_get_data(uint32_t* value, uint16_t file_id, uint16_t rec_key)
 
 
 
-//ret_code_t fds_test_find_and_delete (void)
-//{
-//	
-//		//fds_record_desc_t   record_desc;
-//		fds_find_token_t    ftok;
-//	
-//		ftok.page=0;
-//		ftok.p_addr=NULL;
-//		// Loop and find records with same ID and rec key and mark them as deleted. 
-//		while (fds_record_find(file_id, rec_key, &record_desc, &ftok) == FDS_SUCCESS)
-//		{
-//			fds_record_delete(&record_desc);
-//			SEGGER_RTT_printf(0,"Deleted record ID: %d \r\n",record_desc.record_id);
-//		}
-//		// call the garbage collector to empty them, don't need to do this all the time, this is just for demonstration
-//		ret_code_t ret = fds_gc();
-//		if (ret != FDS_SUCCESS)
-//		{
-//				return ret;
-//		}
-//		return NRF_SUCCESS;
-//}
 
 ret_code_t fds_clear(void)
 {
@@ -233,3 +215,27 @@ ret_code_t fds_test_init (void)
 		
 }
 
+
+
+//ret_code_t fds_test_find_and_delete (void)
+//{
+//	
+//		//fds_record_desc_t   record_desc;
+//		fds_find_token_t    ftok;
+//	
+//		ftok.page=0;
+//		ftok.p_addr=NULL;
+//		// Loop and find records with same ID and rec key and mark them as deleted. 
+//		while (fds_record_find(file_id, rec_key, &record_desc, &ftok) == FDS_SUCCESS)
+//		{
+//			fds_record_delete(&record_desc);
+//			SEGGER_RTT_printf(0,"Deleted record ID: %d \r\n",record_desc.record_id);
+//		}
+//		// call the garbage collector to empty them, don't need to do this all the time, this is just for demonstration
+//		ret_code_t ret = fds_gc();
+//		if (ret != FDS_SUCCESS)
+//		{
+//				return ret;
+//		}
+//		return NRF_SUCCESS;
+//}

@@ -177,12 +177,7 @@ void timer_02s_handler(void *p_context)
 
 void timer_05s_handler(void *p_context)
 {
-	if(!pin_in4_is_set)
-	{
-		//short_delay = 0;
-		SEGGER_RTT_printf(0, "delay = %d\r\n", short_delay);
-	}
-	else
+	if(pin_in4_is_set)
 	{
 		short_delay = 1;
 		SEGGER_RTT_printf(0, "delay = %d\r\n", short_delay);

@@ -424,6 +424,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\remote_setup.c</FilePath>
             </File>
+            <File>
+              <FileName>scale_setup.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\scale_setup.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3340,6 +3345,11 @@
               <FileName>remote_setup.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\remote_setup.c</FilePath>
+            </File>
+            <File>
+              <FileName>scale_setup.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\scale_setup.c</FilePath>
             </File>
           </Files>
         </Group>

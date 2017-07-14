@@ -137,6 +137,7 @@ void fds_get_init_data()
 	power_down_count++;
 	fds_update_value(&power_down_count, file_id, fds_rk_power_down);
   init_corr_values();
+	init_cal_values();
 
 		//APP_ERROR_CHECK(err_code);
 }

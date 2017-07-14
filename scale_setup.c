@@ -3,7 +3,6 @@
 uint32_t cal_zero_value = 0;
 uint32_t cal_load_value = 0;
 uint32_t cal_turn_on = 0;
-uint8_t first_entry = 1;
 uint8_t entry_to_cal = 0;
 uint8_t start_average_adc = 0;
 uint8_t count_average_adc = 0;
@@ -30,7 +29,7 @@ void sort_array(uint32_t* array, uint8_t size)
 
 
 void find_average_in_array(uint32_t* array, uint8_t size)
-		{
+{
 				uint8_t start_id = NUM_EXCEED_MEMBERS/2;
 				uint8_t end_id = size - start_id;
 				uint32_t average_adc_arr = 0;
@@ -50,7 +49,7 @@ void find_average_in_array(uint32_t* array, uint8_t size)
 
 
 void print_array(uint32_t* array, uint8_t size)
-	{
+{
 		for(int i = 0; i<size; i++)
 			{
 					SEGGER_RTT_printf(0, "arr[%d] %d\n\r",i, array[i]);
@@ -64,9 +63,6 @@ void find_average_adc(void)
 			  rgb_set(50,0,0,0,1000);
 				adc_array[count_average_adc] = adc_value;
 				count_average_adc++;
-				
-				
-	
 	
 				if(count_average_adc == AVERAGE_ADC_TIMES)
 						{
@@ -78,17 +74,21 @@ void find_average_adc(void)
 							{
 								case 1:
 									cal_zero_value = average_adc;
+									fds_update_value(&cal_zero_value, file_id, fds_rk_cal_zero);
 									SEGGER_RTT_printf(0, "zero - %d\n\r", cal_zero_value);
 								break;
 								
 								case 2:
 									cal_load_value = average_adc;
+									fds_update_value(&cal_load_value, file_id, fds_rk_cal_zero+1);
 									SEGGER_RTT_printf(0, "load - %d\n\r", cal_load_value);
 								break;
 								
 								case 3:
 									cal_turn_on = average_adc;
+									fds_update_value(&cal_turn_on, file_id, fds_rk_cal_zero+2);
 									SEGGER_RTT_printf(0, "turn_on - %d\n\r", cal_turn_on);
+								
 								break;
 								
 								}
@@ -108,8 +108,6 @@ void find_average_adc(void)
 								
 								//print_array(adc_array, AVERAGE_ADC_TIMES);
 								//SEGGER_RTT_printf(0, "============\n\r");
-								
-								
 								
 						}
 					
@@ -142,27 +140,22 @@ void define_corr_on(void)
 }
 
 
-void init_cal_value(void)
+//void init_cal_value(void)
+//{
+//	// get cal data from flash
+//}
+
+void init_cal_values(void)
 {
-	// get cal data from flash
+		fds_get_data(&cal_zero_value, file_id, fds_rk_cal_zero);
+		fds_get_data(&cal_load_value, file_id, fds_rk_cal_zero+1);
+		fds_get_data(&cal_turn_on, file_id, fds_rk_cal_zero+2);
+		
 }
-
-void save_cal_data(void)
-{
-	// save cal data
-}
-
-
-
 
 
 void scale_setup(void)
-	
 {
-		
-
-	
-	
 	  if((remote_mode == CALL_MODE) && !short_delay)
 		{
 				
@@ -170,14 +163,12 @@ void scale_setup(void)
 					{
 						cal_unload();		
 						rgb_set(50, 0, 0, 1, 1000);
-						first_entry = 0;
 					}
 					
 				else if (pin_in2_is_release)	
 					{
 						cal_load();
 						rgb_set(0, 50, 0, 1, 1000);
-						first_entry = 0;
 						
 					}
 				
@@ -185,31 +176,24 @@ void scale_setup(void)
 					{
 						define_corr_on();
 						rgb_set(0, 0, 50, 1, 1000);
-						first_entry = 0;
 					}
 					
 				else if (pin_in4_is_release)
 				
 						{
-							if(!first_entry)
-							{
 								remote_mode = WORK_MODE;
-								init_cal_value();
+								SEGGER_RTT_printf(0, "WORK MODE\n\r");
 								rgb_set(50, 50, 50, 2, 1000);
-								first_entry = 0;
-							}
-							
 						}
 					
 				else if (pin_in4_long_press)
 						{
-								if(!first_entry)
 							{
-								first_entry = 0;
-								remote_mode = WORK_MODE;
-								init_cal_value();
-								rgb_set(50, 50, 50, 5, 1000);
-								save_cal_data();	
+//								first_entry = 0;
+//								remote_mode = WORK_MODE;
+//								init_cal_value();
+//								rgb_set(50, 50, 50, 5, 1000);
+									SEGGER_RTT_printf(0, "FEEDBACK SET MODE\n\r");
 							}
 							
 							// save data to flash
@@ -233,7 +217,7 @@ void scale_setup(void)
 							nrf_delay_ms(200);
 							rgb_set(0,0,50,1,1000);
 							remote_mode = CALL_MODE;
-							SEGGER_RTT_printf(0, "call mode\r\n");
+							SEGGER_RTT_printf(0, "CAL MODE\r\n");
 							short_delay = 0;
 							
 

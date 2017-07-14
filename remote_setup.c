@@ -6,7 +6,6 @@ uint8_t corr_mode_button = 0;
 void change_but_level(uint32_t* value)
 
 {
-				uint32_t corr = *value;
 				if(0 < *value && *value <= 1000) // plus correct
 					{
 						*value = 1200;
