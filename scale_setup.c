@@ -9,7 +9,6 @@ uint8_t count_average_adc = 0;
 uint32_t average_adc = 0;
 uint32_t adc_array[AVERAGE_ADC_TIMES];
 
-
 void sort_array(uint32_t* array, uint8_t size)
 {
 	for(int i = size-1; i>=0; i--)
@@ -151,6 +150,15 @@ void init_cal_values(void)
 
 void scale_setup(void)
 {
+	
+	if(remote_mode != WORK_MODE && pin_in4_is_release)
+						{
+								remote_mode = WORK_MODE;
+								SEGGER_RTT_printf(0, "WORK MODE\n\r");
+								rgb_set(50, 50, 50, 2, 1000);
+						}
+
+	
 	  if((remote_mode == CALL_MODE) && !short_delay)
 		{
 				
@@ -173,22 +181,20 @@ void scale_setup(void)
 						rgb_set(0, 0, 50, 1, 1000);
 					}
 					
-				else if (pin_in4_is_release)
+					
 				
-						{
-								remote_mode = WORK_MODE;
-								SEGGER_RTT_printf(0, "WORK MODE\n\r");
-								rgb_set(50, 50, 50, 2, 1000);
-						}
+					
+			
 					
 				else if (pin_in4_long_press)
 						{
 							{
 //								first_entry = 0;
-//								remote_mode = WORK_MODE;
+									remote_mode = FEEDBACK_SET_MODE;
 //								init_cal_value();
-//								rgb_set(50, 50, 50, 5, 1000);
+								rgb_set(50, 0, 0, 1, 3000);
 									SEGGER_RTT_printf(0, "FEEDBACK SET MODE\n\r");
+									
 							}
 							
 							// save data to flash
@@ -197,7 +203,7 @@ void scale_setup(void)
 		
 		
 	
-		else if (remote_mode == CORR_SETUP_MODE)
+		else if (remote_mode == FEEDBACK_SET_MODE)
 		{
 					if(pin_in1_is_release)
 					{
@@ -209,11 +215,27 @@ void scale_setup(void)
 						
 					}
 					
+					else if (pin_in4_long_press)
 					
+					{
+						remote_mode = FACTORY_MODE;
+						rgb_set(0, 50, 0, 1, 3000);
+						SEGGER_RTT_printf(0, "FACTORY_MODE\r\n");
+					}
 					
 		}
+		
+		else if (remote_mode == FACTORY_MODE)
+				{
+					if(pin_in1_is_release)
+					{
+						fds_test_find_and_delete();
+						SEGGER_RTT_printf(0, "database is cleared\r\n");	
+					}
+					void return_to_work_mode();
+				}
 
-		if(remote_mode == WORK_MODE)
+		else if(remote_mode == WORK_MODE)
 				{
 					 //SEGGER_RTT_printf(0, "I entry\r\n");
 					if(short_delay && pin_in4_long_press)
@@ -247,9 +269,5 @@ void scale_setup(void)
 								correct_mode = COR_MANUAL;
 							}
 					}
-						
 				}						
-		
-		
-		
 }

@@ -5,13 +5,13 @@
 volatile uint8_t write_flag = 0;
 
 uint16_t file_id = 0x0000;
-uint16_t file_id_clk = 0x0001;
+uint16_t file_id_c = 0x0001;
 
-uint16_t fds_rk_init = 0x0001;
-uint16_t fds_rk_clock = 0x1111;
-uint16_t fds_rk_power_down= 0x2222;
+uint16_t fds_rk_init = 0x0003;
+uint16_t fds_rk_clock = 0x0001;
+uint16_t fds_rk_power_down= 0x0002;
 
-uint16_t fds_rk_cal_zero = 0x0050;
+uint16_t fds_rk_cal_zero = 0x0004;
 
 uint16_t fds_rk_cor1 = 0x0010;
 
@@ -68,9 +68,10 @@ void fds_init_values(void)
 		fds_init_flash(&cal_load_value, file_id, fds_rk_cal_zero+1);
 		fds_init_flash(&cal_turn_on, file_id, fds_rk_cal_zero+2);
 		
-		fds_init_flash(&life_counter, file_id, fds_rk_clock);
-		fds_init_flash(&power_down_count, file_id, fds_rk_power_down);
+		fds_init_flash(&life_counter, file_id_c, fds_rk_clock);
+		fds_init_flash(&power_down_count, file_id_c, fds_rk_power_down);
 		fds_is_values_init = 1;
+		
 		fds_init_flash(&fds_is_values_init, file_id, fds_rk_init);
 		
 	}
@@ -217,25 +218,24 @@ ret_code_t fds_test_init (void)
 
 
 
-//ret_code_t fds_test_find_and_delete (void)
-//{
-//	
-//		//fds_record_desc_t   record_desc;
-//		fds_find_token_t    ftok;
-//	
-//		ftok.page=0;
-//		ftok.p_addr=NULL;
-//		// Loop and find records with same ID and rec key and mark them as deleted. 
-//		while (fds_record_find(file_id, rec_key, &record_desc, &ftok) == FDS_SUCCESS)
-//		{
-//			fds_record_delete(&record_desc);
-//			SEGGER_RTT_printf(0,"Deleted record ID: %d \r\n",record_desc.record_id);
-//		}
-//		// call the garbage collector to empty them, don't need to do this all the time, this is just for demonstration
-//		ret_code_t ret = fds_gc();
-//		if (ret != FDS_SUCCESS)
-//		{
-//				return ret;
-//		}
-//		return NRF_SUCCESS;
-//}
+ret_code_t fds_test_find_and_delete (void)
+{
+	
+		fds_record_desc_t   record_desc;
+		fds_find_token_t    ftok ={0};;
+		ftok.page=0;
+		ftok.p_addr=NULL;
+		// Loop and find records with same ID and rec key and mark them as deleted. 
+	
+			for (uint16_t i = 0x0010; i < 0x0019; i++)
+				{
+						fds_record_find(file_id, i, &record_desc, &ftok);
+						fds_record_delete(&record_desc);
+						SEGGER_RTT_printf(0,"ID: %d \r\n",record_desc.record_id);
+						nrf_delay_ms(100);
+				}
+		
+		// call the garbage collector to empty them, don't need to do this all the time, this is just for demonstration
+			fds_gc();
+			return NRF_SUCCESS;
+}

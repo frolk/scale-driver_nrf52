@@ -21,6 +21,7 @@
 #define CALL_MODE 					2
 #define FEEDBACK_SET_MODE 	3
 #define CORR_SETUP_MODE	  	4  // auto correct setup
+#define FACTORY_MODE				5
 
 extern uint8_t button_event;
 

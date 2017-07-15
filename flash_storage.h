@@ -7,7 +7,7 @@
 #include "SEGGER_RTT.h"
 
 extern uint16_t file_id;
-extern uint16_t file_id_clk;
+extern uint16_t file_id_c;
 
 extern uint16_t fds_rk_cor1;
 extern uint16_t fds_rk_cor2;

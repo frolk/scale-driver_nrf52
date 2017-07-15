@@ -103,11 +103,9 @@ static nrf_ble_gatt_t m_gatt;
 
 void clock_value_save(void)
 {
-		uint32_t err_code;
 		life_counter+=1;
 		
-		err_code = fds_update_value(&life_counter, file_id, fds_rk_clock);
-		//APP_ERROR_CHECK(err_code);	
+		fds_update_value(&life_counter, file_id_c, fds_rk_clock);
 		clock_counter = 0;
 		if(life_counter%50 == 0)
 		{
@@ -132,10 +130,10 @@ static void m_clock_timer_handler (void *p_context)
 
 void fds_get_init_data()
 {
-	fds_get_data(&life_counter, file_id, fds_rk_clock);
-	fds_get_data(&power_down_count, file_id, fds_rk_power_down);
+	fds_get_data(&life_counter, file_id_c, fds_rk_clock);
+	fds_get_data(&power_down_count, file_id_c, fds_rk_power_down);
 	power_down_count++;
-	fds_update_value(&power_down_count, file_id, fds_rk_power_down);
+	fds_update_value(&power_down_count, file_id_c, fds_rk_power_down);
   init_corr_values();
 	init_cal_values();
 
