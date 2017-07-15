@@ -50,7 +50,7 @@ void save_corr_values(void)
 
 void buttons_handle_setup(void)
 {
-	if(remote_mode == CORR_SETUP_MODE)
+	if(remote_mode == CORR_BUT_MODE)
 	{
 			 switch (corr_mode_button)
 				{
@@ -184,8 +184,10 @@ void buttons_handle_setup(void)
 					rgb_set(50, 50, 50, 0, 0);
 					correct(0, 0, 0);
 					init_corr_values();
+					
 					remote_mode = WORK_MODE;
 					corr_mode_button = 0;
+					SEGGER_RTT_printf(0, "%d,%d\n\r", remote_mode, corr_mode_button);
 				}
 				
 				if (pin_in4_long_press)
@@ -201,6 +203,5 @@ void buttons_handle_setup(void)
 				
 				
 	}
-		button_event = 0;
 }
 	

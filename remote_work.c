@@ -62,7 +62,7 @@ void buttons_handle(void)
 				
 				case 3:
 					rgb_set(50, 0, 0, 3, 500);
-					current_correct = corr_1_2;
+					current_correct = corr_1_3;
 					pin_in1_is_release = 0;
 				break;
 			}

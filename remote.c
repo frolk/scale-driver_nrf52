@@ -312,7 +312,10 @@ void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 				pin_in4_is_release++;
 				start_timer_05s();
 				scale_setup();
+				stop_timer_02s();
+				
 			}
+			
 			button_event = 1;
 			buttons_handle();
 			buttons_handle_setup();
