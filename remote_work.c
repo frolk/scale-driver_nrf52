@@ -128,6 +128,12 @@ void buttons_handle(void)
 		else if (correct_mode == COR_AUTO)	
 			{
 					cor_value_auto = current_correct;
+					if(scale_feedback)
+						{
+								SEGGER_RTT_printf(0, "show correct a little - %d\n\r", cor_value_auto);	
+								correct_value(300);
+								start_timer_2s();
+						}
 					SEGGER_RTT_printf(0, "auto %d\n\r", cor_value_auto);	
 			}
 	}

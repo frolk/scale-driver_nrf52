@@ -4,6 +4,7 @@
 APP_TIMER_DEF(m_timer_remote);
 APP_TIMER_DEF(m_timer_remote02);
 APP_TIMER_DEF(m_timer_remote05);
+APP_TIMER_DEF(m_timer_adc);
 
 
 uint8_t button_event = 0;
@@ -30,6 +31,7 @@ uint8_t push_count3 = 0;
 uint8_t push_count4 = 0;
 
 uint8_t short_delay = 0;
+uint16_t correct_need = 1250;
 
 
 
@@ -129,7 +131,11 @@ void timer_2s_handler(void *p_context)
 				reset_release_flags();
 				buttons_handle_setup();
 				
-			
+	 if (correct_mode == COR_AUTO && scale_feedback)	
+	 {
+		//SEGGER_RTT_printf(0, "show correct off - %d\n\r", cor_value_auto);	
+		 correct(0,0,0);
+	 }
 	
 	
 }
@@ -158,7 +164,7 @@ void timer_02s_handler(void *p_context)
 			}
 		
 	}
-	else if (pin_in2_long_press)
+		else if (pin_in2_long_press)
 		{
 			
 		}
@@ -184,13 +190,37 @@ void timer_05s_handler(void *p_context)
 	}
 }
 
+void timer_adc_handler(void *p_context)
+{
+	if(adc_value <= adc_need)
+	{
+		correct_need++;
+		correct_value(correct_need);
+		SEGGER_RTT_printf(0, "cor = %d, adc = %d\r\n", correct_need, adc_value);
+	}
+	else 
+	{
+		
+		SEGGER_RTT_printf(0, "ok, cor = %d, adc = %d\r\n", correct_need, adc_value);
+		app_timer_stop(m_timer_adc);
+		correct_need = 0;
+		adc_need = 0;
+	}
+}
+
 void timer_remote_butts_init(void)
 {
 	app_timer_init();
 	app_timer_create(&m_timer_remote, APP_TIMER_MODE_SINGLE_SHOT, timer_2s_handler); 
 	app_timer_create(&m_timer_remote02, APP_TIMER_MODE_REPEATED, timer_02s_handler); 
 	app_timer_create(&m_timer_remote05, APP_TIMER_MODE_SINGLE_SHOT, timer_05s_handler); 
+	app_timer_create(&m_timer_adc, APP_TIMER_MODE_REPEATED, timer_adc_handler); 
 	
+}
+
+void start_timer_adc(void)
+{
+	app_timer_start(m_timer_adc, APP_TIMER_TICKS(200), NULL);
 }
 
 void start_timer_2s(void)

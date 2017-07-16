@@ -8,6 +8,22 @@ uint8_t start_average_adc = 0;
 uint8_t count_average_adc = 0;
 uint32_t average_adc = 0;
 uint32_t adc_array[AVERAGE_ADC_TIMES];
+uint8_t scale_feedback = 0;
+uint32_t cal_coef = 0;
+
+uint8_t scale_type = SCALE_600;
+
+uint32_t adc_need = 0;
+
+
+
+
+void set_weight(uint16_t weight_value)
+{
+	adc_need = weight_value*((cal_load_value - cal_zero_value)/20)+cal_zero_value; 
+	start_timer_adc();
+	SEGGER_RTT_printf(0, "adc_need = %d\r\n", adc_need);
+}
 
 void sort_array(uint32_t* array, uint8_t size)
 {
@@ -79,6 +95,11 @@ void find_average_adc(void)
 								
 								case 2:
 									cal_load_value = average_adc;
+									if((scale_type == SCALE_600) && cal_zero_value)
+										{
+											cal_coef = (cal_load_value - cal_zero_value)/20;
+											SEGGER_RTT_printf(0, "cal_coef - %d\n\r", cal_coef);
+										}
 									fds_update_value(&cal_load_value, file_id, fds_rk_cal_zero+1);
 									SEGGER_RTT_printf(0, "load - %d\n\r", cal_load_value);
 								break;
@@ -189,10 +210,8 @@ void scale_setup(void)
 				else if (pin_in4_long_press)
 						{
 							{
-//								first_entry = 0;
 									remote_mode = FEEDBACK_SET_MODE;
-//								init_cal_value();
-								rgb_set(50, 0, 0, 1, 3000);
+									rgb_set(50, 0, 0, 1, 3000);
 									SEGGER_RTT_printf(0, "FEEDBACK SET MODE\n\r");
 									
 							}
@@ -207,11 +226,19 @@ void scale_setup(void)
 		{
 					if(pin_in1_is_release)
 					{
-						
+						scale_feedback = 0;
+						SEGGER_RTT_printf(0, "scale_feedback = 0\r\n");
 					}
 					
 					else if (pin_in2_is_release)
 					{
+						scale_feedback = 1;
+						SEGGER_RTT_printf(0, "scale_feedback = 1\r\n");
+					}
+					
+					else if (pin_in3_is_release)
+					{
+						set_weight(11);
 						
 					}
 					

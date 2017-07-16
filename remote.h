@@ -54,12 +54,14 @@ extern uint8_t push_count4;
 extern uint8_t remote_mode;
 
 
+void start_timer_adc(void);
 void nrf_gpiote(void);
 void timer_remote_butts_init(void);
 void flag_analize(void);
 void reset_long_press_flags(void);
 void reset_release_flags(void);
 void start_timer_05s(void);
+void start_timer_2s(void);
 void start_timer_02s(void);
 void stop_timer_02s(void);
 #endif

@@ -194,7 +194,7 @@ void buttons_handle_setup(void)
 						{
 							SEGGER_RTT_printf(0,"save\r\n");
 							SEGGER_RTT_printf(0,"rem_mode %d\r\n", remote_mode);
-							rgb_set(50, 50, 50, 0, 0);
+							rgb_set(50, 50, 50, 2, 3000);
 							save_corr_values();
 							remote_mode = WORK_MODE;
 							corr_mode_button = 0;

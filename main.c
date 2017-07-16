@@ -70,12 +70,8 @@
 #define SEC_PARAM_OOB                   0                                           /**< Out Of Band data not available. */
 #define SEC_PARAM_MIN_KEY_SIZE          7                                           /**< Minimum encryption key size. */
 #define SEC_PARAM_MAX_KEY_SIZE          16                                          /**< Maximum encryption key size. */
-
 #define DEAD_BEEF                       0xDEADBEEF       
 
-
-#define FILE_ID     0x1111
-#define REC_KEY     0x2222
 
 #define MAX_TEST_DATA_BYTES     (15U)                /**< max number of test bytes to be used for tx and rx. */
 #define UART_TX_BUF_SIZE 256                         /**< UART TX buffer size. */
@@ -893,7 +889,7 @@ int main(void)
     // Initialize.
 		uart_init();
     log_init();
-		//m_clock_timer_init();
+	//	m_clock_timer_init();
     ble_stack_init();
     peer_manager_init();
     gap_params_init();
