@@ -125,7 +125,11 @@ void timer_2s_handler(void *p_context)
 	{
 		pin_in4_long_press = 1;
 		SEGGER_RTT_printf(0, "long 4\n\r");
-		scale_setup();
+		if(remote_mode != CORR_BUT_MODE)
+		{
+				scale_setup();
+		}
+		
 	}
 
 				reset_release_flags();
@@ -142,23 +146,62 @@ void timer_2s_handler(void *p_context)
 
 void timer_02s_handler(void *p_context)
 {
-	if(pin_in1_long_press)
+	if(pin_in1_long_press || pin_in2_long_press || pin_in3_long_press)
 	{
 		switch(corr_mode_button)
 			{
 				case CORR_MODE_1_1:
 					corr_1_1++;
+					rgb_set(50, 0, 0, 1, 200);
 					correct_value(corr_1_1);
 				break;
 					
 				case CORR_MODE_1_2:
 					corr_1_2++;
+					rgb_set(0, 50, 0, 1, 200);
 					correct_value(corr_1_2);
 				break;
 				
 				case CORR_MODE_1_3:
 					corr_1_3++;
+					rgb_set(0, 0, 50, 1, 200);
 					correct_value(corr_1_3);
+				break;
+				
+				case CORR_MODE_2_1:
+					corr_2_1++;
+					rgb_set(50, 0, 0, 1, 200);
+					correct_value(corr_2_1);
+				break;
+					
+				case CORR_MODE_2_2:
+					corr_2_2++;
+					rgb_set(0, 50, 0, 1, 200);
+					correct_value(corr_2_2);
+				break;
+				
+				case CORR_MODE_2_3:
+					corr_2_3++;
+					rgb_set(0, 0, 50, 1, 200);
+					correct_value(corr_2_3);
+				break;
+				
+				case CORR_MODE_3_1:
+					corr_3_1++;
+					rgb_set(50, 0, 0, 1, 200);
+					correct_value(corr_3_1);
+				break;
+					
+				case CORR_MODE_3_2:
+					corr_3_2++;
+					rgb_set(0, 50, 0, 1, 200);
+					correct_value(corr_3_2);
+				break;
+				
+				case CORR_MODE_3_3:
+					corr_3_3++;
+					rgb_set(0, 0, 50, 1, 200);
+					correct_value(corr_3_3);
 				break;
 				
 			}
@@ -292,6 +335,8 @@ void in_pin_handler2(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			{
 				pin_in2_is_release++;
 			}
+			reset_long_press_flags();
+			app_timer_stop(m_timer_remote02);
 			button_event = 1;
 			buttons_handle();
 			buttons_handle_setup();
@@ -316,6 +361,8 @@ void in_pin_handler3(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			{
 				pin_in3_is_release++;
 			}
+			reset_long_press_flags();
+			app_timer_stop(m_timer_remote02);
 			button_event = 1;
 			buttons_handle();
 			buttons_handle_setup();

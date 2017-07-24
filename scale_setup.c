@@ -172,7 +172,7 @@ void init_cal_values(void)
 void scale_setup(void)
 {
 	
-	if(remote_mode != WORK_MODE && pin_in4_is_release)
+	if(remote_mode != WORK_MODE && pin_in4_is_release && (corr_mode_button == 0))
 						{
 								remote_mode = WORK_MODE;
 								SEGGER_RTT_printf(0, "WORK MODE\n\r");
@@ -239,7 +239,6 @@ void scale_setup(void)
 					else if (pin_in3_is_release)
 					{
 						set_weight(11);
-						
 					}
 					
 					else if (pin_in4_long_press)

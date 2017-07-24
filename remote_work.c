@@ -21,7 +21,6 @@ void init_corr_values(void)
 }
 
 void cor_auto_handle(void)
-
 {
 	if((remote_mode == WORK_MODE)&&(cal_turn_on > 0)&&(cor_value_auto))
 	{
@@ -52,7 +51,6 @@ void buttons_handle(void)
 				case 1:
 						rgb_set(50, 0, 0, 1, 500);
 						current_correct = corr_1_1;
-					
 				break;
 
 				case 2:
