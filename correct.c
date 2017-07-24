@@ -117,6 +117,8 @@ void correct_value(uint32_t value)
 	else if (2000 < value && value <= 3000)  // percent correct
 	{
 		value = value - 2000;
+		corr_plus(0);
+		corr_minus(0);
 		corr_perc(value);
 	}
 		

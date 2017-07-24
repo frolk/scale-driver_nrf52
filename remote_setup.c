@@ -237,7 +237,7 @@ void buttons_handle_setup(void)
 							
 							if(pin_in3_is_release)
 							{
-									change_but_level(&corr_1_2);
+									change_but_level(&corr_2_2);
 							}
 							
 							if(pin_in1_is_release)
