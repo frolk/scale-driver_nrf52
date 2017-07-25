@@ -22,7 +22,25 @@
 #define FEEDBACK_SET_MODE 	3
 #define CORR_SETUP_MODE	  	4  // auto correct setup
 #define FACTORY_MODE				5
+#define STATUS_DEFINE       6
 
+#define CORRECT_COUNT_MAX 			60
+#define CORRECT_COUNT_MAX_DEMO 	30
+
+#define WORK_DAYS_MAX				    2
+#define WORK_DAYS_MAX_DEMO	    1
+
+#define WORK_HOURS_MAX			WORK_DAYS_MAX*24
+#define WORK_HOURS_MAX_DEMO	WORK_DAYS_MAX_DEMO*24
+
+#define RESET_MAX						 20
+#define RESET_MAX_DEMO			 10
+
+#define ACTIVATE_ATTEMPTS_MAX  10
+
+#define TIME_TO_SLEEP 120
+
+extern uint16_t time_to_sleep;
 extern uint8_t button_event;
 
 extern uint8_t pin_in1_is_set;
@@ -44,7 +62,7 @@ extern uint8_t pin_in4_long_press;
 
 extern uint8_t short_delay;
 
-
+extern uint16_t time_to_sleep;
 
 extern uint8_t push_count1;
 extern uint8_t push_count2;
@@ -54,6 +72,7 @@ extern uint8_t push_count4;
 extern uint8_t remote_mode;
 
 
+void test_expired(void);
 void start_timer_adc(void);
 void nrf_gpiote(void);
 void timer_remote_butts_init(void);

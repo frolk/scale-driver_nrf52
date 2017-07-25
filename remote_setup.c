@@ -8,14 +8,14 @@ void change_but_level(uint32_t* value)
 {
 				if(0 < *value && *value <= 1000) // plus correct
 					{
-						*value = 1200;
+						*value = 1100;
 						correct(0,0,0);
 						correct_value(*value);
 						rgb_set(0, 50, 0, 1, 1000);
 					}
 					else if (1000 < *value && *value <= 2000) // minus correct
 					{
-						*value = 2200;
+						*value = 2100;
 						correct(0,0,0);
 						correct_value(*value);
 						rgb_set(0, 0, 50, 1, 1000);
@@ -26,7 +26,7 @@ void change_but_level(uint32_t* value)
 					}
 					else if (2000 < *value && *value <= 3000)  // percent correct
 					{
-						*value = 200;
+						*value = 100;
 						correct(0,0,0);
 						correct_value(*value);
 						rgb_set(50, 0, 0, 1, 1000);
@@ -369,12 +369,6 @@ void buttons_handle_setup(void)
 							}
 											
 						break;
-							
-							
-							
-							
-							
-							
 							
 				}
 				

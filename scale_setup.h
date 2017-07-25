@@ -4,6 +4,7 @@
 #include "hx711.h"
 #include "flash_storage.h"
 #include "remote.h"
+#include <stdlib.h>
 
 
 #define AVERAGE_ADC_TIMES 30
@@ -21,6 +22,7 @@ extern uint32_t cal_turn_on;
 extern uint8_t start_average_adc;
 extern uint8_t scale_feedback;
 extern uint32_t adc_need;
+extern uint32_t activate_code;
 
 void cal_unload(void);
 void cal_load(void);

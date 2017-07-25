@@ -8,12 +8,19 @@ uint8_t start_average_adc = 0;
 uint8_t count_average_adc = 0;
 uint32_t average_adc = 0;
 uint32_t adc_array[AVERAGE_ADC_TIMES];
+
 uint8_t scale_feedback = 0;
 uint32_t cal_coef = 0;
+uint32_t activate_code = 313;
+uint32_t test_activate_code = 0;
+
+uint32_t reset_attempts_code = 3;
+uint32_t test_reset_attempts_code = 0;
 
 uint8_t scale_type = SCALE_600;
 
 uint32_t adc_need = 0;
+
 
 
 
@@ -149,7 +156,6 @@ void cal_load(void)
 {
 	start_average_adc = 2;
 	start_timer_02s();
-	
 }
 
 void define_corr_on(void)
@@ -258,8 +264,98 @@ void scale_setup(void)
 						fds_test_find_and_delete();
 						SEGGER_RTT_printf(0, "database is cleared\r\n");	
 					}
-					void return_to_work_mode();
+					
+					else if (pin_in2_is_release)
+					{
+						test_reset_attempts_code++;
+						SEGGER_RTT_printf(0, "%d\r\n", test_reset_attempts_code);	
+					}
+					else if (pin_in3_long_press)
+					{
+						if(test_reset_attempts_code == reset_attempts_code)
+						{
+							activate_status = EXP_DEMO_TIME;
+							SEGGER_RTT_printf(0, "EXP_DEMO_TIME\r\n");	
+							fds_update_value(&activate_status, file_id_c, fds_rk_activate_status);
+							rgb_set(0, 50, 0, 1, 2000);
+						}
+						
+					}
+					
+					else if (pin_in4_long_press)
+					
+					{
+						remote_mode = STATUS_DEFINE;
+						rgb_set(0, 0, 50, 1, 3000);
+						SEGGER_RTT_printf(0, "STATUS DEFINE MODE\r\n");
+					}
+					
+					
+					//return_to_work_mode();
+					
 				}
+				
+		else if (remote_mode == STATUS_DEFINE)
+			{
+				if(pin_in1_long_press)
+				{
+					rgb_set(50, 0, 0, activate_status, 1500);
+				}
+				else if(pin_in1_is_release)
+				{
+					test_activate_code += 100;
+					rgb_set(0, 0, 50, 1, 500);
+					SEGGER_RTT_printf(0, "%d\r\n", test_activate_code);
+					nrf_delay_ms(300);
+				}
+				
+				else if(pin_in2_is_release)
+				{
+					test_activate_code += 10;
+					rgb_set(0, 50, 0, 1, 500);
+					SEGGER_RTT_printf(0, "%d\r\n", test_activate_code);
+					nrf_delay_ms(300);
+				}
+				
+				else if(pin_in3_is_release)
+				{
+					test_activate_code += 1;
+					rgb_set(50, 0, 0, 1, 500);
+					SEGGER_RTT_printf(0, "%d\r\n", test_activate_code);
+					pin_in3_is_release = 0;
+					nrf_delay_ms(300);
+				}
+				else if (pin_in4_long_press)
+				{
+					if((test_activate_code == activate_code) && (activate_status <= EXP_DEMO_TIME))
+					{
+						activate_status = FULL;
+						fds_update_value(&activate_status, file_id_c, fds_rk_activate_status);
+						SEGGER_RTT_printf(0, "ACTIVATED\r\n");
+						rgb_set(0, 50, 0, 1, 3000);
+						remote_mode = WORK_MODE;
+						
+					}
+					
+					else
+					{
+						//activate_status = 0;
+						activate_attempts++;
+						fds_update_value(&activate_attempts, file_id_c, fds_rk_activate_attempts);
+						SEGGER_RTT_printf(0, "activate_attempts = %d\r\n", activate_attempts);
+						if(activate_attempts >= ACTIVATE_ATTEMPTS_MAX)
+						{
+							activate_status = EXP_ACTIVATE_ATTEMPTS;
+							fds_update_value(&activate_status, file_id_c, fds_rk_activate_status);
+						}
+						test_activate_code = 0;
+						
+						SEGGER_RTT_printf(0, "FAIL\r\n");
+						rgb_set(50, 0, 0, 1, 3000);
+						
+					}
+				}
+			}
 
 		else if(remote_mode == WORK_MODE)
 				{
@@ -273,6 +369,7 @@ void scale_setup(void)
 							nrf_delay_ms(200);
 							rgb_set(0,0,50,1,1000);
 							remote_mode = CALL_MODE;
+							time_to_sleep = TIME_TO_SLEEP;
 							SEGGER_RTT_printf(0, "CAL MODE\r\n");
 							short_delay = 0;
 							
@@ -287,13 +384,16 @@ void scale_setup(void)
 						if(correct_mode == COR_MANUAL)
 							{
 								correct_mode = COR_AUTO;
+								time_to_sleep = TIME_TO_SLEEP;
 								rgb_set(0,50,0,1,5000);
 							}
 						else if (correct_mode == COR_AUTO)
 							{
 								rgb_set(50,0,0,1,5000);
 								correct_mode = COR_MANUAL;
+								
 							}
 					}
 				}						
+				
 }

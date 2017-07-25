@@ -5,8 +5,8 @@ nrf_pwm_values_individual_t seq_value;
 nrf_pwm_sequence_t seq_corr;
 
 
-uint32_t corr_1_1 = 300; 
-uint32_t corr_1_2 = 400; 
+uint32_t corr_1_1 = 100; 
+uint32_t corr_1_2 = 300; 
 uint32_t corr_1_3 = 500; 
 uint32_t corr_2_1 = 1300; 
 uint32_t corr_2_2 = 1400; 
@@ -14,6 +14,8 @@ uint32_t corr_2_3 = 1500;
 uint32_t corr_3_1 = 2300; 
 uint32_t corr_3_2 = 2600; 
 uint32_t corr_3_3 = 2990; 
+
+uint32_t corr_counter = 0;
 
 
 void pwm_init_corr(void)
@@ -98,28 +100,47 @@ void corr_perc(uint32_t value)
 
 void correct_value(uint32_t value)
 {
-	if(0 < value && value <= 1000) // plus correct
+	if(activate_status == DEMO || activate_status == FULL )
 	{
-		//correct(0, value, 0); 
-		corr_minus(value);
-		corr_plus(0);
-		corr_perc(0);
-	}
-	else if (1000 < value && value <= 2000) // minus correct
-	{
-		value = value - 1000;
-		//SEGGER_RTT_printf(0, "value in correct_value = %d\r\n", value);
-	  corr_plus(value); 
-		corr_minus(0);
-		corr_perc(0);
+		if(0 < value && value <= 1000) // plus correct
+		{
+			//correct(0, value, 0); 
+			corr_minus(value);
+			corr_plus(0);
+			corr_perc(0);
+		}
+		else if (1000 < value && value <= 2000) // minus correct
+		{
+			value = value - 1000;
+			//SEGGER_RTT_printf(0, "value in correct_value = %d\r\n", value);
+			corr_plus(value); 
+			corr_minus(0);
+			corr_perc(0);
 		
+		}
+		else if (2000 < value && value <= 3000)  // percent correct
+		{
+			value = value - 2000;
+			corr_plus(0);
+			corr_minus(0);
+			corr_perc(value);
+		}
+	
+	if(remote_mode == WORK_MODE)
+		{
+			corr_counter++;
+			fds_update_value(&corr_counter, file_id_c, fds_rk_corr_counter);
+		}
 	}
-	else if (2000 < value && value <= 3000)  // percent correct
+	
+	else if ((activate_status == EXP_DEMO_CORR) || (activate_status == EXP_DEMO_RESET) ||(activate_status == EXP_DEMO_TIME)) // EXP_DEMO
 	{
-		value = value - 2000;
-		corr_plus(0);
-		corr_minus(0);
-		corr_perc(value);
+		rgb_set(50, 0, 0, 5, 300);
 	}
+	else if (activate_status == EXP_ACTIVATE_ATTEMPTS)
+	{
+		rgb_set(50, 50, 50, 3, 300);
+	}
+	
 		
 }

@@ -6,6 +6,22 @@
 #include "fstorage.h"
 #include "SEGGER_RTT.h"
 
+
+#define DEMO						1
+
+#define EXP_DEMO_CORR   2
+#define EXP_DEMO_RESET  3
+#define EXP_DEMO_TIME   4
+
+
+#define FULL 						5
+
+#define EXP_FULL_CORR 	6
+#define EXP_FULL_RESET 	7
+#define EXP_FULL_TIME 	8
+
+#define EXP_ACTIVATE_ATTEMPTS 9
+
 extern uint16_t file_id;
 extern uint16_t file_id_c;
 
@@ -15,10 +31,18 @@ extern uint16_t fds_rk_cor3;
 extern uint16_t fds_rk_is_init;
 extern uint16_t fds_rk_clock;
 extern uint16_t fds_rk_power_down;
+extern uint16_t fds_rk_activate_status;
+extern uint16_t fds_rk_activate_attempts;
+
+extern uint16_t fds_rk_corr_counter;
+
 extern uint16_t fds_rk_cal_zero;
 
 extern uint32_t fds_is_values_init;
+
 extern uint32_t life_counter;
+extern uint32_t activate_status;
+extern uint32_t activate_attempts;
 
 
 

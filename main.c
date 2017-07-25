@@ -48,7 +48,7 @@
 
 #define APP_FEATURE_NOT_SUPPORTED       BLE_GATT_STATUS_ATTERR_APP_BEGIN + 2        /**< Reply when unsupported features are requested. */
 
-#define DEVICE_NAME                     "Scale-driver5"                         /**< Name of device. Will be included in the advertising data. */
+#define DEVICE_NAME                     "687"                         /**< Name of device. Will be included in the advertising data. */
 #define MANUFACTURER_NAME               "Etalon"                       /**< Manufacturer. Will be passed to Device Information Service. */
 #define APP_ADV_INTERVAL                300                                         /**< The advertising interval (in units of 0.625 ms. This value corresponds to 187.5 ms). */
 #define APP_ADV_TIMEOUT_IN_SECONDS      180                                         /**< The advertising timeout in units of seconds. */
@@ -79,6 +79,8 @@
 #define SCD_RX_PIN_NUMBER 19
 #define SCD_TX_PIN_NUMBER 20
 
+
+
 #define APP_TIMER_MAX_TIMERS 4
 
 #define CORRECT_TURN_ON 150000
@@ -86,6 +88,7 @@
 APP_TIMER_DEF(m_clock_id);
 
 uint8_t clock_counter = 0;
+
 
 //static volatile uint8_t write_flag=0;
 
@@ -107,18 +110,24 @@ void clock_value_save(void)
 		{
 			fds_clear();
 		}
+		SEGGER_RTT_printf(0, "l/c = %d\r\n", life_counter);
 }
 
 static void m_clock_timer_handler (void *p_context)
 {
 	clock_counter++;
+	if(time_to_sleep > 0)
+	{
+		time_to_sleep--;
+	}
 	//SEGGER_RTT_printf(0, "%d, %d\r\n", life_counter, clock_counter);
 	SEGGER_RTT_printf(0, "%d\r\n", adc_value);
-	if(clock_counter >= 1)
+	SEGGER_RTT_printf(0, "t_t_s = %d\r\n", time_to_sleep);
+	if(clock_counter >= 180)
 	{
 			clock_value_save();
 	}
-	//SEGGER_RTT_printf(0, "clock_counter = %d\r\n", clock_counter);
+	SEGGER_RTT_printf(0, "c/c = %d\r\n", clock_counter);
 }
 
 
@@ -127,12 +136,15 @@ static void m_clock_timer_handler (void *p_context)
 void fds_get_init_data()
 {
 	fds_get_data(&life_counter, file_id_c, fds_rk_clock);
+	fds_get_data(&activate_status, file_id_c, fds_rk_activate_status);
+	fds_get_data(&activate_attempts, file_id_c, fds_rk_activate_attempts);
 	fds_get_data(&power_down_count, file_id_c, fds_rk_power_down);
+	fds_get_data(&corr_counter, file_id_c, fds_rk_corr_counter);
 	power_down_count++;
 	fds_update_value(&power_down_count, file_id_c, fds_rk_power_down);
   init_corr_values();
 	init_cal_values();
-
+	SEGGER_RTT_printf(0, "ACTIVATE STATUS = %d\r\n", activate_status);
 		//APP_ERROR_CHECK(err_code);
 }
 
@@ -889,7 +901,7 @@ int main(void)
     // Initialize.
 		uart_init();
     log_init();
-		//m_clock_timer_init();
+		m_clock_timer_init();
     ble_stack_init();
     peer_manager_init();
     gap_params_init();
@@ -907,13 +919,22 @@ int main(void)
 		APP_ERROR_CHECK(err_code);
 		fds_init_values();
 		fds_get_init_data();
+		test_expired();
 		
 		
 
     // Enter main loop.
     for (;;)
     {
-			Weighing();
+			if(time_to_sleep > 0)
+			{
+					Weighing();
+			}
+			else
+			{
+				nrf_gpio_pin_set(HX_SCK);
+			}
+			
 			//SEGGER_RTT_printf(0, "%d\n", adc_value);
 			//nrf_delay_ms(500);
 			

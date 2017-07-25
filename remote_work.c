@@ -114,6 +114,10 @@ void buttons_handle(void)
 			correct(0,0,0);
 			cor_value_auto = 0;
 			current_correct = 0;
+			if(correct_mode == COR_AUTO)
+			{
+			time_to_sleep = TIME_TO_SLEEP;
+			}
 		}
 		
 					

@@ -32,10 +32,55 @@ uint8_t push_count4 = 0;
 
 uint8_t short_delay = 0;
 uint16_t correct_need = 1250;
-
-
+uint16_t time_to_sleep = TIME_TO_SLEEP;
 
 uint8_t remote_mode = WORK_MODE;
+
+void test_expired(void)
+{
+	if(activate_status == DEMO)
+	{
+		if(corr_counter >= CORRECT_COUNT_MAX_DEMO)
+		{
+			activate_status = EXP_DEMO_CORR;
+			SEGGER_RTT_printf(0, "EXP_DEMO_CORR, %d\r\n", activate_status);
+		}
+		else if (life_counter >= WORK_HOURS_MAX_DEMO)
+		{
+			activate_status = EXP_DEMO_TIME;
+			SEGGER_RTT_printf(0, "EXP_DEMO_TIME, %d\r\n", activate_status);
+		}
+		else if (power_down_count >= RESET_MAX_DEMO)
+		{
+			activate_status = EXP_DEMO_RESET;
+			SEGGER_RTT_printf(0, "EXP_DEMO_RESET, %d\r\n", activate_status);
+		}
+	}
+	
+	else if(activate_status == FULL)
+	{
+		if(corr_counter >= CORRECT_COUNT_MAX)
+		{
+			activate_status = EXP_FULL_CORR;
+			SEGGER_RTT_printf(0, "EXP_FULL_CORR, %d\r\n", activate_status);
+		}
+		else if (life_counter >= WORK_HOURS_MAX)
+		{
+			activate_status = EXP_FULL_TIME;
+			SEGGER_RTT_printf(0, "EXP_FULL_TIME, %d\r\n", activate_status);
+		}
+		else if (power_down_count >= RESET_MAX)
+		{
+			activate_status = EXP_FULL_RESET;
+			SEGGER_RTT_printf(0, "EXP_FULL_RESET, %d\r\n", activate_status);
+		}
+		
+	}
+	
+	fds_update_value(&activate_status, file_id_c, fds_rk_activate_status);
+	
+}
+
 
 void reset_long_press_flags(void)
 {
@@ -102,35 +147,65 @@ void flag_analize(void)
 void timer_2s_handler(void *p_context)
 {
 	button_event = 1;
-	if(pin_in1_is_set == 1)
-	{
-		pin_in1_long_press = 1;
-		remote_mode = CORR_BUT_MODE;
-		SEGGER_RTT_printf(0, "long 1\n\r");
-		
-	}
-	else if (pin_in2_is_set == 1)
-	{
-		pin_in2_long_press = 1;
-		remote_mode = CORR_BUT_MODE;
-		SEGGER_RTT_printf(0, "long 2\n\r");
-	}
-	else if (pin_in3_is_set == 1)
-	{
-		pin_in3_long_press = 1;
-		remote_mode = CORR_BUT_MODE;
-		SEGGER_RTT_printf(0, "long 3\n\r");
-	}
-	else if (pin_in4_is_set == 1)
-	{
-		pin_in4_long_press = 1;
-		SEGGER_RTT_printf(0, "long 4\n\r");
-		if(remote_mode != CORR_BUT_MODE)
-		{
-				scale_setup();
-		}
-		
-	}
+			
+			if(pin_in1_is_set == 1)
+			{
+				pin_in1_long_press = 1;
+				SEGGER_RTT_printf(0, "long 1\n\r");
+				if(remote_mode == WORK_MODE)
+				{
+					remote_mode = CORR_BUT_MODE;
+				}
+
+				else 
+				{
+						scale_setup();
+				}
+
+				
+			}
+			else if (pin_in2_is_set == 1)
+			{
+				pin_in2_long_press = 1;
+				SEGGER_RTT_printf(0, "long 2\n\r");
+				
+					if(remote_mode == WORK_MODE)
+				{
+					remote_mode = CORR_BUT_MODE;
+				}
+
+				else 
+				{
+						scale_setup();
+				}
+
+			}
+			else if (pin_in3_is_set == 1)
+			{
+				pin_in3_long_press = 1;
+				SEGGER_RTT_printf(0, "long 3\n\r");
+	  		
+				if(remote_mode == WORK_MODE)
+				{
+					remote_mode = CORR_BUT_MODE;
+				}
+
+				else 
+				{
+						scale_setup();
+				}
+
+			}
+			else if (pin_in4_is_set == 1)
+			{
+				pin_in4_long_press = 1;
+				SEGGER_RTT_printf(0, "long 4\n\r");
+				if(remote_mode != CORR_BUT_MODE)
+				{
+						scale_setup();
+				}
+				
+			}
 
 				reset_release_flags();
 				buttons_handle_setup();
@@ -372,6 +447,8 @@ void in_pin_handler3(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 
 void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 { 
+		
+		
 		if(nrf_drv_gpiote_in_is_set(PIN_IN_4))
 		{
 			 start_timer_2s();
@@ -396,6 +473,7 @@ void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			button_event = 1;
 			buttons_handle();
 			buttons_handle_setup();
+			test_expired();
 			
 		}
 		

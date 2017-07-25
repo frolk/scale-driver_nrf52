@@ -4,12 +4,18 @@
 
 volatile uint8_t write_flag = 0;
 
+
+
 uint16_t file_id = 0x0000;
 uint16_t file_id_c = 0x0001;
 
 uint16_t fds_rk_init = 0x0003;
 uint16_t fds_rk_clock = 0x0001;
 uint16_t fds_rk_power_down= 0x0002;
+uint16_t fds_rk_activate_status = 0x0005;
+uint16_t fds_rk_corr_counter = 0x0006;
+uint16_t fds_rk_activate_attempts = 0x0007;
+
 
 uint16_t fds_rk_cal_zero = 0x0004;
 
@@ -18,6 +24,11 @@ uint16_t fds_rk_cor1 = 0x0010;
 uint32_t fds_is_values_init = 0;
 uint32_t life_counter = 1;
 uint32_t power_down_count = 1;
+uint32_t activate_status = 1;
+uint32_t activate_attempts = 0;
+
+
+
 
 void fds_evt_handler(fds_evt_t const * const p_fds_evt)
 {
@@ -69,6 +80,9 @@ void fds_init_values(void)
 		fds_init_flash(&cal_turn_on, file_id, fds_rk_cal_zero+2);
 		
 		fds_init_flash(&life_counter, file_id_c, fds_rk_clock);
+		fds_init_flash(&corr_counter, file_id_c, fds_rk_corr_counter);
+		fds_init_flash(&activate_status, file_id_c, fds_rk_activate_status);
+		fds_init_flash(&activate_attempts, file_id_c, fds_rk_activate_attempts);
 		fds_init_flash(&power_down_count, file_id_c, fds_rk_power_down);
 		fds_is_values_init = 1;
 		
