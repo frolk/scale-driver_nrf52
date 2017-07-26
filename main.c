@@ -83,11 +83,9 @@
 
 #define APP_TIMER_MAX_TIMERS 4
 
-#define CORRECT_TURN_ON 150000
-
 APP_TIMER_DEF(m_clock_id);
 
-uint8_t clock_counter = 0;
+uint16_t clock_counter = 0;
 
 
 //static volatile uint8_t write_flag=0;
@@ -120,10 +118,10 @@ static void m_clock_timer_handler (void *p_context)
 	{
 		time_to_sleep--;
 	}
-	//SEGGER_RTT_printf(0, "%d, %d\r\n", life_counter, clock_counter);
+	
+	SEGGER_RTT_printf(0, "%d, %d\r\n", life_counter, clock_counter);
 	SEGGER_RTT_printf(0, "%d\r\n", adc_value);
-	SEGGER_RTT_printf(0, "t_t_s = %d\r\n", time_to_sleep);
-	if(clock_counter >= 180)
+	if(clock_counter >= 3600)
 	{
 			clock_value_save();
 	}
@@ -152,7 +150,7 @@ static void m_clock_timer_init(void)
 {
 	app_timer_init();
 	app_timer_create(&m_clock_id, APP_TIMER_MODE_REPEATED, m_clock_timer_handler); 
-	app_timer_start(m_clock_id, APP_TIMER_TICKS(200), NULL);
+	app_timer_start(m_clock_id, APP_TIMER_TICKS(1000), NULL);
 }
 
 

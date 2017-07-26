@@ -208,11 +208,6 @@ void scale_setup(void)
 						rgb_set(0, 0, 50, 1, 1000);
 					}
 					
-					
-				
-					
-			
-					
 				else if (pin_in4_long_press)
 						{
 							{
@@ -390,6 +385,7 @@ void scale_setup(void)
 						else if (correct_mode == COR_AUTO)
 							{
 								rgb_set(50,0,0,1,5000);
+								time_to_sleep = 0;
 								correct_mode = COR_MANUAL;
 								
 							}

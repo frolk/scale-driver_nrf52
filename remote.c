@@ -32,7 +32,7 @@ uint8_t push_count4 = 0;
 
 uint8_t short_delay = 0;
 uint16_t correct_need = 1250;
-uint16_t time_to_sleep = TIME_TO_SLEEP;
+uint16_t time_to_sleep = 0;
 
 uint8_t remote_mode = WORK_MODE;
 
