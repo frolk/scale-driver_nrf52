@@ -28,7 +28,7 @@ extern uint16_t file_id_c;
 extern uint16_t fds_rk_cor1;
 extern uint16_t fds_rk_cor2;
 extern uint16_t fds_rk_cor3;
-extern uint16_t fds_rk_is_init;
+extern uint16_t fds_rk_init;
 extern uint16_t fds_rk_clock;
 extern uint16_t fds_rk_power_down;
 extern uint16_t fds_rk_activate_status;
@@ -39,6 +39,12 @@ extern uint16_t fds_rk_num_cor_but;
 extern uint16_t fds_rk_corr_counter;
 
 extern uint16_t fds_rk_cal_zero;
+
+
+extern uint16_t fds_rk_cor_feedback;
+extern uint16_t fds_rk_time_feedback;
+extern uint16_t fds_rk_feedback;
+
 
 extern uint32_t fds_is_values_init;
 

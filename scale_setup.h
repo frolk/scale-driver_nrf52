@@ -14,6 +14,8 @@
 #define SCALE_5000  				2			
 #define SCALE_AUTOVESI			3
 
+#define TIME_FEEDBACK 1000
+
 
 extern uint32_t cal_zero_value;
 extern uint32_t cal_load_value;
@@ -23,6 +25,10 @@ extern uint8_t start_average_adc;
 extern uint8_t scale_feedback;
 extern uint32_t adc_need;
 extern uint32_t activate_code;
+extern uint32_t cor_feedback;
+extern uint32_t time_feedback;
+extern uint32_t feedback;
+
 
 void cal_unload(void);
 void cal_load(void);

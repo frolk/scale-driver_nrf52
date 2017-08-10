@@ -58,9 +58,9 @@ void correct_value(uint32_t value);
 #define COR_PLUS_2 1450
 #define COR_PLUS_3 1550
 
-#define COR_PERC_1 2350
-#define COR_PERC_2 2450
-#define COR_PERC_3 2550
+#define COR_PERC_1 2100
+#define COR_PERC_2 2200
+#define COR_PERC_3 2300
 
 
 

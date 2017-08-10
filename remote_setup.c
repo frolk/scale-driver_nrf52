@@ -122,8 +122,14 @@ void buttons_handle_setup(void)
 							{
 									change_but_level(&corr_1_1);
 							}
+							if(pin_in3_is_release)
+							{
+								corr_1_1--;
+								correct_value(corr_1_1);
+								rgb_set(50, 0, 0, 1, 500);
+							}
 							
-							if(pin_in3_is_release)  //switch button
+							if(pin_in3_long_press)  //switch button
 							{
 								  correct(0,0,0);
 									corr_mode_button = CORR_MODE_1_2;
@@ -140,7 +146,6 @@ void buttons_handle_setup(void)
 							{
 								corr_1_2++;
 								correct_value(corr_1_2);
-								SEGGER_RTT_printf(0, "corr_1_2 - %d \r\n", corr_1_2);
 								rgb_set(0, 50, 0, 1, 500);
 							}
 							else if (pin_in1_long_press)
@@ -154,6 +159,12 @@ void buttons_handle_setup(void)
 							}
 							
 							if(pin_in3_is_release)
+							{
+								corr_1_2--;
+								correct_value(corr_1_2);
+								rgb_set(0, 50, 0, 1, 500);
+							}
+							if(pin_in3_long_press)
 							{
 									corr_mode_button = CORR_MODE_1_3;
 									rgb_set(0, 0, 50, 1, 1000);
@@ -185,6 +196,12 @@ void buttons_handle_setup(void)
 							
 							if(pin_in3_is_release)
 							{
+								corr_1_3--;
+								correct_value(corr_1_3);
+								rgb_set(0, 0, 50, 1, 500);
+							}		
+							if(pin_in3_long_press)
+							{
 									corr_mode_button = CORR_MODE_1_1;
 									rgb_set(50, 0, 0, 1, 1000);
 									correct_value(corr_1_1);
@@ -210,7 +227,14 @@ void buttons_handle_setup(void)
 									change_but_level(&corr_2_1);
 							}
 							
-							if(pin_in1_is_release)  //switch button
+							if(pin_in1_is_release) // change correct value by one
+							{
+								SEGGER_RTT_printf(0, "corr_2_1 - %d \r\n", corr_2_1);
+								corr_2_1--;
+								correct_value(corr_2_1);
+								rgb_set(50, 0, 0, 1, 500);
+							}
+							if(pin_in1_long_press)  //switch button
 							{
 								  correct(0,0,0);
 									corr_mode_button = CORR_MODE_2_2;
@@ -240,7 +264,14 @@ void buttons_handle_setup(void)
 									change_but_level(&corr_2_2);
 							}
 							
-							if(pin_in1_is_release)
+								if(pin_in1_is_release)
+							{
+								corr_2_2--;
+								correct_value(corr_2_2);
+								rgb_set(0, 50, 0, 1, 500);
+							}		
+
+							if(pin_in1_long_press)
 							{
 									corr_mode_button = CORR_MODE_2_3;
 									rgb_set(0, 0, 50, 1, 1000);
@@ -270,7 +301,16 @@ void buttons_handle_setup(void)
 									change_but_level(&corr_2_3);
 							}
 							
+							
 							if(pin_in1_is_release)
+							{
+								corr_2_3--;
+								correct_value(corr_2_3);
+								SEGGER_RTT_printf(0, "corr_2_3 - %d \r\n", corr_2_3);
+								rgb_set(0, 0, 50, 1, 500);
+							}
+							
+							if(pin_in1_long_press)
 							{
 									corr_mode_button = CORR_MODE_2_1;
 									rgb_set(50, 0, 0, 1, 1000);
@@ -301,7 +341,15 @@ void buttons_handle_setup(void)
 									change_but_level(&corr_3_1);
 							}
 							
-							if(pin_in2_is_release)  //switch button
+
+							if(pin_in2_is_release) // change correct value by one
+							{
+								corr_3_1--;
+								correct_value(corr_3_1);
+								rgb_set(50, 0, 0, 1, 500);
+							}							
+
+							if(pin_in2_long_press)//switch button
 							{
 								  correct(0,0,0);
 									corr_mode_button = CORR_MODE_3_2;
@@ -331,7 +379,16 @@ void buttons_handle_setup(void)
 									change_but_level(&corr_3_2);
 							}
 							
+							
 							if(pin_in2_is_release)
+							{
+								corr_3_2--;
+								correct_value(corr_3_2);
+								SEGGER_RTT_printf(0, "corr_3_2 - %d \r\n", corr_3_2);
+								rgb_set(0, 50, 0, 1, 500);
+							}							
+
+							if(pin_in2_long_press)
 							{
 									corr_mode_button = CORR_MODE_3_3;
 									rgb_set(0, 0, 50, 1, 1000);
@@ -361,7 +418,17 @@ void buttons_handle_setup(void)
 									change_but_level(&corr_3_3);
 							}
 							
-							if(pin_in2_is_release)
+							
+								if(pin_in2_is_release)
+							{
+								corr_3_3--;
+								correct_value(corr_3_3);
+								SEGGER_RTT_printf(0, "corr_3_3 - %d \r\n", corr_3_3);
+								rgb_set(0, 0, 50, 1, 500);
+							}
+							
+							
+							if(pin_in2_long_press)
 							{
 									corr_mode_button = CORR_MODE_3_1;
 									rgb_set(50, 0, 0, 1, 1000);

@@ -20,8 +20,9 @@ uint32_t test_reset_attempts_code = 0;
 uint8_t scale_type = SCALE_600;
 
 uint32_t adc_need = 0;
-
-
+uint32_t cor_feedback = COR_PLUS_1;
+uint32_t time_feedback = TIME_FEEDBACK;
+uint32_t feedback = 0;
 
 
 
@@ -191,6 +192,7 @@ void scale_setup(void)
 				
 				if(pin_in1_is_release)
 					{
+						
 						cal_unload();		
 						rgb_set(50, 0, 0, 1, 1000);
 					}
@@ -227,11 +229,47 @@ void scale_setup(void)
 		{
 					if(pin_in1_is_release)
 					{
-						scale_feedback = 0;
-						SEGGER_RTT_printf(0, "scale_feedback = 0\r\n");
+						cor_feedback++;
+						rgb_set(50, 0, 0, 1, 500);
+						correct_value(cor_feedback);
+						
 					}
 					
-					else if (pin_in2_is_release)
+					else if (pin_in3_is_release)
+					{
+						cor_feedback--;
+						rgb_set(50, 0, 0, 1, 500);
+						correct_value(cor_feedback);
+					}
+					
+					else if (pin_in2_long_press)
+					{
+						switch(feedback)
+						{
+							case 0:
+								feedback = 1; // cor_feedback
+								rgb_set(0, 50, 0, 1, 1000);
+								break;
+							
+							case 1:
+								feedback = 2; // corrects
+								rgb_set(0, 50, 0, 2, 1000);
+								break;
+							
+							case 2:
+								feedback = 0;
+								rgb_set(50, 50, 50, 1, 1000);
+								break;
+							
+						}
+						
+						fds_update_value(&feedback, file_id, fds_rk_feedback);
+						SEGGER_RTT_printf(0, "feedback = %d\r\n", feedback);
+					}
+					
+					
+					
+					else if (pin_in3_long_press)
 					{
 						//scale_feedback = 1;
 						if(num_cor_buts == 3)
@@ -264,6 +302,7 @@ void scale_setup(void)
 					else if (pin_in4_long_press)
 					
 					{
+						fds_update_value(&cor_feedback, file_id, fds_rk_cor_feedback);
 						remote_mode = FACTORY_MODE;
 						rgb_set(0, 50, 0, 1, 3000);
 						SEGGER_RTT_printf(0, "FACTORY_MODE\r\n");
@@ -275,7 +314,10 @@ void scale_setup(void)
 				{
 					if(pin_in1_is_release)
 					{
-						fds_test_find_and_delete();
+						fds_is_values_init = 1;
+						fds_update_value(&fds_is_values_init, file_id, fds_rk_init);
+						
+						
 						SEGGER_RTT_printf(0, "database is cleared\r\n");	
 					}
 					

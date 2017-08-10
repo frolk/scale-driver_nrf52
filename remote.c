@@ -470,7 +470,8 @@ void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 				if(pin_in1_is_release)
 				{
 				
-				rgb_set(50,0,0,1,1000);
+							correct(0,0,0);
+							rgb_set(50,0,0,1,1000);
 							nrf_delay_ms(200);
 							rgb_set(0,50,0,1,1000);
 							nrf_delay_ms(200);

@@ -161,13 +161,23 @@ void buttons_handle(void)
 			
 		else if (correct_mode == COR_AUTO)	
 			{
-					cor_value_auto = current_correct;
-					if(scale_feedback)
+						cor_value_auto = current_correct;
+						if(feedback == 1)
 						{
-								SEGGER_RTT_printf(0, "show correct a little - %d\n\r", cor_value_auto);	
-								correct_value(300);
-								start_timer_2s();
+								correct_value(cor_feedback);
+								nrf_delay_ms(TIME_FEEDBACK);
+							correct(0,0,0);		
 						}
+						
+						else if (feedback == 2)
+						{
+						correct_value(current_correct);
+							nrf_delay_ms(TIME_FEEDBACK);
+						correct(0,0,0);
+						}
+						
+						
+						
 					SEGGER_RTT_printf(0, "auto %d\n\r", cor_value_auto);	
 			}
 	}
