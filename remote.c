@@ -36,6 +36,7 @@ uint16_t time_to_sleep = 0;
 
 uint8_t first_entry = 0;
 
+
 uint8_t remote_mode = WORK_MODE;
 
 void test_expired(void)
@@ -303,11 +304,7 @@ void timer_02s_handler(void *p_context)
 
 void timer_05s_handler(void *p_context)
 {
-	if(pin_in4_is_set)
-	{
-		short_delay = 1;
-		SEGGER_RTT_printf(0, "delay = %d\r\n", short_delay);
-	}
+		correct(0,0,0); //reset cor feedback
 }
 
 void timer_adc_handler(void *p_context)
@@ -348,6 +345,12 @@ void start_timer_2s(void)
 	app_timer_start(m_timer_remote, APP_TIMER_TICKS(2000), NULL);
 }
 
+void start_timer(uint16_t num)
+	{
+		 app_timer_start(m_timer_remote05, APP_TIMER_TICKS(num), NULL);
+	}
+
+
 void start_timer_02s(void)
 {
 	app_timer_start(m_timer_remote02, APP_TIMER_TICKS(100), NULL);
@@ -357,6 +360,13 @@ void stop_timer_02s(void)
 {
 	app_timer_stop(m_timer_remote02);
 }
+
+void stop_timer(void)
+{
+	app_timer_stop(m_timer_remote05);
+}
+
+
 
 
 void start_timer_05s(void)

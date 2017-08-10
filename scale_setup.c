@@ -26,6 +26,8 @@ uint32_t feedback = 0;
 
 
 
+
+
 void set_weight(uint16_t weight_value)
 {
 	adc_need = weight_value*((cal_load_value - cal_zero_value)/20)+cal_zero_value; 
@@ -176,6 +178,42 @@ void init_cal_values(void)
 }
 
 
+
+void delete_fds_c(void)
+{
+	fds_test_find_and_delete(0x0001, file_id_c);
+	fds_test_find_and_delete(0x0002, file_id_c);
+	
+	for(uint16_t i = 0x0005; i<=0x0008; i++)
+						{
+						fds_test_find_and_delete(i, file_id_c);
+						}
+		rgb_set(50, 50, 50, 1, 3000);
+}
+
+
+void delete_fds(void)
+{
+	for(uint16_t i = 0x0003; i<=0x0006; i++)
+						{
+						fds_test_find_and_delete(i, file_id);
+						}
+						
+	for(uint16_t i = 0x0008; i<=0x000B; i++)
+						{
+						fds_test_find_and_delete(i, file_id);
+						}
+						
+						
+		for(uint16_t i = 0x0010; i<=0x0018; i++)
+						{
+						fds_test_find_and_delete(i, file_id);
+						}
+						
+						rgb_set(50, 50, 50, 1, 3000);
+}
+
+
 void scale_setup(void)
 {
 	
@@ -239,7 +277,7 @@ void scale_setup(void)
 					{
 						time_feedback+=500;
 						
-						if(time_feedback > 2000)
+						if(time_feedback > 3000)
 						{
 							time_feedback = 500;
 						}
@@ -329,12 +367,25 @@ void scale_setup(void)
 				{
 					if(pin_in1_is_release)
 					{
-						fds_is_values_init = 1;
-						fds_update_value(&fds_is_values_init, file_id, fds_rk_init);
-						
-						
-						SEGGER_RTT_printf(0, "database is cleared\r\n");	
+						//fds_test_find_and_delete();
+					//	fds_is_values_init = 0;
+						//rgb_set(50,50,50,1, 2000);
+					//	fds_update_value(&fds_is_values_init, file_id, fds_rk_init);
+						//fds_gc();
+						//SEGGER_RTT_printf(0, "cleared\r\n");	
 					}
+					
+					if(pin_in1_long_press)
+						
+					{
+						delete_fds();						
+					}
+					
+					if(pin_in2_long_press)
+					{
+						delete_fds_c();
+					}
+					
 					
 					else if (pin_in2_is_release)
 					{
@@ -443,8 +494,6 @@ void scale_setup(void)
 							time_to_sleep = TIME_TO_SLEEP;
 							SEGGER_RTT_printf(0, "CAL MODE\r\n");
 							short_delay = 0;
-							
-
 						}
 						
 					else if (pin_in4_long_press)

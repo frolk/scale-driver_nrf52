@@ -85,4 +85,6 @@ void start_timer_05s(void);
 void start_timer_2s(void);
 void start_timer_02s(void);
 void stop_timer_02s(void);
+void stop_timer(void);
+void start_timer(uint16_t num);
 #endif

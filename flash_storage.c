@@ -3,6 +3,7 @@
 
 
 volatile uint8_t write_flag = 0;
+volatile uint8_t delete_flag = 0;
 
 
 
@@ -48,6 +49,14 @@ void fds_evt_handler(fds_evt_t const * const p_fds_evt)
 						if (p_fds_evt->result == FDS_SUCCESS)
 						{
 							write_flag=1;
+						}
+						break;
+						
+				case FDS_EVT_DEL_RECORD:
+						if (p_fds_evt->result == FDS_SUCCESS)
+						{
+							delete_flag=1;
+						//	SEGGER_RTT_printf(0, "del\n\r");
 						}
 						break;
         default:
@@ -97,7 +106,9 @@ void fds_init_values(void)
 		
 		fds_is_values_init = 1;
 		
+		//fds_update_value(&fds_is_values_init, file_id, fds_rk_init);
 		fds_init_flash(&fds_is_values_init, file_id, fds_rk_init);
+		
 		
 	}
 	else
@@ -243,7 +254,7 @@ ret_code_t fds_test_init (void)
 
 
 
-ret_code_t fds_test_find_and_delete (void)
+ret_code_t fds_test_find_and_delete (uint16_t rec_key, uint16_t file_id_del)
 {
 	
 		fds_record_desc_t   record_desc;
@@ -251,16 +262,45 @@ ret_code_t fds_test_find_and_delete (void)
 		ftok.page=0;
 		ftok.p_addr=NULL;
 		// Loop and find records with same ID and rec key and mark them as deleted. 
-	
-			for (uint16_t i = 0x0010; i < 0x0019; i++)
-				{
-						fds_record_find(file_id, i, &record_desc, &ftok);
-						fds_record_delete(&record_desc);
-						SEGGER_RTT_printf(0,"ID: %d \r\n",record_desc.record_id);
-						nrf_delay_ms(100);
-				}
+	 
+			while(fds_record_find(file_id_del, rec_key, &record_desc, &ftok) == FDS_SUCCESS)
+			{
+				delete_flag = 0;
+				fds_record_delete(&record_desc);
+				SEGGER_RTT_printf(0,"ID: %d \r\n",record_desc.record_id);
+				
+			}
+			
+			while(delete_flag == 0);
+			
+					
+//			
+//			while(fds_record_find(file_id, rec_del+2, &record_desc, &ftok) == FDS_SUCCESS)
+//			{
+//				fds_record_delete(&record_desc);
+//				//SEGGER_RTT_printf(0,"ID: %d \r\n",record_desc.record_id);
+//			}
+//			
+//				while(fds_record_find(file_id, rec_del+1, &record_desc, &ftok) == FDS_SUCCESS)
+//			{
+//				fds_record_delete(&record_desc);
+//				SEGGER_RTT_printf(0,"ID: %d \r\n",record_desc.record_id);
+//			}
+//			
+			
+//			nrf_delay_ms(200);
+//			
+//		}
+		
+//			for (uint16_t i = 0x0001; i < 0x0019; i++)
+//				{
+//						fds_record_find(file_id, i, &record_desc, &ftok);
+//						fds_record_delete(&record_desc);
+//						SEGGER_RTT_printf(0,"ID: %d \r\n",record_desc.record_id);
+//						//nrf_delay_ms(100);
+//				}
 		
 		// call the garbage collector to empty them, don't need to do this all the time, this is just for demonstration
-			fds_gc();
+			//fds_gc();
 			return NRF_SUCCESS;
 }

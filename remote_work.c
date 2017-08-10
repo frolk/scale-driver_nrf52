@@ -164,16 +164,18 @@ void buttons_handle(void)
 						cor_value_auto = current_correct;
 						if(feedback == 1)
 						{
+								
 								correct_value(cor_feedback);
-								nrf_delay_ms(time_feedback);
-							correct(0,0,0);		
+								stop_timer();
+								start_timer(time_feedback);
+							
 						}
 						
 						else if (feedback == 2)
 						{
-						correct_value(current_correct);
-							nrf_delay_ms(time_feedback);
-						correct(0,0,0);
+							correct_value(current_correct);
+							stop_timer();
+							start_timer(time_feedback);
 						}
 						
 						
