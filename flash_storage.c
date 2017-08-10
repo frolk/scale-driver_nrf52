@@ -102,7 +102,7 @@ void fds_init_values(void)
 	}
 	else
 	{
-		SEGGER_RTT_printf(0, "the values already initialized\r\n");
+		SEGGER_RTT_printf(0, "init=%d\r\n", fds_is_values_init);
 	}
 }
 

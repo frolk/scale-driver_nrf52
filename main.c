@@ -148,7 +148,7 @@ void fds_get_init_data()
 	fds_update_value(&power_down_count, file_id_c, fds_rk_power_down);
   init_corr_values();
 	init_cal_values();
-	SEGGER_RTT_printf(0, "ACTIVATE STATUS = %d\r\n", activate_status);
+	SEGGER_RTT_printf(0, "STATUS = %d\r\n", activate_status);
 		//APP_ERROR_CHECK(err_code);
 }
 

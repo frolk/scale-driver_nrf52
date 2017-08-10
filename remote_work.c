@@ -165,14 +165,14 @@ void buttons_handle(void)
 						if(feedback == 1)
 						{
 								correct_value(cor_feedback);
-								nrf_delay_ms(TIME_FEEDBACK);
+								nrf_delay_ms(time_feedback);
 							correct(0,0,0);		
 						}
 						
 						else if (feedback == 2)
 						{
 						correct_value(current_correct);
-							nrf_delay_ms(TIME_FEEDBACK);
+							nrf_delay_ms(time_feedback);
 						correct(0,0,0);
 						}
 						

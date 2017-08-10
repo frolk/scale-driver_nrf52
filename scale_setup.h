@@ -14,7 +14,7 @@
 #define SCALE_5000  				2			
 #define SCALE_AUTOVESI			3
 
-#define TIME_FEEDBACK 1000
+#define TIME_FEEDBACK 500
 
 
 extern uint32_t cal_zero_value;

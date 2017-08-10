@@ -235,6 +235,19 @@ void scale_setup(void)
 						
 					}
 					
+					if(pin_in1_long_press)
+					{
+						time_feedback+=500;
+						
+						if(time_feedback > 2000)
+						{
+							time_feedback = 500;
+						}
+						
+						rgb_set(0,0,50,time_feedback/500,1000);
+						
+					}
+					
 					else if (pin_in3_is_release)
 					{
 						cor_feedback--;
@@ -264,6 +277,7 @@ void scale_setup(void)
 						}
 						
 						fds_update_value(&feedback, file_id, fds_rk_feedback);
+						
 						SEGGER_RTT_printf(0, "feedback = %d\r\n", feedback);
 					}
 					
@@ -303,6 +317,7 @@ void scale_setup(void)
 					
 					{
 						fds_update_value(&cor_feedback, file_id, fds_rk_cor_feedback);
+						fds_update_value(&time_feedback, file_id, fds_rk_time_feedback);
 						remote_mode = FACTORY_MODE;
 						rgb_set(0, 50, 0, 1, 3000);
 						SEGGER_RTT_printf(0, "FACTORY_MODE\r\n");
