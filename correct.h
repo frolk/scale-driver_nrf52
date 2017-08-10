@@ -50,5 +50,24 @@ void corr_perc(uint32_t value);
 void correct_value(uint32_t value);
 
 
+#define COR_MINUS_1 350
+#define COR_MINUS_2 450
+#define COR_MINUS_3 550
+
+#define COR_PLUS_1 1350
+#define COR_PLUS_2 1450
+#define COR_PLUS_3 1550
+
+#define COR_PERC_1 2350
+#define COR_PERC_2 2450
+#define COR_PERC_3 2550
+
+
+
+
+#define COR_PLUS_START 1350
+#define COR_PERC_START 2350
+
+
 
 #endif

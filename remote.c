@@ -403,7 +403,7 @@ void in_pin_handler2(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 			 start_timer_2s();
 			 pin_in2_is_set = 1;
 			 reset_long_press_flags();
-				reset_release_flags2();
+			reset_release_flags2();
 		}
 		else
 		{
