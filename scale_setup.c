@@ -233,8 +233,27 @@ void scale_setup(void)
 					
 					else if (pin_in2_is_release)
 					{
-						scale_feedback = 1;
-						SEGGER_RTT_printf(0, "scale_feedback = 1\r\n");
+						//scale_feedback = 1;
+						if(num_cor_buts == 3)
+						{
+							num_cor_buts = 9;
+							rgb_set(50,0,0,1,5000);
+							nrf_delay_ms(2000);
+							rgb_set(50,0,0,4,1000);
+							SEGGER_RTT_printf(0, "but=9\r\n");
+						}
+						else if (num_cor_buts == 9)
+						{
+							num_cor_buts = 3;
+							rgb_set(50,0,0,3,1000);
+							SEGGER_RTT_printf(0, "but=3\r\n");
+						}
+						
+						fds_update_value(&num_cor_buts, file_id, fds_rk_num_cor_but);
+						
+						
+						
+						//SEGGER_RTT_printf(0, "scale_feedback = 1\r\n");
 					}
 					
 					else if (pin_in3_is_release)

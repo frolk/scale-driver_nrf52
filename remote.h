@@ -40,6 +40,7 @@
 
 #define TIME_TO_SLEEP 1800
 
+
 extern uint16_t time_to_sleep;
 extern uint8_t button_event;
 
@@ -58,6 +59,7 @@ extern uint8_t pin_in3_long_press;
 extern uint8_t pin_in4_is_set;
 extern uint8_t pin_in4_is_release;
 extern uint8_t pin_in4_long_press;
+
 
 
 extern uint8_t short_delay;

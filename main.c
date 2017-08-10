@@ -139,6 +139,7 @@ void fds_get_init_data()
 	fds_get_data(&activate_attempts, file_id_c, fds_rk_activate_attempts);
 	fds_get_data(&power_down_count, file_id_c, fds_rk_power_down);
 	fds_get_data(&corr_counter, file_id_c, fds_rk_corr_counter);
+	fds_get_data(&num_cor_buts, file_id, fds_rk_num_cor_but);
 	power_down_count++;
 	fds_update_value(&power_down_count, file_id_c, fds_rk_power_down);
   init_corr_values();

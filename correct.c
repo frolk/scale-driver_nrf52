@@ -5,13 +5,13 @@ nrf_pwm_values_individual_t seq_value;
 nrf_pwm_sequence_t seq_corr;
 
 
-uint32_t corr_1_1 = 100; 
-uint32_t corr_1_2 = 300; 
+uint32_t corr_1_1 = 350; 
+uint32_t corr_1_2 = 400; 
 uint32_t corr_1_3 = 500; 
-uint32_t corr_2_1 = 1300; 
+uint32_t corr_2_1 = 1350; 
 uint32_t corr_2_2 = 1400; 
 uint32_t corr_2_3 = 1500; 
-uint32_t corr_3_1 = 2300; 
+uint32_t corr_3_1 = 2350; 
 uint32_t corr_3_2 = 2600; 
 uint32_t corr_3_3 = 2990; 
 

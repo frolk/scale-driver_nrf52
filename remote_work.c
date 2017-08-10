@@ -46,8 +46,10 @@ void buttons_handle(void)
 	{
 		if (pin_in1_is_release)
 		{
-			switch(pin_in1_is_release)
+			if(num_cor_buts > 3)
 			{
+				switch(pin_in1_is_release)
+				{
 				case 1:
 						rgb_set(50, 0, 0, 1, 500);
 						current_correct = corr_1_1;
@@ -63,11 +65,21 @@ void buttons_handle(void)
 					current_correct = corr_1_3;
 					pin_in1_is_release = 0;
 				break;
+				}
 			}
+			
+			else
+			{
+					rgb_set(50, 0, 0, 1, 500);
+					current_correct = corr_1_1;
+			}
+			
 		}
 		
 		else if (pin_in2_is_release)
 		{
+			if(num_cor_buts > 3)
+			{
 			switch(pin_in2_is_release)
 			{
 				case 1:
@@ -87,9 +99,19 @@ void buttons_handle(void)
 				break;
 			}
 		}
+		else
+		{
+		rgb_set(0, 50, 0, 1, 500);
+					current_correct = corr_2_1;
+		}			
+		
+		}
 	  else if (pin_in3_is_release)
 		{
-			switch(pin_in3_is_release)
+			
+			if(num_cor_buts > 3)
+			{
+				switch(pin_in3_is_release)
 			{
 				case 1:
 					rgb_set(0, 0, 50, 1, 500);
@@ -107,6 +129,16 @@ void buttons_handle(void)
 					pin_in3_is_release = 0;
 				break;
 			}
+			}
+			
+			else
+			{
+					rgb_set(0, 0, 50, 1, 500);
+					current_correct = corr_3_1;
+					pin_in3_is_release = 0;
+				
+			}
+			
 		}
 		else if (pin_in4_is_release )
 		{

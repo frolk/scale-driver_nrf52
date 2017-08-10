@@ -15,6 +15,7 @@ uint16_t fds_rk_power_down= 0x0002;
 uint16_t fds_rk_activate_status = 0x0005;
 uint16_t fds_rk_corr_counter = 0x0006;
 uint16_t fds_rk_activate_attempts = 0x0007;
+uint16_t fds_rk_num_cor_but = 0x0008;
 
 
 uint16_t fds_rk_cal_zero = 0x0004;
@@ -26,6 +27,7 @@ uint32_t life_counter = 1;
 uint32_t power_down_count = 1;
 uint32_t activate_status = 1;
 uint32_t activate_attempts = 0;
+uint32_t num_cor_buts = 3;
 
 
 
@@ -84,6 +86,9 @@ void fds_init_values(void)
 		fds_init_flash(&activate_status, file_id_c, fds_rk_activate_status);
 		fds_init_flash(&activate_attempts, file_id_c, fds_rk_activate_attempts);
 		fds_init_flash(&power_down_count, file_id_c, fds_rk_power_down);
+		
+		fds_init_flash(&num_cor_buts, file_id, fds_rk_num_cor_but);
+		
 		fds_is_values_init = 1;
 		
 		fds_init_flash(&fds_is_values_init, file_id, fds_rk_init);
