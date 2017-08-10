@@ -355,7 +355,7 @@ void scale_setup(void)
 		else if(remote_mode == WORK_MODE)
 				{
 					 //SEGGER_RTT_printf(0, "I entry\r\n");
-					if(short_delay && pin_in4_long_press)
+					if(pin_in1_is_set && pin_in4_long_press)
 					
 						{
 							rgb_set(50,0,0,1,1000);

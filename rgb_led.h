@@ -31,15 +31,19 @@
 #define YELLOW  6
 
 
+
 #define RED_FIRE 		2
 #define GREEN_FIRE 	3
 #define BLUE_FIRE  	4
 
 
 #define RGB_TOP 255
-#define RED_PIN 2
-#define GREEN_PIN 3
-#define BLUE_PIN 4
+
+
+#define RGB_GND 3
+#define RED_PIN 4
+#define GREEN_PIN 2
+#define BLUE_PIN 31
 
 
 

@@ -127,7 +127,7 @@ void buttons_handle_setup(void)
 							{
 								  correct(0,0,0);
 									corr_mode_button = CORR_MODE_1_2;
-									rgb_set(0, 50, 0, 2, 2000);
+									rgb_set(0, 50, 0, 1, 1000);
 									correct_value(corr_1_2);
 							}
 												
@@ -156,7 +156,7 @@ void buttons_handle_setup(void)
 							if(pin_in3_is_release)
 							{
 									corr_mode_button = CORR_MODE_1_3;
-									rgb_set(0, 0, 50, 3, 2000);
+									rgb_set(0, 0, 50, 1, 1000);
 									correct_value(corr_1_3);
 							}
 												
@@ -186,7 +186,7 @@ void buttons_handle_setup(void)
 							if(pin_in3_is_release)
 							{
 									corr_mode_button = CORR_MODE_1_1;
-									rgb_set(50, 0, 0, 3, 2000);
+									rgb_set(50, 0, 0, 1, 1000);
 									correct_value(corr_1_1);
 							}
 											
@@ -214,7 +214,7 @@ void buttons_handle_setup(void)
 							{
 								  correct(0,0,0);
 									corr_mode_button = CORR_MODE_2_2;
-									rgb_set(0, 50, 0, 2, 2000);
+									rgb_set(0, 50, 0, 1, 1000);
 									correct_value(corr_2_2);
 							}
 												
@@ -243,7 +243,7 @@ void buttons_handle_setup(void)
 							if(pin_in1_is_release)
 							{
 									corr_mode_button = CORR_MODE_2_3;
-									rgb_set(0, 0, 50, 3, 2000);
+									rgb_set(0, 0, 50, 1, 1000);
 									correct_value(corr_2_3);
 							}
 												
@@ -273,7 +273,7 @@ void buttons_handle_setup(void)
 							if(pin_in1_is_release)
 							{
 									corr_mode_button = CORR_MODE_2_1;
-									rgb_set(50, 0, 0, 3, 2000);
+									rgb_set(50, 0, 0, 1, 1000);
 									correct_value(corr_2_1);
 							}
 											
@@ -305,7 +305,7 @@ void buttons_handle_setup(void)
 							{
 								  correct(0,0,0);
 									corr_mode_button = CORR_MODE_3_2;
-									rgb_set(0, 50, 0, 2, 2000);
+									rgb_set(0, 50, 0, 1, 1000);
 									correct_value(corr_3_2);
 							}
 												
@@ -334,7 +334,7 @@ void buttons_handle_setup(void)
 							if(pin_in2_is_release)
 							{
 									corr_mode_button = CORR_MODE_3_3;
-									rgb_set(0, 0, 50, 3, 2000);
+									rgb_set(0, 0, 50, 1, 1000);
 									correct_value(corr_3_3);
 							}
 												
@@ -364,7 +364,7 @@ void buttons_handle_setup(void)
 							if(pin_in2_is_release)
 							{
 									corr_mode_button = CORR_MODE_3_1;
-									rgb_set(50, 0, 0, 3, 2000);
+									rgb_set(50, 0, 0, 1, 1000);
 									correct_value(corr_3_1);
 							}
 											
@@ -374,7 +374,7 @@ void buttons_handle_setup(void)
 				
 				if(pin_in4_is_release)
 				{
-					rgb_set(50, 50, 50, 0, 0);
+					rgb_set(50, 50, 50, 1, 500);
 					correct(0, 0, 0);
 					init_corr_values();
 					stop_timer_02s();  // stop timer used for fast correct setup

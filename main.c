@@ -104,9 +104,10 @@ void clock_value_save(void)
 		
 		fds_update_value(&life_counter, file_id_c, fds_rk_clock);
 		clock_counter = 0;
-		if(life_counter%50 == 0)
+		if(life_counter%10 == 0)
 		{
-			fds_clear();
+			//SEGGER_RTT_printf(0, "clear!\r\n");
+			fds_clear();  
 		}
 		SEGGER_RTT_printf(0, "l/c = %d\r\n", life_counter);
 }
@@ -892,14 +893,12 @@ int main(void)
 {
 	SEGGER_RTT_printf(0, "%s\n", "privet");
 	nrf_gpiote();
-			
-	//rgb_set(GREEN, 2);
-		uint32_t err_code;
+	uint32_t err_code;
 	bool erase_bonds;
     // Initialize.
 		uart_init();
     log_init();
-		m_clock_timer_init();
+		//m_clock_timer_init();
     ble_stack_init();
     peer_manager_init();
     gap_params_init();
@@ -909,7 +908,7 @@ int main(void)
     conn_params_init();
 		pwm_init_corr();
 		pwm_init_rgb();
-   // application_timers_start();
+    //application_timers_start();
     advertising_start(erase_bonds);
 		HX711_init();
 		err_code = fds_test_init();
@@ -918,6 +917,7 @@ int main(void)
 		fds_init_values();
 		fds_get_init_data();
 		test_expired();
+		fds_clear();  
 		
 		
 

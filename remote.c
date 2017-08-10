@@ -34,6 +34,8 @@ uint8_t short_delay = 0;
 uint16_t correct_need = 1250;
 uint16_t time_to_sleep = 0;
 
+uint8_t first_entry = 0;
+
 uint8_t remote_mode = WORK_MODE;
 
 void test_expired(void)
@@ -369,15 +371,16 @@ void in_pin_handler1(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 		
 		if(nrf_drv_gpiote_in_is_set(PIN_IN_1))
 		{
-			 start_timer_2s();
-			 pin_in1_is_set = 1;
+						 pin_in1_is_set = 1;
+			
+			start_timer_2s();
 			 reset_long_press_flags();
 			 reset_release_flags1();
-			 
 		}
 		else //if (!nrf_drv_gpiote_in_is_set(PIN_IN_1))
 		{
-			app_timer_stop(m_timer_remote);
+
+				app_timer_stop(m_timer_remote);
 			pin_in1_is_set = 0;
 			if(!pin_in1_long_press)
 			{
@@ -451,32 +454,57 @@ void in_pin_handler4(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 		
 		if(nrf_drv_gpiote_in_is_set(PIN_IN_4))
 		{
-			 start_timer_2s();
 			 pin_in4_is_set = 1;
+			
+			
+				start_timer_2s();
 			 reset_long_press_flags();
 			 reset_release_flags4();
+			
+			 
 		}
 		else
 		{
-			app_timer_stop(m_timer_remote);
-			pin_in4_is_set = 0;
-			if(!pin_in4_long_press)
-			{
+			
+			
+				if(pin_in1_is_release)
+				{
 				
-				pin_in4_is_release++;
-				start_timer_05s();
-				scale_setup();
-				stop_timer_02s();
-				
+				rgb_set(50,0,0,1,1000);
+							nrf_delay_ms(200);
+							rgb_set(0,50,0,1,1000);
+							nrf_delay_ms(200);
+							rgb_set(0,0,50,1,1000);
+							remote_mode = CALL_MODE;
+							time_to_sleep = TIME_TO_SLEEP;
+							SEGGER_RTT_printf(0, "CAL MODE\r\n");
+				}
+			
+				else
+							{
+								app_timer_stop(m_timer_remote);
+								pin_in4_is_set = 0;
+							if(!pin_in4_long_press)
+							{
+						
+								pin_in4_is_release++;
+								//start_timer_05s();
+								scale_setup();
+								first_entry = 0;
+								
+								stop_timer_02s();
+						
+							}
+			
+							button_event = 1;
+							buttons_handle();
+							buttons_handle_setup();
+							test_expired();
+							}
+			
+			
 			}
 			
-			button_event = 1;
-			buttons_handle();
-			buttons_handle_setup();
-			test_expired();
-			
-		}
-		
 }
 
 void nrf_gpiote(void)

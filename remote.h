@@ -25,15 +25,15 @@
 #define STATUS_DEFINE       6
 
 #define CORRECT_COUNT_MAX 			1000
-#define CORRECT_COUNT_MAX_DEMO 	50
+#define CORRECT_COUNT_MAX_DEMO 	100
 
-#define WORK_DAYS_MAX				    200
+#define WORK_DAYS_MAX				    100
 #define WORK_DAYS_MAX_DEMO	    2
 
 #define WORK_HOURS_MAX			WORK_DAYS_MAX*24
 #define WORK_HOURS_MAX_DEMO	WORK_DAYS_MAX_DEMO*24
 
-#define RESET_MAX						 200
+#define RESET_MAX						 500
 #define RESET_MAX_DEMO			 20
 
 #define ACTIVATE_ATTEMPTS_MAX  10

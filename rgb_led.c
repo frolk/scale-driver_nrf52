@@ -7,6 +7,8 @@ nrf_pwm_sequence_t seq_rgb;
 void pwm_init_rgb()
 
 {
+	nrf_gpio_cfg_output(RGB_GND);
+	nrf_gpio_pin_clear(RGB_GND);
   uint32_t err_code;
 	nrf_drv_pwm_config_t const config0 =
 	{
