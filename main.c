@@ -923,7 +923,7 @@ int main(void)
 		fds_get_init_data();
 		test_expired();
 		fds_clear();  
-		
+		rgb_set(50, 0, 0, activate_status, 1500);
 		
 
     // Enter main loop.

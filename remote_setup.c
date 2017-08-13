@@ -129,7 +129,7 @@ void buttons_handle_setup(void)
 								rgb_set(50, 0, 0, 1, 500);
 							}
 							
-							if(pin_in3_long_press)  //switch button
+							if(pin_in3_long_press && (num_cor_buts > 3))  //switch button
 							{
 								  correct(0,0,0);
 									corr_mode_button = CORR_MODE_1_2;
@@ -234,7 +234,7 @@ void buttons_handle_setup(void)
 								correct_value(corr_2_1);
 								rgb_set(50, 0, 0, 1, 500);
 							}
-							if(pin_in1_long_press)  //switch button
+							if(pin_in1_long_press && (num_cor_buts > 3))  //switch button
 							{
 								  correct(0,0,0);
 									corr_mode_button = CORR_MODE_2_2;
@@ -349,7 +349,7 @@ void buttons_handle_setup(void)
 								rgb_set(50, 0, 0, 1, 500);
 							}							
 
-							if(pin_in2_long_press)//switch button
+							if(pin_in2_long_press && (num_cor_buts > 3))//switch button
 							{
 								  correct(0,0,0);
 									corr_mode_button = CORR_MODE_3_2;

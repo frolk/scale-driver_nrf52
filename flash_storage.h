@@ -34,6 +34,9 @@ extern uint16_t fds_rk_power_down;
 extern uint16_t fds_rk_activate_status;
 extern uint16_t fds_rk_activate_attempts;
 
+
+
+
 extern uint16_t fds_rk_num_cor_but;
 
 extern uint16_t fds_rk_corr_counter;

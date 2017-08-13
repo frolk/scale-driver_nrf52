@@ -12,6 +12,7 @@ uint32_t adc_array[AVERAGE_ADC_TIMES];
 uint8_t scale_feedback = 0;
 uint32_t cal_coef = 0;
 uint32_t activate_code = 313;
+uint32_t hard_reset_code = 131;
 uint32_t test_activate_code = 0;
 
 uint32_t reset_attempts_code = 3;
@@ -22,7 +23,7 @@ uint8_t scale_type = SCALE_600;
 uint32_t adc_need = 0;
 uint32_t cor_feedback = COR_PLUS_1;
 uint32_t time_feedback = TIME_FEEDBACK;
-uint32_t feedback = 0;
+uint32_t feedback = 1;
 
 
 
@@ -214,13 +215,14 @@ void delete_fds(void)
 }
 
 
+
+
 void scale_setup(void)
 {
 	
 	if(remote_mode != WORK_MODE && pin_in4_is_release && (corr_mode_button == 0))
 						{
 								remote_mode = WORK_MODE;
-								SEGGER_RTT_printf(0, "WORK MODE\n\r");
 								rgb_set(50, 50, 50, 2, 1000);
 						}
 
@@ -246,6 +248,8 @@ void scale_setup(void)
 					{
 						define_corr_on();
 						rgb_set(0, 0, 50, 1, 1000);
+						remote_mode = WORK_MODE;
+						
 					}
 					
 				else if (pin_in4_long_press)
@@ -383,7 +387,7 @@ void scale_setup(void)
 					
 					if(pin_in2_long_press)
 					{
-						delete_fds_c();
+						
 					}
 					
 					
@@ -459,6 +463,13 @@ void scale_setup(void)
 						
 					}
 					
+					else if (test_activate_code == hard_reset_code)
+					{
+						delete_fds();
+						delete_fds_c();
+						rgb_set(50, 50, 50, 1, 5000);
+					}
+					
 					else
 					{
 						//activate_status = 0;
@@ -505,13 +516,19 @@ void scale_setup(void)
 							{
 								correct_mode = COR_AUTO;
 								time_to_sleep = TIME_TO_SLEEP;
-								rgb_set(0,50,0,1,5000);
+								rgb_set(0,50,0,2,1000);
+								correct_value(cor_feedback);
+								stop_timer();
+								start_timer(time_feedback);
 							}
 						else if (correct_mode == COR_AUTO)
 							{
-								rgb_set(50,0,0,1,5000);
+								rgb_set(50,0,0,2,1000);
 								time_to_sleep = 0;
 								correct_mode = COR_MANUAL;
+								correct_value(cor_feedback);
+								stop_timer();
+								start_timer(time_feedback);
 								
 							}
 					}

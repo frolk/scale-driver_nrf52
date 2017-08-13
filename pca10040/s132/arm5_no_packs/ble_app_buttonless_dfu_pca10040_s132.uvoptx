@@ -162,17 +162,12 @@
           <WinNumber>1</WinNumber>
           <ItemText>value,0x0A</ItemText>
         </Ww>
-        <Ww>
-          <count>3</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>corr_2_1,0x0A</ItemText>
-        </Ww>
       </WatchWindow1>
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>257</SubType>
-          <ItemText>0x7D000</ItemText>
+          <ItemText>0x75000</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
