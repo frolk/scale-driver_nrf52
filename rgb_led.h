@@ -41,17 +41,26 @@
 
 #define RGB_TOP 255
 
+//#define OLD
+#define NEW
 
-//#define RGB_GND 31//3
-//#define RED_PIN 2//4
-//#define GREEN_PIN 3//2
-//#define BLUE_PIN 4//31
+#ifdef OLD
 
+#define RGB_GND 31//3
+#define RED_PIN 2//4
+#define GREEN_PIN 3//2
+#define BLUE_PIN 4//31
+
+#endif
+
+#ifdef NEW
 
 #define RGB_GND 3
 #define RED_PIN 4
 #define GREEN_PIN 2
 #define BLUE_PIN 31
+
+#endif
 
 
 

@@ -26,8 +26,7 @@ void HX711_init(void)
 	nrf_drv_gpiote_in_event_enable(HX_DATA, true);
 	
 	nrf_gpio_cfg_output(HX_SCK);
-	
-	
+		
 }
 
 uint32_t Weighing(void)

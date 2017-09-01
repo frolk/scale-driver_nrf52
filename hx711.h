@@ -11,8 +11,8 @@
 
 
 
-#define HX_DATA	28
-#define HX_SCK	29
+#define HX_DATA	27
+#define HX_SCK	28
 
 
 extern uint32_t adc_value;

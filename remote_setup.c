@@ -24,7 +24,7 @@ void change_but_level(uint32_t* value)
 //						SEGGER_RTT_printf(0, "corr_1_2 - %d \r\n", corr_1_2);
 //						SEGGER_RTT_printf(0, "corr_1_3 - %d \r\n", corr_1_3);
 					}
-					else if (2000 < *value && *value <= 3000)  // percent correct
+					else if (2000 < *value)  // percent correct
 					{
 						*value = COR_MINUS_1;
 						correct(0,0,0);
@@ -61,7 +61,7 @@ void save_corr_values(void)
 }
 
 
-void buttons_handle_setup(void)
+void buttons_handle_setup(void)  
 {
 	if(remote_mode == CORR_BUT_MODE)
 	{

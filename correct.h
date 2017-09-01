@@ -18,9 +18,9 @@
 #include "rgb_led.h"
 #include "remote.h"
 
-#define CORR_KG_PLUS 27 
-#define CORR_KG_MINUS 26
-#define CORR_PERCENT 17
+#define CORR_KG_PLUS 30 
+#define CORR_KG_MINUS 29
+#define CORR_PERCENT 16
 
 #define TOP_VALUE 1000
 

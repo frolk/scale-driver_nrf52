@@ -903,7 +903,7 @@ int main(void)
     // Initialize.
 		uart_init();
     log_init();
-		//m_clock_timer_init();
+		m_clock_timer_init();
     ble_stack_init();
     peer_manager_init();
     gap_params_init();
